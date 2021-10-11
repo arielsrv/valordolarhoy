@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,6 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using ValorDolarHoy.Services;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace ValorDolarHoy
 {
@@ -30,6 +35,23 @@ namespace ValorDolarHoy
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+
+            services.AddHttpClient<IBluelyticsService, BluelyticsService>(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("https://api.bluelytics.com.ar/");
+            });
+
+            JsonConvert.DefaultSettings = () =>
+            {
+                JsonSerializerSettings settings = new();
+                settings.Converters.Add(new StringEnumConverter());
+                settings.ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                };
+                settings.Formatting = Formatting.Indented;
+                return settings;
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
