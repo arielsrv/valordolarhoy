@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using ValorDolarHoy.Services;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using ValorDolarHoy.Services.Clients;
 
 namespace ValorDolarHoy
 {
@@ -36,11 +37,14 @@ namespace ValorDolarHoy
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
 
-            services.AddHttpClient<IBluelyticsService, BluelyticsService>(httpClient =>
-            {
-                httpClient.BaseAddress = new Uri("https://api.bluelytics.com.ar/");
-            });
+            AddClients(services);
+            AddServices(services);
 
+            JsonConfig();
+        }
+
+        private static void JsonConfig()
+        {
             JsonConvert.DefaultSettings = () =>
             {
                 JsonSerializerSettings settings = new();
@@ -52,6 +56,16 @@ namespace ValorDolarHoy
                 settings.Formatting = Formatting.Indented;
                 return settings;
             };
+        }
+
+        private static void AddServices(IServiceCollection services)
+        {
+            services.AddSingleton<IBluelyticsService, BluelyticsService>();
+        }
+
+        private static void AddClients(IServiceCollection services)
+        {
+            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
