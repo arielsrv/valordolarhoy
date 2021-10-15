@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
-import NavMenu from './NavMenu';
+import NavMenu from './nav-menu/NavMenu';
 
 export default class Layout extends React.PureComponent<{}, { children?: React.ReactNode }> {
     public render() {
