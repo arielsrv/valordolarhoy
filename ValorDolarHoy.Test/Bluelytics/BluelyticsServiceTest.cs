@@ -25,8 +25,8 @@ namespace ValorDolarHoy.Test
             BluelyticsDto bluelyticsDto = bluelyticsService.GetLatest().Result;
 
             Assert.NotNull(bluelyticsDto);
-            Assert.AreEqual(10.0M, bluelyticsDto.oficial.buy);
-            Assert.AreEqual(11.0M, bluelyticsDto.oficial.sell);
+            Assert.AreEqual(10.0M, bluelyticsDto.official.buy);
+            Assert.AreEqual(11.0M, bluelyticsDto.official.sell);
             Assert.AreEqual(12.0M, bluelyticsDto.blue.buy);
             Assert.AreEqual(13.0M, bluelyticsDto.blue.sell);
         }

@@ -2,7 +2,7 @@ namespace ValorDolarHoy.Services
 {
     public class BluelyticsDto
     {
-        public OficialDto oficial { get; init; }
+        public OficialDto official { get; init; }
         public BlueDto blue { get; init; }
 
         public class OficialDto
