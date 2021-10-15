@@ -37,21 +37,23 @@ namespace ValorDolarHoy
             AddClients(services);
             AddServices(services);
 
-            JsonConfig();
+            JsonSerializerSettings();
         }
 
-        private static void JsonConfig()
+        private static void JsonSerializerSettings()
         {
             JsonConvert.DefaultSettings = () =>
             {
-                JsonSerializerSettings settings = new();
-                settings.Converters.Add(new StringEnumConverter());
-                settings.ContractResolver = new DefaultContractResolver
+                JsonSerializerSettings jsonSerializerSettings = new();
+
+                jsonSerializerSettings.Converters.Add(new StringEnumConverter());
+                jsonSerializerSettings.Formatting = Formatting.Indented;
+                jsonSerializerSettings.ContractResolver = new DefaultContractResolver
                 {
                     NamingStrategy = new SnakeCaseNamingStrategy()
                 };
-                settings.Formatting = Formatting.Indented;
-                return settings;
+
+                return jsonSerializerSettings;
             };
         }
 
