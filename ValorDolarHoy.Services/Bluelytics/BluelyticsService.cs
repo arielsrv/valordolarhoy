@@ -23,6 +23,11 @@ namespace ValorDolarHoy.Services
 
             BluelyticsDto bluelyticsDto = new()
             {
+                oficial = new BluelyticsDto.OficialDto
+                {
+                    buy = bluelyticsResponse.oficial.valueBuy,
+                    sell = bluelyticsResponse.oficial.valueSell
+                },
                 blue = new BluelyticsDto.BlueDto
                 {
                     buy = bluelyticsResponse.blue.valueBuy,
