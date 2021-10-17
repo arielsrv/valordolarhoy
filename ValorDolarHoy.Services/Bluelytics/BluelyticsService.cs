@@ -5,11 +5,6 @@ using ValorDolarHoy.Common.Caching;
 
 namespace ValorDolarHoy.Services
 {
-    public interface IBluelyticsService
-    {
-        Task<BluelyticsDto> GetLatest();
-    }
-
     public class BluelyticsService : IBluelyticsService
     {
         private readonly IBluelyticsClient bluelyticsClient;
