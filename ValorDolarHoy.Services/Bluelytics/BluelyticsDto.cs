@@ -1,5 +1,8 @@
+using System;
+
 namespace ValorDolarHoy.Services
 {
+    [Serializable]
     public class BluelyticsDto
     {
         public OficialDto official { get; init; }

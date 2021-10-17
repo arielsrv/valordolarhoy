@@ -16,7 +16,7 @@ namespace ValorDolarHoy.Common
         /// </summary>
         private readonly HttpClient httpClient;
 
-        public Client(HttpClient httpClient)
+        protected Client(HttpClient httpClient)
         {
             this.httpClient = httpClient;
         }
@@ -50,6 +50,7 @@ namespace ValorDolarHoy.Common
                     throw new ApplicationException(httpResponseMessage.ReasonPhrase);
                 }
 
+                
                 return JsonConvert.DeserializeObject<T>(response);
             });
         }
