@@ -7,14 +7,14 @@ namespace ValorDolarHoy.Services
 
         public class Oficial
         {
-            public decimal valueSell { get; init; }
-            public decimal valueBuy { get; init; }
+            public decimal ValueSell { get; init; }
+            public decimal ValueBuy { get; init; }
         }
 
         public class Blue
         {
-            public decimal valueSell { get; init; }
-            public decimal valueBuy { get; init; }
+            public decimal ValueSell { get; init; }
+            public decimal ValueBuy { get; init; }
         }
     }
 }

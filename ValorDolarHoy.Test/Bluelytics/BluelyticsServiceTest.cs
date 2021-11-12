@@ -25,10 +25,10 @@ namespace ValorDolarHoy.Test
             BluelyticsDto bluelyticsDto = bluelyticsService.GetLatest().Result;
 
             Assert.NotNull(bluelyticsDto);
-            Assert.AreEqual(10.0M, bluelyticsDto.official.buy);
-            Assert.AreEqual(11.0M, bluelyticsDto.official.sell);
-            Assert.AreEqual(12.0M, bluelyticsDto.blue.buy);
-            Assert.AreEqual(13.0M, bluelyticsDto.blue.sell);
+            Assert.AreEqual(10.0M, bluelyticsDto.Official.Buy);
+            Assert.AreEqual(11.0M, bluelyticsDto.Official.Sell);
+            Assert.AreEqual(12.0M, bluelyticsDto.Blue.Buy);
+            Assert.AreEqual(13.0M, bluelyticsDto.Blue.Sell);
         }
 
         private static BluelyticsResponse GetLatest()
@@ -37,13 +37,13 @@ namespace ValorDolarHoy.Test
             {
                 oficial = new BluelyticsResponse.Oficial
                 {
-                    valueBuy = 10.0M,
-                    valueSell = 11.0M
+                    ValueBuy = 10.0M,
+                    ValueSell = 11.0M
                 },
                 blue = new BluelyticsResponse.Blue
                 {
-                    valueBuy = 12.0M,
-                    valueSell = 13.0M
+                    ValueBuy = 12.0M,
+                    ValueSell = 13.0M
                 }
             };
 
