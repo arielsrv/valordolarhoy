@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Polly;
-using Polly.Bulkhead;
 using ValorDolarHoy.Services.Clients;
 using ValorDolarHoy.Common.Caching;
+using ValorDolarHoy.Common.Thread;
 
 namespace ValorDolarHoy.Services
 {
@@ -17,14 +16,14 @@ namespace ValorDolarHoy.Services
             .ExpireAfterWrite(TimeSpan.FromMinutes(5))
             .Build();
 
-        private readonly AsyncBulkheadPolicy bulkheadPolicy = Policy.BulkheadAsync(10);
+        private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
 
         public BluelyticsService(BluelyticsClient bluelyticsClient)
         {
             this.bluelyticsClient = bluelyticsClient;
         }
 
-        public async Task<BluelyticsDto> GetLatest()
+        public async Task<BluelyticsDto> GetLatestAsync()
         {
             string cacheKey = GetCacheKey();
 
@@ -35,17 +34,14 @@ namespace ValorDolarHoy.Services
                 return bluelyticsDto;
             }
 
-            bluelyticsDto = await GetFromApi();
-            
-            await bulkheadPolicy.ExecuteAsync(() =>
-            {
-                return Task.Run(() => this.appCache.Put(cacheKey, bluelyticsDto));
-            });
-            
+            bluelyticsDto = await GetFromApiAsync();
+
+            this.executorService.Run(() => this.appCache.Put(cacheKey, bluelyticsDto));
+
             return bluelyticsDto;
         }
 
-        private async Task<BluelyticsDto> GetFromApi()
+        private async Task<BluelyticsDto> GetFromApiAsync()
         {
             BluelyticsResponse bluelyticsResponse = await this.bluelyticsClient.GetLatest();
 

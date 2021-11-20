@@ -23,7 +23,7 @@ namespace ValorDolarHoy.Test
 
             BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object);
 
-            BluelyticsDto bluelyticsDto = bluelyticsService.GetLatest().Result;
+            BluelyticsDto bluelyticsDto = bluelyticsService.GetLatestAsync().Result;
 
             Assert.NotNull(bluelyticsDto);
             Assert.AreEqual(10.0M, bluelyticsDto.Official.Buy);

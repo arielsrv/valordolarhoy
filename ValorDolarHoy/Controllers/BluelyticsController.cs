@@ -17,9 +17,9 @@ namespace ValorDolarHoy.Controllers
 
         // GET
         [HttpGet]
-        public async Task<IActionResult> GetLatest()
+        public async Task<IActionResult> GetLatestAsync()
         {
-            return Ok(await this.bluelyticsService.GetLatest());
+            return Ok(await this.bluelyticsService.GetLatestAsync());
         }
     }
 }
