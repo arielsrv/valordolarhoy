@@ -8,9 +8,9 @@ namespace ValorDolarHoy.Controllers
     [Route("[controller]")]
     public class Bluelytics : ControllerBase
     {
-        private readonly IBluelyticsService bluelyticsService;
+        private readonly BluelyticsService bluelyticsService;
 
-        public Bluelytics(IBluelyticsService bluelyticsService)
+        public Bluelytics(BluelyticsService bluelyticsService)
         {
             this.bluelyticsService = bluelyticsService;
         }

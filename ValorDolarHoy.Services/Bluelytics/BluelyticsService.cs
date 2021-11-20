@@ -7,9 +7,9 @@ using ValorDolarHoy.Common.Caching;
 
 namespace ValorDolarHoy.Services
 {
-    public class BluelyticsService : IBluelyticsService
+    public class BluelyticsService
     {
-        private readonly IBluelyticsClient bluelyticsClient;
+        private readonly BluelyticsClient bluelyticsClient;
 
         private readonly Cache<string, BluelyticsDto> appCache = CacheBuilder<string, BluelyticsDto>
             .NewBuilder()
@@ -19,7 +19,7 @@ namespace ValorDolarHoy.Services
 
         private readonly AsyncBulkheadPolicy bulkheadPolicy = Policy.BulkheadAsync(10);
 
-        public BluelyticsService(IBluelyticsClient bluelyticsClient)
+        public BluelyticsService(BluelyticsClient bluelyticsClient)
         {
             this.bluelyticsClient = bluelyticsClient;
         }

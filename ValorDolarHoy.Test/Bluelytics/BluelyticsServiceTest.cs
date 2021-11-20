@@ -1,3 +1,4 @@
+using System.Net.Http;
 using Moq;
 using NUnit.Framework;
 using ValorDolarHoy.Services;
@@ -7,12 +8,12 @@ namespace ValorDolarHoy.Test
 {
     public class BluelyticsServiceTest
     {
-        private Mock<IBluelyticsClient> bluelyticsClient;
+        private Mock<BluelyticsClient> bluelyticsClient;
 
         [SetUp]
         public void Setup()
         {
-            this.bluelyticsClient = new Mock<IBluelyticsClient>();
+            this.bluelyticsClient = new Mock<BluelyticsClient>(new Mock<HttpClient>().Object);
         }
 
         [Test]
@@ -20,7 +21,7 @@ namespace ValorDolarHoy.Test
         {
             this.bluelyticsClient.Setup(client => client.GetLatest()).ReturnsAsync(GetLatest());
 
-            IBluelyticsService bluelyticsService = new BluelyticsService(this.bluelyticsClient.Object);
+            BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object);
 
             BluelyticsDto bluelyticsDto = bluelyticsService.GetLatest().Result;
 

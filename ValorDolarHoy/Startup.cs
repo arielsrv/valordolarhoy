@@ -65,12 +65,12 @@ namespace ValorDolarHoy
 
         private static void AddServices(IServiceCollection services)
         {
-            services.AddSingleton<IBluelyticsService, BluelyticsService>();
+            services.AddSingleton<BluelyticsService>();
         }
 
         private static void AddClients(IServiceCollection services)
         {
-            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>().ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            services.AddHttpClient<BluelyticsClient>().ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
             {
                 MaxConnectionsPerServer = 20
             });
