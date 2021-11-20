@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ValorDolarHoy.Services.Clients;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Thread;
+using ValorDolarHoy.Services.Clients;
 
 namespace ValorDolarHoy.Services
 {

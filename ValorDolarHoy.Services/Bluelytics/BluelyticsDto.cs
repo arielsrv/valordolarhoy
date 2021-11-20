@@ -1,5 +1,3 @@
-using System;
-
 namespace ValorDolarHoy.Services
 {
     public class BluelyticsDto

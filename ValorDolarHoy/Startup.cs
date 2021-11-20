@@ -7,10 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using ValorDolarHoy.Services;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using ValorDolarHoy.Common.Text;
+using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
 
 namespace ValorDolarHoy
