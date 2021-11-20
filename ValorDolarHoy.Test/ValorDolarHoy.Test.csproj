@@ -22,4 +22,8 @@
       <ProjectReference Include="..\ValorDolarHoy.Services\ValorDolarHoy.Services.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services" />
+    </ItemGroup>
+
 </Project>

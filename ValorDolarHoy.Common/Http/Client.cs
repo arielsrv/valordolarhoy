@@ -26,9 +26,8 @@ namespace ValorDolarHoy.Common
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="requestUri">The request URI.</param>
-        /// <param name="headers">The headers.</param>
         /// <returns></returns>
-        protected async Task<T> Get<T>(string requestUri, IDictionary<string, string> headers = null)
+        public virtual async Task<T> Get<T>(string requestUri)
         {
             AsyncBulkheadPolicy<T> bulkhead = Policy.BulkheadAsync<T>(20, int.MaxValue);
 
@@ -36,11 +35,6 @@ namespace ValorDolarHoy.Common
             {
                 HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
                 httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                if (httpRequestMessage.Content != null)
-                {
-                    AddHeaders(headers, httpRequestMessage.Content.Headers);
-                }
 
                 using HttpResponseMessage httpResponseMessage = await this.httpClient.SendAsync(httpRequestMessage);
                 string response = await httpResponseMessage.Content.ReadAsStringAsync();
@@ -52,20 +46,6 @@ namespace ValorDolarHoy.Common
 
                 return JsonConvert.DeserializeObject<T>(response);
             });
-        }
-
-        /// <summary>
-        /// Adds the headers.
-        /// </summary>
-        /// <param name="headers">The headers.</param>
-        /// <param name="httpContentHeaders">The HTTP content headers.</param>
-        private static void AddHeaders(IDictionary<string, string> headers, HttpHeaders httpContentHeaders)
-        {
-            if (headers is not { Count: > 0 }) return;
-            foreach ((string key, string value) in headers)
-            {
-                httpContentHeaders.Add(key, value);
-            }
         }
     }
 }

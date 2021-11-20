@@ -4,7 +4,7 @@ using NUnit.Framework;
 using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
 
-namespace ValorDolarHoy.Test
+namespace ValorDolarHoy.Test.Services.Bluelytics
 {
     public class BluelyticsServiceTest
     {
