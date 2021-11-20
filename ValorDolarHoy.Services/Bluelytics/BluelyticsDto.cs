@@ -2,7 +2,6 @@ using System;
 
 namespace ValorDolarHoy.Services
 {
-    [Serializable]
     public class BluelyticsDto
     {
         public OficialDto Official { get; init; }

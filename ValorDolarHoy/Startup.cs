@@ -1,8 +1,6 @@
-using System;
+using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +10,7 @@ using Newtonsoft.Json;
 using ValorDolarHoy.Services;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using ValorDolarHoy.Common.Text;
 using ValorDolarHoy.Services.Clients;
 
 namespace ValorDolarHoy
@@ -36,6 +35,13 @@ namespace ValorDolarHoy
 
             AddClients(services);
             AddServices(services);
+
+            services
+                .AddMvc()
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
+                });
 
             JsonSerializerSettings();
         }
@@ -64,7 +70,10 @@ namespace ValorDolarHoy
 
         private static void AddClients(IServiceCollection services)
         {
-            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>();
+            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>().ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            {
+                MaxConnectionsPerServer = 20
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +81,7 @@ namespace ValorDolarHoy
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();                
+                app.UseDeveloperExceptionPage();
             }
             else
             {

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Polly;
+using Polly.Bulkhead;
 using ValorDolarHoy.Services.Clients;
 using ValorDolarHoy.Common.Caching;
 
@@ -14,6 +16,8 @@ namespace ValorDolarHoy.Services
             .Size(4)
             .ExpireAfterWrite(TimeSpan.FromMinutes(5))
             .Build();
+
+        private readonly AsyncBulkheadPolicy bulkheadPolicy = Policy.BulkheadAsync(10);
 
         public BluelyticsService(IBluelyticsClient bluelyticsClient)
         {
@@ -32,8 +36,12 @@ namespace ValorDolarHoy.Services
             }
 
             bluelyticsDto = await GetFromApi();
-            this.appCache.Put(cacheKey, bluelyticsDto);
-
+            
+            await bulkheadPolicy.ExecuteAsync(() =>
+            {
+                return Task.Run(() => this.appCache.Put(cacheKey, bluelyticsDto));
+            });
+            
             return bluelyticsDto;
         }
 
@@ -45,13 +53,13 @@ namespace ValorDolarHoy.Services
             {
                 Official = new BluelyticsDto.OficialDto
                 {
-                    Buy = bluelyticsResponse.oficial.ValueBuy,
-                    Sell = bluelyticsResponse.oficial.ValueSell
+                    Buy = bluelyticsResponse.Oficial.ValueBuy,
+                    Sell = bluelyticsResponse.Oficial.ValueSell
                 },
                 Blue = new BluelyticsDto.BlueDto
                 {
-                    Buy = bluelyticsResponse.blue.ValueBuy,
-                    Sell = bluelyticsResponse.blue.ValueSell
+                    Buy = bluelyticsResponse.Blue.ValueBuy,
+                    Sell = bluelyticsResponse.Blue.ValueSell
                 }
             };
 

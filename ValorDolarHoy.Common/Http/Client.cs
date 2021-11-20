@@ -50,7 +50,6 @@ namespace ValorDolarHoy.Common
                     throw new ApplicationException(httpResponseMessage.ReasonPhrase);
                 }
 
-                
                 return JsonConvert.DeserializeObject<T>(response);
             });
         }

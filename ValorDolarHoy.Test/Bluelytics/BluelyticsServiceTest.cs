@@ -35,12 +35,12 @@ namespace ValorDolarHoy.Test
         {
             BluelyticsResponse bluelyticsResponse = new()
             {
-                oficial = new BluelyticsResponse.Oficial
+                Oficial = new Oficial
                 {
                     ValueBuy = 10.0M,
                     ValueSell = 11.0M
                 },
-                blue = new BluelyticsResponse.Blue
+                Blue = new Blue
                 {
                     ValueBuy = 12.0M,
                     ValueSell = 13.0M

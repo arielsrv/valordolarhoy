@@ -61,7 +61,7 @@ namespace ValorDolarHoy.Common.Caching
                 .SetSize(this.size)
                 .SetPriority(CacheItemPriority.High)
                 .SetAbsoluteExpiration(this.timeSpan);
-            
+
             this.memoryCache.Set(key, value, cacheEntryOptions);
         }
     }
