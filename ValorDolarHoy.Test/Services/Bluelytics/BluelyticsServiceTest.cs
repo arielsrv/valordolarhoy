@@ -1,4 +1,5 @@
 using System.Net.Http;
+using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using ValorDolarHoy.Services;
@@ -8,22 +9,22 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
 {
     public class BluelyticsServiceTest
     {
-        private Mock<BluelyticsClient> bluelyticsClient;
+        private Mock<IBluelyticsClient> bluelyticsClient;
 
         [SetUp]
         public void Setup()
         {
-            this.bluelyticsClient = new Mock<BluelyticsClient>(new Mock<HttpClient>().Object);
+            this.bluelyticsClient = new Mock<IBluelyticsClient>();
         }
 
         [Test]
-        public void Get_Latest_Ok()
+        public async Task Get_Latest_OkAsync()
         {
-            this.bluelyticsClient.Setup(client => client.GetLatest()).ReturnsAsync(GetLatest());
+            this.bluelyticsClient.Setup(client => client.GetLatestAsync()).ReturnsAsync(GetLatest());
 
             BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object);
 
-            BluelyticsDto bluelyticsDto = bluelyticsService.GetLatestAsync().Result;
+            BluelyticsDto bluelyticsDto = await bluelyticsService.GetLatestAsync();
 
             Assert.NotNull(bluelyticsDto);
             Assert.AreEqual(10.0M, bluelyticsDto.Official.Buy);

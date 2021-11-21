@@ -4,16 +4,21 @@ using ValorDolarHoy.Common;
 
 namespace ValorDolarHoy.Services.Clients
 {
-    public class BluelyticsClient : Client
+    public interface IBluelyticsClient
+    {
+        Task<BluelyticsResponse> GetLatestAsync();
+    }
+
+    public class BluelyticsClient : Client, IBluelyticsClient
     {
         public BluelyticsClient(HttpClient httpClient) : base(httpClient)
         {
         }
 
-        public virtual async Task<BluelyticsResponse> GetLatest()
+        public async Task<BluelyticsResponse> GetLatestAsync()
         {
             const string url = "https://api.bluelytics.com.ar/v2/latest";
-            return await this.Get<BluelyticsResponse>(url);
+            return await this.GetAsync<BluelyticsResponse>(url);
         }
     }
 }

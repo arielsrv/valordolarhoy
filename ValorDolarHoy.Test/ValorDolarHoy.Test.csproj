@@ -20,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ValorDolarHoy.Services\ValorDolarHoy.Services.csproj" />
+      <ProjectReference Include="..\ValorDolarHoy\ValorDolarHoy.csproj" />
     </ItemGroup>
 
     <ItemGroup>

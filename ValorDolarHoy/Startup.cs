@@ -46,7 +46,7 @@ namespace ValorDolarHoy
             JsonSerializerSettings();
         }
 
-        private static void JsonSerializerSettings()
+        public static void JsonSerializerSettings()
         {
             JsonConvert.DefaultSettings = () =>
             {

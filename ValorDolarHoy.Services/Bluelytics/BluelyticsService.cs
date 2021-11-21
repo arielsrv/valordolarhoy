@@ -8,7 +8,7 @@ namespace ValorDolarHoy.Services
 {
     public class BluelyticsService
     {
-        private readonly BluelyticsClient bluelyticsClient;
+        private readonly IBluelyticsClient bluelyticsClient;
 
         private readonly Cache<string, BluelyticsDto> appCache = CacheBuilder<string, BluelyticsDto>
             .NewBuilder()
@@ -18,7 +18,7 @@ namespace ValorDolarHoy.Services
 
         private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
 
-        public BluelyticsService(BluelyticsClient bluelyticsClient)
+        public BluelyticsService(IBluelyticsClient bluelyticsClient)
         {
             this.bluelyticsClient = bluelyticsClient;
         }
@@ -43,7 +43,7 @@ namespace ValorDolarHoy.Services
 
         private async Task<BluelyticsDto> GetFromApiAsync()
         {
-            BluelyticsResponse bluelyticsResponse = await this.bluelyticsClient.GetLatest();
+            BluelyticsResponse bluelyticsResponse = await this.bluelyticsClient.GetLatestAsync();
 
             BluelyticsDto bluelyticsDto = new()
             {
