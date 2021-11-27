@@ -1,8 +1,10 @@
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
+using ValorDolarHoy.Common.Exceptions;
 using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
 
@@ -33,6 +35,36 @@ namespace ValorDolarHoy.Test.Clients
             Assert.NotNull(bluelyticsResponse.Oficial);
             Assert.NotNull(bluelyticsResponse.Oficial.ValueSell);
             Assert.AreEqual(bluelyticsResponse.Oficial.ValueSell, 105.96);
+        }
+
+        [Test]
+        public void Get_Latest_Not_Found()
+        {
+            this.httpClient
+                .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.NotFound
+                });
+
+            BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
+
+            Assert.ThrowsAsync<ApiNotFoundException>(() => bluelyticsClient.GetLatestAsync());
+        }
+
+        [Test]
+        public void Get_Latest_Generic_Error()
+        {
+            this.httpClient
+                .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError
+                });
+
+            BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
+
+            Assert.ThrowsAsync<ApiException>(() => bluelyticsClient.GetLatestAsync());
         }
 
         private static HttpResponseMessage GetResponse()
