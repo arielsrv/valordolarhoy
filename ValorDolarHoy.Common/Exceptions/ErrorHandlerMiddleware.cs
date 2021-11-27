@@ -36,10 +36,10 @@ namespace ValorDolarHoy.Common.Exceptions
 
                 string result = JsonConvert.SerializeObject(new
                 {
-                    code = httpResponse.StatusCode,
-                    type = error.GetType().Name,
-                    message = error.Message,
-                    detail = error.StackTrace
+                    Code = httpResponse.StatusCode,
+                    Type = error.GetType().Name,
+                    error.Message,
+                    Detail = error.StackTrace
                 });
 
                 await httpResponse.WriteAsync(result);
