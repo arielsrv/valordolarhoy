@@ -1,6 +1,4 @@
-using System.Net.Http;
 using System.Threading;
-using Moq;
 using NUnit.Framework;
 using ValorDolarHoy.Common.Thread;
 

@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ValorDolarHoy.Common.Exceptions;
 using ValorDolarHoy.Services;
 
 namespace ValorDolarHoy.Controllers
