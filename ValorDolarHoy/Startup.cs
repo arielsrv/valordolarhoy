@@ -9,9 +9,11 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using ValorDolarHoy.Common.Exceptions;
 using ValorDolarHoy.Common.Text;
 using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
+using Polly;
 
 namespace ValorDolarHoy
 {
@@ -70,10 +72,12 @@ namespace ValorDolarHoy
 
         private static void AddClients(IServiceCollection services)
         {
-            services.AddHttpClient<BluelyticsClient>().ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-            {
-                MaxConnectionsPerServer = 20
-            });
+            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>()
+                .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+                {
+                    MaxConnectionsPerServer = 20
+                })
+                .AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(20, int.MaxValue));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,6 +102,8 @@ namespace ValorDolarHoy
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

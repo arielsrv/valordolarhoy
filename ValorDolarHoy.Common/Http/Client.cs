@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Polly;
-using Polly.Bulkhead;
+using ValorDolarHoy.Common.Exceptions;
 
 namespace ValorDolarHoy.Common
 {
@@ -30,23 +28,23 @@ namespace ValorDolarHoy.Common
         /// <returns></returns>
         protected async Task<T> GetAsync<T>(string requestUri)
         {
-            AsyncBulkheadPolicy<T> bulkhead = Policy.BulkheadAsync<T>(20, int.MaxValue);
+            HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return await bulkhead.ExecuteAsync(async () =>
+            using HttpResponseMessage httpResponseMessage =
+                await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
+            string response = await httpResponseMessage.Content.ReadAsStringAsync();
+
+            if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
-                httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                using HttpResponseMessage httpResponseMessage = await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
-                string response = await httpResponseMessage.Content.ReadAsStringAsync();
-
-                if (!httpResponseMessage.IsSuccessStatusCode)
+                throw httpResponseMessage.StatusCode switch
                 {
-                    throw new ApplicationException(httpResponseMessage.ReasonPhrase);       
-                }
+                    HttpStatusCode.NotFound => new ApiNotFoundException("Not found: " + requestUri),
+                    _ => new ApiException(httpResponseMessage.ReasonPhrase)
+                };
+            }
 
-                return JsonConvert.DeserializeObject<T>(response);
-            });
+            return JsonConvert.DeserializeObject<T>(response);
         }
     }
 }
