@@ -3,8 +3,9 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using ValorDolarHoy.Common.Exceptions;
 
-namespace ValorDolarHoy.Common.Exceptions
+namespace ValorDolarHoy.Middlewares
 {
     public class ErrorHandlerMiddleware
     {

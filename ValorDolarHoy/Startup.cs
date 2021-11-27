@@ -10,8 +10,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Polly;
-using ValorDolarHoy.Common.Exceptions;
 using ValorDolarHoy.Common.Text;
+using ValorDolarHoy.Middlewares;
 using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
 
