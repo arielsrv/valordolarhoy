@@ -1,12 +1,12 @@
+using System;
 using System.Net.Http;
-using System.Threading.Tasks;
 using ValorDolarHoy.Common;
 
 namespace ValorDolarHoy.Services.Clients
 {
     public interface IBluelyticsClient
     {
-        Task<BluelyticsResponse> GetLatestAsync();
+        IObservable<BluelyticsResponse> Get();
     }
 
     public class BluelyticsClient : Client, IBluelyticsClient
@@ -14,11 +14,10 @@ namespace ValorDolarHoy.Services.Clients
         public BluelyticsClient(HttpClient httpClient) : base(httpClient)
         {
         }
-
-        public async Task<BluelyticsResponse> GetLatestAsync()
+        public IObservable<BluelyticsResponse> Get()
         {
             const string url = "https://api.bluelytics.com.ar/v2/latest";
-            return await this.GetAsync<BluelyticsResponse>(url);
+            return this.Get<BluelyticsResponse>(url);
         }
     }
 }

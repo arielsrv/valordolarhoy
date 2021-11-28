@@ -1,8 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reactive.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using ValorDolarHoy.Common.Exceptions;
 
@@ -10,9 +11,6 @@ namespace ValorDolarHoy.Common
 {
     public class Client : HttpClient
     {
-        /// <summary>
-        /// The HTTP client
-        /// </summary>
         private readonly HttpClient httpClient;
 
         protected Client(HttpClient httpClient)
@@ -20,31 +18,30 @@ namespace ValorDolarHoy.Common
             this.httpClient = httpClient;
         }
 
-        /// <summary>
-        /// Gets the specified request URI.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="requestUri">The request URI.</param>
-        /// <returns></returns>
-        protected async Task<T> GetAsync<T>(string requestUri)
+        protected IObservable<T> Get<T>(string requestUri)
         {
-            HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
-            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            using HttpResponseMessage httpResponseMessage =
-                await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
-            string response = await httpResponseMessage.Content.ReadAsStringAsync();
-
-            if (!httpResponseMessage.IsSuccessStatusCode)
+            return Observable.Create(async (IObserver<T> observer) =>
             {
-                throw httpResponseMessage.StatusCode switch
-                {
-                    HttpStatusCode.NotFound => new ApiNotFoundException("Not found: " + requestUri),
-                    _ => new ApiException(httpResponseMessage.ReasonPhrase)
-                };
-            }
+                HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
+                httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            return JsonConvert.DeserializeObject<T>(response);
+                using HttpResponseMessage httpResponseMessage =
+                    await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
+                string response = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                if (!httpResponseMessage.IsSuccessStatusCode)
+                {
+                    throw httpResponseMessage.StatusCode switch
+                    {
+                        HttpStatusCode.NotFound => new ApiNotFoundException("Not found: " + requestUri),
+                        _ => new ApiException(httpResponseMessage.ReasonPhrase)
+                    };
+                }
+
+                T result = JsonConvert.DeserializeObject<T>(response);
+
+                observer.OnNext(result);
+            });
         }
     }
 }

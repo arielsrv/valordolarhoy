@@ -1,4 +1,5 @@
-using System.Threading.Tasks;
+using System;
+using System.Reactive.Linq;
 using Moq;
 using NUnit.Framework;
 using ValorDolarHoy.Services;
@@ -17,13 +18,13 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
         }
 
         [Test]
-        public async Task Get_Latest_OkAsync()
+        public void Get_Latest_Ok()
         {
-            this.bluelyticsClient.Setup(client => client.GetLatestAsync()).ReturnsAsync(GetLatest());
+            this.bluelyticsClient.Setup(client => client.Get()).Returns(GetLatest());
 
             BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object);
 
-            BluelyticsDto bluelyticsDto = await bluelyticsService.GetLatestAsync();
+            BluelyticsDto bluelyticsDto = bluelyticsService.GetLatest().Wait();
 
             Assert.NotNull(bluelyticsDto);
             Assert.AreEqual(10.0M, bluelyticsDto.Official.Buy);
@@ -32,9 +33,9 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
             Assert.AreEqual(13.0M, bluelyticsDto.Blue.Sell);
         }
 
-        private static BluelyticsResponse GetLatest()
+        private static IObservable<BluelyticsResponse> GetLatest()
         {
-            BluelyticsResponse bluelyticsResponse = new()
+            return Observable.Return(new BluelyticsResponse
             {
                 Oficial = new Oficial
                 {
@@ -46,9 +47,7 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
                     ValueBuy = 12.0M,
                     ValueSell = 13.0M
                 }
-            };
-
-            return bluelyticsResponse;
+            });
         }
     }
 }

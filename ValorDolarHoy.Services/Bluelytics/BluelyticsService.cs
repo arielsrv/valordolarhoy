@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Reactive.Linq;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Thread;
 using ValorDolarHoy.Services.Clients;
@@ -23,7 +23,7 @@ namespace ValorDolarHoy.Services
             this.bluelyticsClient = bluelyticsClient;
         }
 
-        public async Task<BluelyticsDto> GetLatestAsync()
+        public IObservable<BluelyticsDto> GetLatest()
         {
             string cacheKey = GetCacheKey();
 
@@ -31,35 +31,36 @@ namespace ValorDolarHoy.Services
 
             if (bluelyticsDto != null)
             {
-                return bluelyticsDto;
+                return Observable.Return(bluelyticsDto);
             }
 
-            bluelyticsDto = await GetFromApiAsync();
-
-            this.executorService.Run(() => this.appCache.Put(cacheKey, bluelyticsDto));
-
-            return bluelyticsDto;
+            return GetFromApi().Select(response =>
+            {
+                this.executorService.Run(() => this.appCache.Put(cacheKey, response));
+                return response;
+            });
         }
 
-        private async Task<BluelyticsDto> GetFromApiAsync()
+        private IObservable<BluelyticsDto> GetFromApi()
         {
-            BluelyticsResponse bluelyticsResponse = await this.bluelyticsClient.GetLatestAsync();
-
-            BluelyticsDto bluelyticsDto = new()
+            return this.bluelyticsClient.Get().Select(bluelyticsResponse =>
             {
-                Official = new BluelyticsDto.OficialDto
+                BluelyticsDto bluelyticsDto = new()
                 {
-                    Buy = bluelyticsResponse.Oficial.ValueBuy,
-                    Sell = bluelyticsResponse.Oficial.ValueSell
-                },
-                Blue = new BluelyticsDto.BlueDto
-                {
-                    Buy = bluelyticsResponse.Blue.ValueBuy,
-                    Sell = bluelyticsResponse.Blue.ValueSell
-                }
-            };
+                    Official = new BluelyticsDto.OficialDto
+                    {
+                        Buy = bluelyticsResponse.Oficial.ValueBuy,
+                        Sell = bluelyticsResponse.Oficial.ValueSell
+                    },
+                    Blue = new BluelyticsDto.BlueDto
+                    {
+                        Buy = bluelyticsResponse.Blue.ValueBuy,
+                        Sell = bluelyticsResponse.Blue.ValueSell
+                    }
+                };
 
-            return bluelyticsDto;
+                return bluelyticsDto;
+            });
         }
 
         private static string GetCacheKey()

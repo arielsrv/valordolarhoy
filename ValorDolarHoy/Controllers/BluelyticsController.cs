@@ -1,3 +1,4 @@
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ValorDolarHoy.Services;
@@ -15,11 +16,12 @@ namespace ValorDolarHoy.Controllers
             this.bluelyticsService = bluelyticsService;
         }
 
-        // GET
         [HttpGet]
         public async Task<IActionResult> GetLatestAsync()
         {
-            return Ok(await this.bluelyticsService.GetLatestAsync());
+            return Ok(await this.bluelyticsService
+                .GetLatest()
+                .ToTask());
         }
     }
 }

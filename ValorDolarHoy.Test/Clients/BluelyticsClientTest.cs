@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http;
+using System.Reactive.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Moq;
 using NUnit.Framework;
 using ValorDolarHoy.Common.Exceptions;
@@ -22,14 +22,14 @@ namespace ValorDolarHoy.Test.Clients
         }
 
         [Test]
-        public async Task Get_Latest_OkAsync()
+        public void Get_Latest_Ok()
         {
             this.httpClient
                 .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(GetResponse());
 
             BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
-            BluelyticsResponse bluelyticsResponse = await bluelyticsClient.GetLatestAsync();
+            BluelyticsResponse bluelyticsResponse = bluelyticsClient.Get().Wait();
 
             Assert.NotNull(bluelyticsResponse);
             Assert.NotNull(bluelyticsResponse.Oficial);
@@ -48,8 +48,8 @@ namespace ValorDolarHoy.Test.Clients
                 });
 
             BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
-
-            Assert.ThrowsAsync<ApiNotFoundException>(() => bluelyticsClient.GetLatestAsync());
+            
+            Assert.Throws<ApiNotFoundException>(() => bluelyticsClient.Get().Wait());
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace ValorDolarHoy.Test.Clients
 
             BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
 
-            Assert.ThrowsAsync<ApiException>(() => bluelyticsClient.GetLatestAsync());
+            Assert.Throws<ApiException>(() => bluelyticsClient.Get().Wait());
         }
 
         private static HttpResponseMessage GetResponse()
