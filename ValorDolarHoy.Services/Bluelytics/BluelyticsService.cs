@@ -13,7 +13,7 @@ namespace ValorDolarHoy.Services
         private readonly Cache<string, BluelyticsDto> appCache = CacheBuilder<string, BluelyticsDto>
             .NewBuilder()
             .Size(4)
-            .ExpireAfterWrite(TimeSpan.FromMinutes(5))
+            .ExpireAfterWrite(TimeSpan.FromSeconds(5))
             .Build();
 
         private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
@@ -29,21 +29,18 @@ namespace ValorDolarHoy.Services
 
             BluelyticsDto bluelyticsDto = this.appCache.GetIfPresent(cacheKey);
 
-            if (bluelyticsDto != null)
-            {
-                return Observable.Return(bluelyticsDto);
-            }
-
-            return GetFromApi().Select(response =>
-            {
-                this.executorService.Run(() => this.appCache.Put(cacheKey, response));
-                return response;
-            });
+            return bluelyticsDto != null
+                ? Observable.Return(bluelyticsDto)
+                : GetFromApi().Map(response =>
+                {
+                    this.executorService.Run(() => this.appCache.Put(cacheKey, response));
+                    return response;
+                });
         }
 
         private IObservable<BluelyticsDto> GetFromApi()
         {
-            return this.bluelyticsClient.Get().Select(bluelyticsResponse =>
+            return this.bluelyticsClient.Get().Map(bluelyticsResponse =>
             {
                 BluelyticsDto bluelyticsDto = new()
                 {

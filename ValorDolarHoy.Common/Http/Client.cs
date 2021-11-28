@@ -41,6 +41,7 @@ namespace ValorDolarHoy.Common
                 T result = JsonConvert.DeserializeObject<T>(response);
 
                 observer.OnNext(result);
+                observer.OnCompleted();
             });
         }
     }
