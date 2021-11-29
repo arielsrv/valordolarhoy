@@ -57,12 +57,12 @@ namespace ValorDolarHoy.Common.Caching
 
         public void Put(TKey key, TValue value)
         {
-            MemoryCacheEntryOptions cacheEntryOptions = new MemoryCacheEntryOptions()
+            MemoryCacheEntryOptions memoryCacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetSize(this.size)
-                .SetPriority(CacheItemPriority.High)
+                .SetPriority(CacheItemPriority.Low)
                 .SetAbsoluteExpiration(this.timeSpan);
 
-            this.memoryCache.Set(key, value, cacheEntryOptions);
+            this.memoryCache.Set(key, value, memoryCacheEntryOptions);
         }
     }
 }
