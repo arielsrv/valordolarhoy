@@ -24,13 +24,13 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
 
             BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object);
 
-            BluelyticsDto bluelyticsDto = bluelyticsService.GetLatest().Wait();
+            CurrencyDto currencyDto = bluelyticsService.GetLatest().Wait();
 
-            Assert.NotNull(bluelyticsDto);
-            Assert.AreEqual(10.0M, bluelyticsDto.Official.Buy);
-            Assert.AreEqual(11.0M, bluelyticsDto.Official.Sell);
-            Assert.AreEqual(12.0M, bluelyticsDto.Blue.Buy);
-            Assert.AreEqual(13.0M, bluelyticsDto.Blue.Sell);
+            Assert.NotNull(currencyDto);
+            Assert.AreEqual(10.0M, currencyDto.Official.Buy);
+            Assert.AreEqual(11.0M, currencyDto.Official.Sell);
+            Assert.AreEqual(12.0M, currencyDto.Blue.Buy);
+            Assert.AreEqual(13.0M, currencyDto.Blue.Sell);
         }
 
         private static IObservable<BluelyticsResponse> GetLatest()

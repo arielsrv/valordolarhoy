@@ -1,7 +1,7 @@
 import * as React from 'react';
 import httpClient from 'axios';
 import { connect } from 'react-redux';
-import { BluelyticsDto } from "./BluelyticsDto";
+import { CurrencyDto } from "./CurrencyDto";
 
 function isLoading() {
     return (
@@ -13,11 +13,11 @@ class Home extends React.PureComponent {
 
     state = {
         busy: true,
-        bluelyticsDto: new BluelyticsDto()
+        bluelyticsDto: new CurrencyDto()
     }
 
     async componentDidMount() {
-        const response = await httpClient.get<BluelyticsDto>(`Bluelytics`);
+        const response = await httpClient.get<CurrencyDto>(`Currency`);
         this.setState({busy: false, bluelyticsDto: response.data});
     }
 

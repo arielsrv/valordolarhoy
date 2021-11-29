@@ -1,6 +1,6 @@
 namespace ValorDolarHoy.Services
 {
-    public class BluelyticsDto
+    public class CurrencyDto
     {
         public OficialDto Official { get; init; }
         public BlueDto Blue { get; init; }

@@ -10,10 +10,10 @@ namespace ValorDolarHoy.Services
     {
         private readonly IBluelyticsClient bluelyticsClient;
 
-        private readonly Cache<string, BluelyticsDto> appCache = CacheBuilder<string, BluelyticsDto>
+        private readonly Cache<string, CurrencyDto> appCache = CacheBuilder<string, CurrencyDto>
             .NewBuilder()
-            .Size(4)
-            .ExpireAfterWrite(TimeSpan.FromSeconds(5))
+            .Size(2)
+            .ExpireAfterWrite(TimeSpan.FromMinutes(1))
             .Build();
 
         private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
@@ -23,14 +23,14 @@ namespace ValorDolarHoy.Services
             this.bluelyticsClient = bluelyticsClient;
         }
 
-        public IObservable<BluelyticsDto> GetLatest()
+        public IObservable<CurrencyDto> GetLatest()
         {
             string cacheKey = GetCacheKey();
 
-            BluelyticsDto bluelyticsDto = this.appCache.GetIfPresent(cacheKey);
+            CurrencyDto currencyDto = this.appCache.GetIfPresent(cacheKey);
 
-            return bluelyticsDto != null
-                ? Observable.Return(bluelyticsDto)
+            return currencyDto != null
+                ? Observable.Return(currencyDto)
                 : GetFromApi().Map(response =>
                 {
                     this.executorService.Run(() => this.appCache.Put(cacheKey, response));
@@ -38,25 +38,25 @@ namespace ValorDolarHoy.Services
                 });
         }
 
-        private IObservable<BluelyticsDto> GetFromApi()
+        private IObservable<CurrencyDto> GetFromApi()
         {
             return this.bluelyticsClient.Get().Map(bluelyticsResponse =>
             {
-                BluelyticsDto bluelyticsDto = new()
+                CurrencyDto currencyDto = new()
                 {
-                    Official = new BluelyticsDto.OficialDto
+                    Official = new CurrencyDto.OficialDto
                     {
                         Buy = bluelyticsResponse.Oficial.ValueBuy,
                         Sell = bluelyticsResponse.Oficial.ValueSell
                     },
-                    Blue = new BluelyticsDto.BlueDto
+                    Blue = new CurrencyDto.BlueDto
                     {
                         Buy = bluelyticsResponse.Blue.ValueBuy,
                         Sell = bluelyticsResponse.Blue.ValueSell
                     }
                 };
 
-                return bluelyticsDto;
+                return currencyDto;
             });
         }
 

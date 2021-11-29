@@ -7,11 +7,11 @@ namespace ValorDolarHoy.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class Bluelytics : ControllerBase
+    public class CurrencyController : ControllerBase
     {
         private readonly BluelyticsService bluelyticsService;
 
-        public Bluelytics(BluelyticsService bluelyticsService)
+        public CurrencyController(BluelyticsService bluelyticsService)
         {
             this.bluelyticsService = bluelyticsService;
         }
