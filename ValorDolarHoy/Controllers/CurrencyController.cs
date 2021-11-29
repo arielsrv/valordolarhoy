@@ -1,4 +1,3 @@
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ValorDolarHoy.Services;
@@ -7,7 +6,7 @@ namespace ValorDolarHoy.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class CurrencyController : ControllerBase
+    public class CurrencyController : CustomControllerBase
     {
         private readonly BluelyticsService bluelyticsService;
 
@@ -19,9 +18,7 @@ namespace ValorDolarHoy.Controllers
         [HttpGet]
         public async Task<IActionResult> GetLatestAsync()
         {
-            return Ok(await this.bluelyticsService
-                .GetLatest()
-                .ToTask());
+            return await base.QueryAsync(this.bluelyticsService.GetLatest());
         }
     }
 }
