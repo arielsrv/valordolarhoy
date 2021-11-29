@@ -1,4 +1,3 @@
-using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -9,11 +8,8 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Polly;
 using ValorDolarHoy.Common.Text;
 using ValorDolarHoy.Middlewares;
-using ValorDolarHoy.Services;
-using ValorDolarHoy.Services.Clients;
 
 namespace ValorDolarHoy
 {
@@ -35,8 +31,8 @@ namespace ValorDolarHoy
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
 
-            AddClients(services);
-            AddServices(services);
+            services.AddClients();
+            services.AddServices();
 
             services
                 .AddMvc()
@@ -63,21 +59,6 @@ namespace ValorDolarHoy
 
                 return jsonSerializerSettings;
             };
-        }
-
-        private static void AddServices(IServiceCollection services)
-        {
-            services.AddSingleton<BluelyticsService>();
-        }
-
-        private static void AddClients(IServiceCollection services)
-        {
-            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>()
-                .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-                {
-                    MaxConnectionsPerServer = 20
-                })
-                .AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(20, int.MaxValue));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
