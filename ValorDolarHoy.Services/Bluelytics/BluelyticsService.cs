@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Reactive.Observable.Aliases;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Thread;
 using ValorDolarHoy.Services.Clients;
@@ -31,10 +32,10 @@ namespace ValorDolarHoy.Services
 
             return currencyDto != null
                 ? Observable.Return(currencyDto)
-                : GetFromApi().Map(response =>
+                : GetFromApi().FlatMap(response =>
                 {
                     this.executorService.Run(() => this.appCache.Put(cacheKey, response));
-                    return response;
+                    return Observable.Return(response);
                 });
         }
 

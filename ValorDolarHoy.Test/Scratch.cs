@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Observable.Aliases;
 using NUnit.Framework;
 
 namespace ValorDolarHoy.Test
@@ -12,16 +13,15 @@ namespace ValorDolarHoy.Test
         public void Observable_Ok()
         {
             RecommendedItemsDto recommendedItemsDto = GetRecommmendations()
-                .SelectMany(recommmendationsDto => recommmendationsDto.Values)
-                .Select(itemId => GetItemById(itemId)
-                    .Select(itemDto =>
+                .FlatMap(recommmendationsDto => recommmendationsDto.Values)
+                .FlatMap(itemId => GetItemById(itemId)
+                    .Map(itemDto =>
                     {
                         RecommendedItemDto recommendedItemDto = new(itemDto);
                         return recommendedItemDto;
                     }))
-                .Concat()
                 .ToList()
-                .Select(recommendedItemDtos =>
+                .Map(recommendedItemDtos =>
                 {
                     RecommendedItemsDto recommendedItemsDto = new()
                     {
