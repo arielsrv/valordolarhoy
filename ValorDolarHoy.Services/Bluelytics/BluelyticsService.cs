@@ -32,10 +32,10 @@ namespace ValorDolarHoy.Services
 
             return currencyDto != null
                 ? Observable.Return(currencyDto)
-                : GetFromApi().FlatMap(response =>
+                : GetFromApi().Map(response =>
                 {
                     this.executorService.Run(() => this.appCache.Put(cacheKey, response));
-                    return Observable.Return(response);
+                    return response;
                 });
         }
 
