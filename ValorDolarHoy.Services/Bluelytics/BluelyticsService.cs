@@ -11,7 +11,7 @@ namespace ValorDolarHoy.Services
     {
         private readonly IBluelyticsClient bluelyticsClient;
 
-        private readonly Cache<string, CurrencyDto> appCache = CacheBuilder<string, CurrencyDto>
+        public ICache<string, CurrencyDto> appCache = CacheBuilder<string, CurrencyDto>
             .NewBuilder()
             .Size(2)
             .ExpireAfterWrite(TimeSpan.FromMinutes(1))

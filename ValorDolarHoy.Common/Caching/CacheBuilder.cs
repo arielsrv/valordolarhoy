@@ -26,7 +26,7 @@ namespace ValorDolarHoy.Common.Caching
             return this;
         }
 
-        public Cache<TKey, TValue> Build()
+        public ICache<TKey, TValue> Build()
         {
             this.memoryCache = new MemoryCache(new MemoryCacheOptions
             {
@@ -37,7 +37,13 @@ namespace ValorDolarHoy.Common.Caching
         }
     }
 
-    public class Cache<TKey, TValue>
+    public interface ICache<in TKey, TValue>
+    {
+        TValue GetIfPresent(TKey key);
+        void Put(TKey key, TValue value);
+    }
+
+    public class Cache<TKey, TValue> : ICache<TKey, TValue>
     {
         private readonly IMemoryCache memoryCache;
         private readonly TimeSpan timeSpan;
