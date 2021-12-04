@@ -9,9 +9,9 @@ namespace ValorDolarHoy.Test.Extensions
         [Test]
         public void Convert_To_Snake_Case()
         {
-            string expected = "HelloWorld".ToSnakeCase();
+            string actual = "HelloWorld".ToSnakeCase();
             
-            Assert.AreEqual("hello_world", expected);
+            Assert.AreEqual("hello_world", actual);
         }
         
         [Test]
