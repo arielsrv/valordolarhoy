@@ -8,7 +8,7 @@ namespace ValorDolarHoy.Test.Text
         [Fact]
         public void Convert_To_Name()
         {
-            SnakeCaseNamingPolicy snakeCaseNamingPolicy = new SnakeCaseNamingPolicy();
+            SnakeCaseNamingPolicy snakeCaseNamingPolicy = new();
 
             string actual = snakeCaseNamingPolicy.ConvertName("HelloWorld");
 
