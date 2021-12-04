@@ -1,23 +1,22 @@
 using System;
 using System.Reactive.Linq;
 using Moq;
-using NUnit.Framework;
 using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
+using Xunit;
 
 namespace ValorDolarHoy.Test.Services.Bluelytics
 {
     public class BluelyticsServiceTest
     {
-        private Mock<IBluelyticsClient> bluelyticsClient;
-
-        [SetUp]
-        public void Setup()
+        private readonly Mock<IBluelyticsClient> bluelyticsClient;
+        
+        public BluelyticsServiceTest()
         {
             this.bluelyticsClient = new Mock<IBluelyticsClient>();
         }
 
-        [Test]
+        [Fact]
         public void Get_Latest_Ok()
         {
             this.bluelyticsClient.Setup(client => client.Get()).Returns(GetLatest());
@@ -27,10 +26,10 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
             CurrencyDto currencyDto = bluelyticsService.GetLatest().Wait();
 
             Assert.NotNull(currencyDto);
-            Assert.AreEqual(10.0M, currencyDto.Official.Buy);
-            Assert.AreEqual(11.0M, currencyDto.Official.Sell);
-            Assert.AreEqual(12.0M, currencyDto.Blue.Buy);
-            Assert.AreEqual(13.0M, currencyDto.Blue.Sell);
+            Assert.Equal(10.0M, currencyDto.Official.Buy);
+            Assert.Equal(11.0M, currencyDto.Official.Sell);
+            Assert.Equal(12.0M, currencyDto.Blue.Buy);
+            Assert.Equal(13.0M, currencyDto.Blue.Sell);
         }
 
         private static IObservable<BluelyticsResponse> GetLatest()

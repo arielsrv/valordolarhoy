@@ -3,26 +3,24 @@ using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading;
 using Moq;
-using NUnit.Framework;
 using ValorDolarHoy.Common.Exceptions;
 using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
+using Xunit;
 
 namespace ValorDolarHoy.Test.Clients
 {
-    [TestFixture]
     public class BluelyticsClientTest
     {
-        private Mock<HttpClient> httpClient;
+        private readonly Mock<HttpClient> httpClient;
 
-        [SetUp]
-        public void Setup()
+        public BluelyticsClientTest()
         {
             Startup.JsonSerializerSettings();
             this.httpClient = new Mock<HttpClient>();
         }
 
-        [Test]
+        [Fact]
         public void Get_Latest_Ok()
         {
             this.httpClient
@@ -34,11 +32,10 @@ namespace ValorDolarHoy.Test.Clients
 
             Assert.NotNull(bluelyticsResponse);
             Assert.NotNull(bluelyticsResponse.Oficial);
-            Assert.NotNull(bluelyticsResponse.Oficial.ValueSell);
-            Assert.AreEqual(bluelyticsResponse.Oficial.ValueSell, 105.96);
+            Assert.Equal(105.96m, bluelyticsResponse.Oficial.ValueSell);
         }
 
-        [Test]
+        [Fact]
         public void Get_Latest_Not_Found()
         {
             this.httpClient
@@ -53,7 +50,7 @@ namespace ValorDolarHoy.Test.Clients
             Assert.Throws<ApiNotFoundException>(() => bluelyticsClient.Get().Wait());
         }
 
-        [Test]
+        [Fact]
         public void Get_Latest_Generic_Error()
         {
             this.httpClient

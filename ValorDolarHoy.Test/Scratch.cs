@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Observable.Aliases;
-using NUnit.Framework;
+using Xunit;
 
 namespace ValorDolarHoy.Test
 {
-    [TestFixture]
     public class Scratch
     {
-        [Test]
+        [Fact]
         public void Observable_Ok()
         {
             RecommendedItemsDto recommendedItemsDto = GetRecommmendations()
@@ -34,9 +33,9 @@ namespace ValorDolarHoy.Test
 
             Assert.NotNull(recommendedItemsDto);
             Assert.NotNull(recommendedItemsDto.Items);
-            Assert.AreEqual(2, recommendedItemsDto.Items.Count());
-            Assert.AreEqual("Test item 1", recommendedItemsDto.Items.Skip(0).Take(1).First().ItemDto.Title);
-            Assert.AreEqual("Test item 2", recommendedItemsDto.Items.Skip(1).Take(1).First().ItemDto.Title);
+            Assert.Equal(2, recommendedItemsDto.Items.Count());
+            Assert.Equal("Test item 1", recommendedItemsDto.Items.Skip(0).Take(1).First().ItemDto.Title);
+            Assert.Equal("Test item 2", recommendedItemsDto.Items.Skip(1).Take(1).First().ItemDto.Title);
         }
 
         /*

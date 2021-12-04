@@ -1,21 +1,19 @@
 using System.Threading;
-using NUnit.Framework;
 using ValorDolarHoy.Common.Thread;
+using Xunit;
 
 namespace ValorDolarHoy.Test.Common
 {
-    [TestFixture]
     public class ExecutorServiceTest
     {
-        private ExecutorService executorService;
-        
-        [SetUp]
-        public void Setup()
+        private readonly ExecutorService executorService;
+
+        public ExecutorServiceTest()
         {
             this.executorService = ExecutorService.NewFixedThreadPool(10);
         }
-        
-        [Test]
+
+        [Fact]
         public void Fire_And_Forget()
         {
             int value = 0;
@@ -25,10 +23,10 @@ namespace ValorDolarHoy.Test.Common
                 value = int.MaxValue;
             });
             
-            Assert.AreEqual(0, value);
+            Assert.Equal(0, value);
         }
         
-        [Test]
+        [Fact]
         public void Fire_And_Forget_Expected_Value()
         {
             int value = 0;
@@ -39,7 +37,7 @@ namespace ValorDolarHoy.Test.Common
             });
             
             Thread.Sleep(200);
-            Assert.AreEqual(int.MaxValue, value);
+            Assert.Equal(int.MaxValue, value);
         }
     }
 }
