@@ -12,7 +12,7 @@ namespace ValorDolarHoy.Test.Extensions
             
             Assert.Equal("hello_world", actual);
         }
-        
+
         [Fact]
         public void Convert_To_Snake_Case_Throws()
         {

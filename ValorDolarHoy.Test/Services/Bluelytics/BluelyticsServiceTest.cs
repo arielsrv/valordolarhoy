@@ -10,8 +10,8 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
 {
     public class BluelyticsServiceTest
     {
-        private readonly Mock<IBluelyticsClient> bluelyticsClient;
         private readonly Mock<ICache<string, CurrencyDto>> appCache;
+        private readonly Mock<IBluelyticsClient> bluelyticsClient;
 
         public BluelyticsServiceTest()
         {

@@ -25,7 +25,7 @@ namespace ValorDolarHoy.Test.Common
             
             Assert.Equal(0, value);
         }
-        
+
         [Fact]
         public void Fire_And_Forget_Expected_Value()
         {

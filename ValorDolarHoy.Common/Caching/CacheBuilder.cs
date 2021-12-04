@@ -6,8 +6,8 @@ namespace ValorDolarHoy.Common.Caching
     public class CacheBuilder<TKey, TValue>
     {
         private IMemoryCache memoryCache;
-        private TimeSpan timeSpan;
         private int size;
+        private TimeSpan timeSpan;
 
         public static CacheBuilder<TKey, TValue> NewBuilder()
         {
@@ -46,8 +46,8 @@ namespace ValorDolarHoy.Common.Caching
     public class Cache<TKey, TValue> : ICache<TKey, TValue>
     {
         private readonly IMemoryCache memoryCache;
-        private readonly TimeSpan timeSpan;
         private readonly int size;
+        private readonly TimeSpan timeSpan;
 
         public Cache(IMemoryCache memoryCache, TimeSpan timeSpan, int size)
         {

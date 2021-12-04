@@ -2,8 +2,8 @@ namespace ValorDolarHoy.Services
 {
     public class BluelyticsResponse
     {
-        public Oficial oficial;
         public Blue blue;
+        public Oficial oficial;
 
         public class Oficial
         {

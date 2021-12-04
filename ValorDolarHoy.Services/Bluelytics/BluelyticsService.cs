@@ -11,13 +11,13 @@ namespace ValorDolarHoy.Services
     {
         private readonly IBluelyticsClient bluelyticsClient;
 
+        private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
+
         public ICache<string, CurrencyDto> appCache = CacheBuilder<string, CurrencyDto>
             .NewBuilder()
             .Size(2)
             .ExpireAfterWrite(TimeSpan.FromMinutes(1))
             .Build();
-
-        private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
 
         public BluelyticsService(IBluelyticsClient bluelyticsClient)
         {

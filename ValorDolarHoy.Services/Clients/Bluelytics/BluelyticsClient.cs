@@ -14,7 +14,7 @@ namespace ValorDolarHoy.Services.Clients
         public BluelyticsClient(HttpClient httpClient) : base(httpClient)
         {
         }
-        
+
         public IObservable<BluelyticsResponse> Get()
         {
             const string url = "https://api.bluelytics.com.ar/v2/latest";
