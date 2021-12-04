@@ -14,15 +14,15 @@ namespace ValorDolarHoy.Common.Caching
             return new CacheBuilder<TKey, TValue>();
         }
 
-        public CacheBuilder<TKey, TValue> ExpireAfterWrite(TimeSpan timeSpan)
+        public CacheBuilder<TKey, TValue> ExpireAfterWrite(TimeSpan expireAfterWrite)
         {
-            this.timeSpan = timeSpan;
+            this.timeSpan = expireAfterWrite;
             return this;
         }
 
-        public CacheBuilder<TKey, TValue> Size(int size)
+        public CacheBuilder<TKey, TValue> Size(int length)
         {
-            this.size = size;
+            this.size = length;
             return this;
         }
 
