@@ -10,6 +10,7 @@ using ValorDolarHoy.Services.Clients;
 
 namespace ValorDolarHoy.Test.Clients
 {
+    [TestFixture]
     public class BluelyticsClientTest
     {
         private Mock<HttpClient> httpClient;

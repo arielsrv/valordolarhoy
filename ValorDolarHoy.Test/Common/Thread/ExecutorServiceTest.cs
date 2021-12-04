@@ -4,6 +4,7 @@ using ValorDolarHoy.Common.Thread;
 
 namespace ValorDolarHoy.Test.Common
 {
+    [TestFixture]
     public class ExecutorServiceTest
     {
         private ExecutorService executorService;
