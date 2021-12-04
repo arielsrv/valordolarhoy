@@ -31,8 +31,8 @@ namespace ValorDolarHoy.Test.Clients
             BluelyticsResponse bluelyticsResponse = bluelyticsClient.Get().Wait();
 
             Assert.NotNull(bluelyticsResponse);
-            Assert.NotNull(bluelyticsResponse.Oficial);
-            Assert.Equal(105.96m, bluelyticsResponse.Oficial.ValueSell);
+            Assert.NotNull(bluelyticsResponse.oficial);
+            Assert.Equal(105.96m, bluelyticsResponse.oficial.ValueSell);
         }
 
         [Fact]

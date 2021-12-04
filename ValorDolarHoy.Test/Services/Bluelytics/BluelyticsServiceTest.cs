@@ -75,12 +75,12 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
         {
             return Observable.Return(new BluelyticsResponse
             {
-                Oficial = new Oficial
+                oficial = new BluelyticsResponse.Oficial
                 {
                     ValueBuy = 10.0M,
                     ValueSell = 11.0M
                 },
-                Blue = new Blue
+                blue = new BluelyticsResponse.Blue
                 {
                     ValueBuy = 12.0M,
                     ValueSell = 13.0M

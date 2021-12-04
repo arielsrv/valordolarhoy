@@ -47,13 +47,13 @@ namespace ValorDolarHoy.Services
                 {
                     Official = new CurrencyDto.OficialDto
                     {
-                        Buy = bluelyticsResponse.Oficial.ValueBuy,
-                        Sell = bluelyticsResponse.Oficial.ValueSell
+                        Buy = bluelyticsResponse.oficial.ValueBuy,
+                        Sell = bluelyticsResponse.oficial.ValueSell
                     },
                     Blue = new CurrencyDto.BlueDto
                     {
-                        Buy = bluelyticsResponse.Blue.ValueBuy,
-                        Sell = bluelyticsResponse.Blue.ValueSell
+                        Buy = bluelyticsResponse.blue.ValueBuy,
+                        Sell = bluelyticsResponse.blue.ValueSell
                     }
                 };
 
