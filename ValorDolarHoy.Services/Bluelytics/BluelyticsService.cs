@@ -2,6 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Observable.Aliases;
 using ValorDolarHoy.Common.Caching;
+using ValorDolarHoy.Common.Storage;
 using ValorDolarHoy.Common.Thread;
 using ValorDolarHoy.Services.Clients;
 
@@ -12,6 +13,7 @@ namespace ValorDolarHoy.Services
         private readonly IBluelyticsClient bluelyticsClient;
 
         private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
+        private readonly IKvsStore kvsStore;
 
         public ICache<string, CurrencyDto> appCache = CacheBuilder<string, CurrencyDto>
             .NewBuilder()
@@ -19,9 +21,10 @@ namespace ValorDolarHoy.Services
             .ExpireAfterWrite(TimeSpan.FromMinutes(1))
             .Build();
 
-        public BluelyticsService(IBluelyticsClient bluelyticsClient)
+        public BluelyticsService(IBluelyticsClient bluelyticsClient, IKvsStore kvsStore)
         {
             this.bluelyticsClient = bluelyticsClient;
+            this.kvsStore = kvsStore;
         }
 
         public IObservable<CurrencyDto> GetLatest()
@@ -64,6 +67,22 @@ namespace ValorDolarHoy.Services
         private static string GetCacheKey()
         {
             return "bluelytics:v1";
+        }
+
+        public IObservable<CurrencyDto> GetFallback()
+        {
+            string cacheKey = GetCacheKey();
+
+            return this.kvsStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
+            {
+                return currencyDto != null
+                    ? Observable.Return(currencyDto)
+                    : GetFromApi().Map(response =>
+                    {
+                        this.executorService.Run(() => this.kvsStore.Put(cacheKey, response).Wait());
+                        return response;
+                    });
+            });
         }
     }
 }
