@@ -8,17 +8,17 @@ namespace ValorDolarHoy.Controllers
     [Route("[controller]")] 
     public class CurrencyController : CustomControllerBase
     {
-        private readonly BluelyticsService bluelyticsService;
+        private readonly CurrencyService _currencyService;
 
-        public CurrencyController(BluelyticsService bluelyticsService)
+        public CurrencyController(CurrencyService currencyService)
         {
-            this.bluelyticsService = bluelyticsService;
+            this._currencyService = currencyService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetLatestAsync()
         {
-            return await base.QueryAsync(this.bluelyticsService.GetLatest());
+            return await base.QueryAsync(this._currencyService.GetLatest());
         }
     }
 }

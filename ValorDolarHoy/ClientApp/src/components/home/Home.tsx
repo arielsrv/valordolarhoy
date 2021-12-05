@@ -13,12 +13,12 @@ class Home extends React.PureComponent {
 
     state = {
         busy: true,
-        bluelyticsDto: new CurrencyDto()
+        currencyDto: new CurrencyDto()
     }
 
     async componentDidMount() {
         const response = await httpClient.get<CurrencyDto>(`Currency`);
-        this.setState({busy: false, bluelyticsDto: response.data});
+        this.setState({busy: false, currencyDto: response.data});
     }
 
     isBusy(): boolean {
@@ -29,16 +29,16 @@ class Home extends React.PureComponent {
         if (this.isBusy()) {
             return isLoading();
         }
-        const bluelyticsDto = this.state.bluelyticsDto;
+        const currencyDto = this.state.currencyDto;
         return (
             <div>
                 <p>Cotización oficial y blue</p>
                 <ul>
-                    <li>Oficial: Compra: ARS {bluelyticsDto.official.buy}$ |
-                        Venta: ARS {bluelyticsDto.official.sell}$
+                    <li>Oficial: Compra: ARS {currencyDto.official.buy}$ |
+                        Venta: ARS {currencyDto.official.sell}$
                     </li>
-                    <li>Blue: Compra: ARS {bluelyticsDto.blue.buy}$ |
-                        Venta: ARS {bluelyticsDto.blue.sell}$
+                    <li>Blue: Compra: ARS {currencyDto.blue.buy}$ |
+                        Venta: ARS {currencyDto.blue.sell}$
                     </li>
                 </ul>
             </div>

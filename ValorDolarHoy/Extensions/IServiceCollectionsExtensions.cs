@@ -11,7 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddSingleton<BluelyticsService>();
+            services.AddSingleton<CurrencyService>();
             services.AddSingleton<IKvsStore, KvsStore>();
             services.AddSingleton<IRedisClientsManager, PooledRedisClientManager>(_ =>
                 new PooledRedisClientManager("402639d6804af2a7bce70236e2ec3240@pike.redistogo.com:10753"));
@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static void AddClients(this IServiceCollection services)
         {
-            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>()
+            services.AddHttpClient<ICurrencyClient, CurrencyClient>()
                 .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
                 {
                     MaxConnectionsPerServer = 20

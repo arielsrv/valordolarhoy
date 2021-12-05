@@ -7,17 +7,17 @@ using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Services.Bluelytics
+namespace ValorDolarHoy.Test.Services.Currency
 {
-    public class BluelyticsServiceTest
+    public class CurrencyServiceTest
     {
         private readonly Mock<ICache<string, CurrencyDto>> appCache;
-        private readonly Mock<IBluelyticsClient> bluelyticsClient;
+        private readonly Mock<ICurrencyClient> currencyClient;
         private readonly Mock<IKvsStore> kvsStore;
 
-        public BluelyticsServiceTest()
+        public CurrencyServiceTest()
         {
-            this.bluelyticsClient = new Mock<IBluelyticsClient>();
+            this.currencyClient = new Mock<ICurrencyClient>();
             this.appCache = new Mock<ICache<string, CurrencyDto>>();
             this.kvsStore = new Mock<IKvsStore>();
         }
@@ -25,11 +25,11 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
         [Fact]
         public void Get_Latest_Ok()
         {
-            this.bluelyticsClient.Setup(client => client.Get()).Returns(GetLatest());
+            this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-            BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object, this.kvsStore.Object);
+            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object);
 
-            CurrencyDto currencyDto = bluelyticsService.GetLatest().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetLatest().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -43,12 +43,12 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
         {
             this.appCache.Setup(client => client.GetIfPresent("bluelytics:v1")).Returns(GetFromCache());
 
-            BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object, this.kvsStore.Object)
+            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object)
             {
                 appCache = this.appCache.Object
             };
 
-            CurrencyDto currencyDto = bluelyticsService.GetLatest().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetLatest().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -63,9 +63,9 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
             this.kvsStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
                 .Returns(Observable.Return(GetFromCache()));
 
-            BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object, this.kvsStore.Object);
+            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object);
 
-            CurrencyDto currencyDto = bluelyticsService.GetFallback().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetFallback().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -80,11 +80,11 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
             this.kvsStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
                 .Returns(Observable.Return(default(CurrencyDto)));
             
-            this.bluelyticsClient.Setup(client => client.Get()).Returns(GetLatest());
+            this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-            BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object, this.kvsStore.Object);
+            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object);
 
-            CurrencyDto currencyDto = bluelyticsService.GetFallback().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetFallback().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -110,16 +110,16 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
             };
         }
 
-        private static IObservable<BluelyticsResponse> GetLatest()
+        private static IObservable<CurrencyResponse> GetLatest()
         {
-            return Observable.Return(new BluelyticsResponse
+            return Observable.Return(new CurrencyResponse
             {
-                oficial = new BluelyticsResponse.Oficial
+                oficial = new CurrencyResponse.Oficial
                 {
                     ValueBuy = 10.0M,
                     ValueSell = 11.0M
                 },
-                blue = new BluelyticsResponse.Blue
+                blue = new CurrencyResponse.Blue
                 {
                     ValueBuy = 12.0M,
                     ValueSell = 13.0M

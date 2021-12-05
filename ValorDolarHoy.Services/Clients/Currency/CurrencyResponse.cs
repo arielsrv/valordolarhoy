@@ -1,6 +1,6 @@
 namespace ValorDolarHoy.Services
 {
-    public class BluelyticsResponse
+    public class CurrencyResponse
     {
         public Blue blue;
         public Oficial oficial;

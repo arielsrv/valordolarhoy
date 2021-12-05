@@ -8,17 +8,17 @@ namespace ValorDolarHoy.Controllers
     [Route("[controller]")]
     public class FallbackController : CustomControllerBase
     {
-        private readonly BluelyticsService bluelyticsService;
+        private readonly CurrencyService _currencyService;
 
-        public FallbackController(BluelyticsService bluelyticsService)
+        public FallbackController(CurrencyService currencyService)
         {
-            this.bluelyticsService = bluelyticsService;
+            this._currencyService = currencyService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetLatestAsync()
         {
-            return await base.QueryAsync(this.bluelyticsService.GetFallback());
+            return await base.QueryAsync(this._currencyService.GetFallback());
         }
     }
 }

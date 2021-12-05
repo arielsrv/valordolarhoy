@@ -10,11 +10,11 @@ using Xunit;
 
 namespace ValorDolarHoy.Test.Clients
 {
-    public class BluelyticsClientTest
+    public class CurrencyClientTest
     {
         private readonly Mock<HttpClient> httpClient;
 
-        public BluelyticsClientTest()
+        public CurrencyClientTest()
         {
             Startup.JsonSerializerSettings();
             this.httpClient = new Mock<HttpClient>();
@@ -27,12 +27,12 @@ namespace ValorDolarHoy.Test.Clients
                 .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(GetResponse());
 
-            BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
-            BluelyticsResponse bluelyticsResponse = bluelyticsClient.Get().ToBlockingFirst();
+            CurrencyClient currencyClient = new(this.httpClient.Object);
+            CurrencyResponse currencyResponse = currencyClient.Get().ToBlockingFirst();
 
-            Assert.NotNull(bluelyticsResponse);
-            Assert.NotNull(bluelyticsResponse.oficial);
-            Assert.Equal(105.96m, bluelyticsResponse.oficial.ValueSell);
+            Assert.NotNull(currencyResponse);
+            Assert.NotNull(currencyResponse.oficial);
+            Assert.Equal(105.96m, currencyResponse.oficial.ValueSell);
         }
 
         [Fact]
@@ -45,9 +45,9 @@ namespace ValorDolarHoy.Test.Clients
                     StatusCode = HttpStatusCode.NotFound
                 });
 
-            BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
+            CurrencyClient currencyClient = new(this.httpClient.Object);
 
-            Assert.Throws<ApiNotFoundException>(() => bluelyticsClient.Get().ToBlockingFirst());
+            Assert.Throws<ApiNotFoundException>(() => currencyClient.Get().ToBlockingFirst());
         }
 
         [Fact]
@@ -60,9 +60,9 @@ namespace ValorDolarHoy.Test.Clients
                     StatusCode = HttpStatusCode.InternalServerError
                 });
 
-            BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
+            CurrencyClient currencyClient = new(this.httpClient.Object);
 
-            Assert.Throws<ApiException>(() => bluelyticsClient.Get().ToBlockingFirst());
+            Assert.Throws<ApiException>(() => currencyClient.Get().ToBlockingFirst());
         }
 
         private static HttpResponseMessage GetResponse()

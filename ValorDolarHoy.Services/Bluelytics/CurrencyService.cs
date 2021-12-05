@@ -8,9 +8,9 @@ using ValorDolarHoy.Services.Clients;
 
 namespace ValorDolarHoy.Services
 {
-    public class BluelyticsService
+    public class CurrencyService
     {
-        private readonly IBluelyticsClient bluelyticsClient;
+        private readonly ICurrencyClient currencyClient;
 
         private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
 
@@ -22,9 +22,9 @@ namespace ValorDolarHoy.Services
             .ExpireAfterWrite(TimeSpan.FromMinutes(1))
             .Build();
 
-        public BluelyticsService(IBluelyticsClient bluelyticsClient, IKvsStore kvsStore)
+        public CurrencyService(ICurrencyClient currencyClient, IKvsStore kvsStore)
         {
-            this.bluelyticsClient = bluelyticsClient;
+            this.currencyClient = currencyClient;
             this.kvsStore = kvsStore;
         }
 
@@ -45,19 +45,19 @@ namespace ValorDolarHoy.Services
 
         private IObservable<CurrencyDto> GetFromApi()
         {
-            return this.bluelyticsClient.Get().Map(bluelyticsResponse =>
+            return this.currencyClient.Get().Map(currencyResponse =>
             {
                 CurrencyDto currencyDto = new()
                 {
                     Official = new CurrencyDto.OficialDto
                     {
-                        Buy = bluelyticsResponse.oficial.ValueBuy,
-                        Sell = bluelyticsResponse.oficial.ValueSell
+                        Buy = currencyResponse.oficial.ValueBuy,
+                        Sell = currencyResponse.oficial.ValueSell
                     },
                     Blue = new CurrencyDto.BlueDto
                     {
-                        Buy = bluelyticsResponse.blue.ValueBuy,
-                        Sell = bluelyticsResponse.blue.ValueSell
+                        Buy = currencyResponse.blue.ValueBuy,
+                        Sell = currencyResponse.blue.ValueSell
                     }
                 };
 
