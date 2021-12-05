@@ -29,7 +29,7 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
 
             BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object, this.kvsStore.Object);
 
-            CurrencyDto currencyDto = bluelyticsService.GetLatest().Wait();
+            CurrencyDto currencyDto = bluelyticsService.GetLatest().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -48,7 +48,7 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
                 appCache = this.appCache.Object
             };
 
-            CurrencyDto currencyDto = bluelyticsService.GetLatest().Wait();
+            CurrencyDto currencyDto = bluelyticsService.GetLatest().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -65,7 +65,7 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
 
             BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object, this.kvsStore.Object);
 
-            CurrencyDto currencyDto = bluelyticsService.GetFallback().Wait();
+            CurrencyDto currencyDto = bluelyticsService.GetFallback().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -84,7 +84,7 @@ namespace ValorDolarHoy.Test.Services.Bluelytics
 
             BluelyticsService bluelyticsService = new(this.bluelyticsClient.Object, this.kvsStore.Object);
 
-            CurrencyDto currencyDto = bluelyticsService.GetFallback().Wait();
+            CurrencyDto currencyDto = bluelyticsService.GetFallback().ToBlockingFirst();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);

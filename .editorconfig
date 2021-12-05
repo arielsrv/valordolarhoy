@@ -1,0 +1,8 @@
+[*.cs]
+csharp_style_var_when_type_is_apparent = false: warning
+indent_size = tab
+tab_width = 4
+csharp_style_var_elsewhere = false: warning
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_catch = true
+csharp_new_line_before_else = true

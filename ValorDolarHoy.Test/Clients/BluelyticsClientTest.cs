@@ -28,7 +28,7 @@ namespace ValorDolarHoy.Test.Clients
                 .ReturnsAsync(GetResponse());
 
             BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
-            BluelyticsResponse bluelyticsResponse = bluelyticsClient.Get().Wait();
+            BluelyticsResponse bluelyticsResponse = bluelyticsClient.Get().ToBlockingFirst();
 
             Assert.NotNull(bluelyticsResponse);
             Assert.NotNull(bluelyticsResponse.oficial);
@@ -46,8 +46,8 @@ namespace ValorDolarHoy.Test.Clients
                 });
 
             BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
-            
-            Assert.Throws<ApiNotFoundException>(() => bluelyticsClient.Get().Wait());
+
+            Assert.Throws<ApiNotFoundException>(() => bluelyticsClient.Get().ToBlockingFirst());
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace ValorDolarHoy.Test.Clients
 
             BluelyticsClient bluelyticsClient = new(this.httpClient.Object);
 
-            Assert.Throws<ApiException>(() => bluelyticsClient.Get().Wait());
+            Assert.Throws<ApiException>(() => bluelyticsClient.Get().ToBlockingFirst());
         }
 
         private static HttpResponseMessage GetResponse()

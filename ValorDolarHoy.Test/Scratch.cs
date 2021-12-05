@@ -29,7 +29,7 @@ namespace ValorDolarHoy.Test
                     };
                     return recommendedItemsDto;
                 })
-                .Wait();
+                .ToBlockingFirst();
 
             Assert.NotNull(recommendedItemsDto);
             Assert.NotNull(recommendedItemsDto.Items);

@@ -8,6 +8,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy.Common", "Val
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy.Test", "ValorDolarHoy.Test\ValorDolarHoy.Test.csproj", "{7AD72DF8-1821-4272-92DE-4079FBA84859}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{658D1138-6461-4024-A695-D483604E9D39}"
+ProjectSection(SolutionItems) = preProject
+	coverage.sh = coverage.sh
+	.editorconfig = .editorconfig 
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
