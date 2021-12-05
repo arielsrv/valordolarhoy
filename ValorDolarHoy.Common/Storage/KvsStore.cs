@@ -1,7 +1,8 @@
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using StackExchange.Redis.Extensions.Core.Abstractions;
+using ServiceStack.Caching;
+using ServiceStack.Redis;
 
 namespace ValorDolarHoy.Common.Storage
 {
@@ -13,20 +14,20 @@ namespace ValorDolarHoy.Common.Storage
 
     public class KvsStore : IKvsStore
     {
-        private readonly IRedisCacheClient redisCacheClient;
+        private readonly IRedisClientsManager redisClientsManager;
 
-        public KvsStore(IRedisCacheClient redisCacheClient)
+        public KvsStore(IRedisClientsManager redisClientsManager)
         {
-            this.redisCacheClient = redisCacheClient;
+            this.redisClientsManager = redisClientsManager;
         }
 
         public IObservable<T> Get<T>(string key)
         {
             return Observable.Create(async (IObserver<T> observer) =>
             {
-                T result = await this.redisCacheClient
-                    .GetDbFromConfiguration()
-                    .GetAsync<T>(key);
+                using IRedisClientsManager clientsManager = this.redisClientsManager;
+                await using ICacheClientAsync cacheClientAsync = await clientsManager.GetCacheClientAsync();
+                T result = await cacheClientAsync.GetAsync<T>(key);
 
                 observer.OnNext(result);
                 observer.OnCompleted();
@@ -37,9 +38,9 @@ namespace ValorDolarHoy.Common.Storage
         {
             return Observable.Create(async (IObserver<Unit> observer) =>
             {
-                await this.redisCacheClient
-                    .GetDbFromConfiguration()
-                    .AddAsync<T>(key, value);
+                using IRedisClientsManager clientsManager = this.redisClientsManager;
+                await using ICacheClientAsync cacheClientAsync = await clientsManager.GetCacheClientAsync();
+                await cacheClientAsync.AddAsync(key, value);
 
                 observer.OnNext(new Unit());
                 observer.OnCompleted();

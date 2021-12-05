@@ -1,6 +1,7 @@
 using System.Net.Http;
 using Newtonsoft.Json;
 using Polly;
+using ServiceStack.Redis;
 using StackExchange.Redis.Extensions.Core.Abstractions;
 using StackExchange.Redis.Extensions.Core.Configuration;
 using StackExchange.Redis.Extensions.Core.Implementations;
@@ -18,25 +19,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<BluelyticsService>();
             services.AddSingleton<IKvsStore, KvsStore>();
 
-            services.AddSingleton<IRedisCacheClient, RedisCacheClient>(_ =>
-            {
-                RedisConfiguration redisConfiguration = new()
-                {
-                    ConnectionString =
-                        "localhost:6379"
-                };
-
-                IRedisCacheConnectionPoolManager redisCacheConnectionPoolManager =
-                    new RedisCacheConnectionPoolManager(redisConfiguration);
-
-                NewtonsoftSerializer newtonsoftSerializer = new(new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.All,
-                    NullValueHandling = NullValueHandling.Include
-                });
-
-                return new RedisCacheClient(redisCacheConnectionPoolManager, newtonsoftSerializer, redisConfiguration);
-            });
+            services.AddSingleton<IRedisClientsManager, PooledRedisClientManager>(_ =>
+                new PooledRedisClientManager("402639d6804af2a7bce70236e2ec3240@pike.redistogo.com:10753"));
         }
 
         public static void AddClients(this IServiceCollection services)
