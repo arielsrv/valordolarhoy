@@ -1,11 +1,6 @@
 using System.Net.Http;
-using Newtonsoft.Json;
 using Polly;
 using ServiceStack.Redis;
-using StackExchange.Redis.Extensions.Core.Abstractions;
-using StackExchange.Redis.Extensions.Core.Configuration;
-using StackExchange.Redis.Extensions.Core.Implementations;
-using StackExchange.Redis.Extensions.Newtonsoft;
 using ValorDolarHoy.Common.Storage;
 using ValorDolarHoy.Services;
 using ValorDolarHoy.Services.Clients;
