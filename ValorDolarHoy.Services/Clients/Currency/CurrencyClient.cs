@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using ValorDolarHoy.Common;
 
-namespace ValorDolarHoy.Services.Clients
+namespace ValorDolarHoy.Services.Clients.Currency
 {
     public interface ICurrencyClient
     {

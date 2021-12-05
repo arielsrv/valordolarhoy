@@ -4,9 +4,9 @@ using System.Reactive.Observable.Aliases;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Storage;
 using ValorDolarHoy.Common.Thread;
-using ValorDolarHoy.Services.Clients;
+using ValorDolarHoy.Services.Clients.Currency;
 
-namespace ValorDolarHoy.Services
+namespace ValorDolarHoy.Services.Currency
 {
     public class CurrencyService
     {
@@ -22,7 +22,10 @@ namespace ValorDolarHoy.Services
             .ExpireAfterWrite(TimeSpan.FromMinutes(1))
             .Build();
 
-        public CurrencyService(ICurrencyClient currencyClient, IKvsStore kvsStore)
+        public CurrencyService(
+            ICurrencyClient currencyClient,
+            IKvsStore kvsStore
+        )
         {
             this.currencyClient = currencyClient;
             this.kvsStore = kvsStore;

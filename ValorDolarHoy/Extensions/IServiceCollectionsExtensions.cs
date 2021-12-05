@@ -2,8 +2,8 @@ using System.Net.Http;
 using Polly;
 using ServiceStack.Redis;
 using ValorDolarHoy.Common.Storage;
-using ValorDolarHoy.Services;
-using ValorDolarHoy.Services.Clients;
+using ValorDolarHoy.Services.Clients.Currency;
+using ValorDolarHoy.Services.Currency;
 
 namespace Microsoft.Extensions.DependencyInjection
 {

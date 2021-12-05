@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ValorDolarHoy.Services;
+using ValorDolarHoy.Services.Currency;
 
 namespace ValorDolarHoy.Controllers
 {
@@ -8,17 +8,17 @@ namespace ValorDolarHoy.Controllers
     [Route("[controller]")] 
     public class CurrencyController : CustomControllerBase
     {
-        private readonly CurrencyService _currencyService;
+        private readonly CurrencyService currencyService;
 
         public CurrencyController(CurrencyService currencyService)
         {
-            this._currencyService = currencyService;
+            this.currencyService = currencyService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetLatestAsync()
         {
-            return await base.QueryAsync(this._currencyService.GetLatest());
+            return await base.QueryAsync(this.currencyService.GetLatest());
         }
     }
 }

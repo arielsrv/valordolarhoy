@@ -3,8 +3,8 @@ using System.Reactive.Linq;
 using Moq;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Storage;
-using ValorDolarHoy.Services;
-using ValorDolarHoy.Services.Clients;
+using ValorDolarHoy.Services.Clients.Currency;
+using ValorDolarHoy.Services.Currency;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Services.Currency

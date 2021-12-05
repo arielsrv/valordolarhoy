@@ -4,8 +4,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using Moq;
 using ValorDolarHoy.Common.Exceptions;
-using ValorDolarHoy.Services;
-using ValorDolarHoy.Services.Clients;
+using ValorDolarHoy.Services.Clients.Currency;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Clients
