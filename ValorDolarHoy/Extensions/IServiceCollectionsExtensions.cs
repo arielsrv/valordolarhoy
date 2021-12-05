@@ -13,7 +13,6 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddSingleton<BluelyticsService>();
             services.AddSingleton<IKvsStore, KvsStore>();
-
             services.AddSingleton<IRedisClientsManager, PooledRedisClientManager>(_ =>
                 new PooledRedisClientManager("402639d6804af2a7bce70236e2ec3240@pike.redistogo.com:10753"));
         }
