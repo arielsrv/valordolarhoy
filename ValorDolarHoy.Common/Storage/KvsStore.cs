@@ -9,7 +9,6 @@ namespace ValorDolarHoy.Common.Storage
     public interface IKvsStore
     {
         IObservable<T> Get<T>(string key);
-        IObservable<Unit> Put<T>(string key, T value);
         IObservable<Unit> Put<T>(string key, T value, int seconds);
     }
 
@@ -35,19 +34,6 @@ namespace ValorDolarHoy.Common.Storage
             });
         }
 
-        public IObservable<Unit> Put<T>(string key, T value)
-        {
-            return Observable.Create(async (IObserver<Unit> observer) =>
-            {
-                using IRedisClientsManager clientsManager = this.redisClientsManager;
-                await using ICacheClientAsync cacheClientAsync = await clientsManager.GetCacheClientAsync();
-                await cacheClientAsync.AddAsync(key, value);
-
-                observer.OnNext(new Unit());
-                observer.OnCompleted();
-            });
-        }
-        
         public IObservable<Unit> Put<T>(string key, T value, int seconds)
         {
             return Observable.Create(async (IObserver<Unit> observer) =>
