@@ -1,5 +1,6 @@
 using System;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using ServiceStack.Caching;
 using ServiceStack.Redis;
@@ -9,6 +10,7 @@ namespace ValorDolarHoy.Common.Storage
     public interface IKvsStore
     {
         IObservable<T> Get<T>(string key);
+        IObservable<Unit> Put<T>(string key, T value);
         IObservable<Unit> Put<T>(string key, T value, int seconds);
     }
 
@@ -23,27 +25,34 @@ namespace ValorDolarHoy.Common.Storage
 
         public IObservable<T> Get<T>(string key)
         {
-            return Observable.Create(async (IObserver<T> observer) =>
+            return Observable.Create((IObserver<T> observer) =>
             {
                 using IRedisClientsManager clientsManager = this.redisClientsManager;
-                await using ICacheClientAsync cacheClientAsync = await clientsManager.GetCacheClientAsync();
-                T result = await cacheClientAsync.GetAsync<T>(key);
+                using IRedisClient redisClient = clientsManager.GetClient();
+                T result = redisClient.Get<T>(key);
 
                 observer.OnNext(result);
                 observer.OnCompleted();
+                return Disposable.Empty;
             });
+        }
+
+        public IObservable<Unit> Put<T>(string key, T value)
+        {
+            return this.Put(key, value, 0);
         }
 
         public IObservable<Unit> Put<T>(string key, T value, int seconds)
         {
-            return Observable.Create(async (IObserver<Unit> observer) =>
+            return Observable.Create((IObserver<Unit> observer) =>
             {
                 using IRedisClientsManager clientsManager = this.redisClientsManager;
-                await using ICacheClientAsync cacheClientAsync = await clientsManager.GetCacheClientAsync();
-                await cacheClientAsync.SetAsync(key, value, TimeSpan.FromSeconds(seconds));
+                using IRedisClient redisClient = clientsManager.GetClient();
+                redisClient.Set(key, value, TimeSpan.FromSeconds(seconds));
 
                 observer.OnNext(new Unit());
                 observer.OnCompleted();
+                return Disposable.Empty;
             });
         }
     }
