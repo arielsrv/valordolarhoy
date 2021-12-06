@@ -54,7 +54,7 @@ namespace ValorDolarHoy.Common.Storage
             {
                 using IRedisClientsManager clientsManager = this.redisClientsManager;
                 await using ICacheClientAsync cacheClientAsync = await clientsManager.GetCacheClientAsync();
-                await cacheClientAsync.AddAsync(key, value, TimeSpan.FromSeconds(seconds));
+                await cacheClientAsync.SetAsync(key, value, TimeSpan.FromSeconds(seconds));
 
                 observer.OnNext(new Unit());
                 observer.OnCompleted();
