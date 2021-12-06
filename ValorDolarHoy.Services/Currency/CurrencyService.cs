@@ -14,7 +14,7 @@ namespace ValorDolarHoy.Services.Currency
 
         private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
 
-        private readonly IKvsStore kvsStore;
+        private readonly IKeyValueStore keyValueStore;
 
         public ICache<string, CurrencyDto> appCache = CacheBuilder<string, CurrencyDto>
             .NewBuilder()
@@ -24,11 +24,11 @@ namespace ValorDolarHoy.Services.Currency
 
         public CurrencyService(
             ICurrencyClient currencyClient,
-            IKvsStore kvsStore
+            IKeyValueStore keyValueStore
         )
         {
             this.currencyClient = currencyClient;
-            this.kvsStore = kvsStore;
+            this.keyValueStore = keyValueStore;
         }
 
         public IObservable<CurrencyDto> GetLatest()
@@ -77,13 +77,13 @@ namespace ValorDolarHoy.Services.Currency
         {
             string cacheKey = GetCacheKey();
 
-            return this.kvsStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
+            return this.keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
             {
                 return currencyDto != null
                     ? Observable.Return(currencyDto)
                     : GetFromApi().Map(response =>
                     {
-                        this.executorService.Run(() => this.kvsStore.Put(cacheKey, response, 60 * 1).ToBlockingFirst()); // mm * ss
+                        this.executorService.Run(() => this.keyValueStore.Put(cacheKey, response, 60 * 1).Wait()); // mm * ss
                         return response;
                     });
             });

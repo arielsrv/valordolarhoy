@@ -27,7 +27,7 @@ namespace ValorDolarHoy.Test.Clients
                 .ReturnsAsync(GetResponse());
 
             CurrencyClient currencyClient = new(this.httpClient.Object);
-            CurrencyResponse currencyResponse = currencyClient.Get().ToBlockingFirst();
+            CurrencyResponse currencyResponse = currencyClient.Get().Wait();
 
             Assert.NotNull(currencyResponse);
             Assert.NotNull(currencyResponse.oficial);
@@ -46,7 +46,7 @@ namespace ValorDolarHoy.Test.Clients
 
             CurrencyClient currencyClient = new(this.httpClient.Object);
 
-            Assert.Throws<ApiNotFoundException>(() => currencyClient.Get().ToBlockingFirst());
+            Assert.Throws<ApiNotFoundException>(() => currencyClient.Get().Wait());
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace ValorDolarHoy.Test.Clients
 
             CurrencyClient currencyClient = new(this.httpClient.Object);
 
-            Assert.Throws<ApiException>(() => currencyClient.Get().ToBlockingFirst());
+            Assert.Throws<ApiException>(() => currencyClient.Get().Wait());
         }
 
         private static HttpResponseMessage GetResponse()

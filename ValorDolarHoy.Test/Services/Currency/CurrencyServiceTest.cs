@@ -13,13 +13,13 @@ namespace ValorDolarHoy.Test.Services.Currency
     {
         private readonly Mock<ICache<string, CurrencyDto>> appCache;
         private readonly Mock<ICurrencyClient> currencyClient;
-        private readonly Mock<IKvsStore> kvsStore;
+        private readonly Mock<IKeyValueStore> keyValueStore;
 
         public CurrencyServiceTest()
         {
             this.currencyClient = new Mock<ICurrencyClient>();
             this.appCache = new Mock<ICache<string, CurrencyDto>>();
-            this.kvsStore = new Mock<IKvsStore>();
+            this.keyValueStore = new Mock<IKeyValueStore>();
         }
 
         [Fact]
@@ -27,9 +27,9 @@ namespace ValorDolarHoy.Test.Services.Currency
         {
             this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object);
+            CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
 
-            CurrencyDto currencyDto = currencyService.GetLatest().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetLatest().Wait();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -43,12 +43,12 @@ namespace ValorDolarHoy.Test.Services.Currency
         {
             this.appCache.Setup(client => client.GetIfPresent("bluelytics:v1")).Returns(GetFromCache());
 
-            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object)
+            CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object)
             {
                 appCache = this.appCache.Object
             };
             
-            CurrencyDto currencyDto = currencyService.GetLatest().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetLatest().Wait();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -60,12 +60,12 @@ namespace ValorDolarHoy.Test.Services.Currency
         [Fact]
         public void Get_Latest_Fallback()
         {
-            this.kvsStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
+            this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
                 .Returns(Observable.Return(GetFromCache()));
 
-            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object);
+            CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
 
-            CurrencyDto currencyDto = currencyService.GetFallback().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetFallback().Wait();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);
@@ -77,14 +77,14 @@ namespace ValorDolarHoy.Test.Services.Currency
         [Fact]
         public void Get_Latest_Ok_Fallback_FromApi()
         {
-            this.kvsStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
+            this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
                 .Returns(Observable.Return(default(CurrencyDto)));
             
             this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-            CurrencyService currencyService = new(this.currencyClient.Object, this.kvsStore.Object);
+            CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
 
-            CurrencyDto currencyDto = currencyService.GetFallback().ToBlockingFirst();
+            CurrencyDto currencyDto = currencyService.GetFallback().Wait();
 
             Assert.NotNull(currencyDto);
             Assert.Equal(10.0M, currencyDto.Official.Buy);

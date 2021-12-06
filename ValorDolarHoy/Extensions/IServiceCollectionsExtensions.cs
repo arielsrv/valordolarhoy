@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static void AddServices(this IServiceCollection services)
         {
             services.AddSingleton<CurrencyService>();
-            services.AddSingleton<IKvsStore, KvsStore>();
+            services.AddSingleton<IKeyValueStore, RedisStore>();
             services.AddSingleton<IRedisClientsManagerAsync, PooledRedisClientManager>(_ =>
                 new PooledRedisClientManager("402639d6804af2a7bce70236e2ec3240@pike.redistogo.com:10753"));
         }
