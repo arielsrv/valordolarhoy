@@ -1,5 +1,8 @@
+using System;
 using System.Reactive.Linq;
+using System.Threading;
 using Moq;
+using ServiceStack.Caching;
 using ServiceStack.Redis;
 using ValorDolarHoy.Common.Storage;
 using Xunit;
@@ -8,37 +11,47 @@ namespace ValorDolarHoy.Test.Storage
 {
     public class KvsStoreTest
     {
-        private readonly Mock<IRedisClientsManager> redisClientManager;
-        private readonly Mock<IRedisClient> redisClient;
+        private readonly Mock<ICacheClientAsync> redisClient;
+        private readonly Mock<IRedisClientsManagerAsync> redisClientManagerAsync;
 
         public KvsStoreTest()
         {
-            this.redisClientManager = new Mock<IRedisClientsManager>();
-            this.redisClient = new Mock<IRedisClient>();
+            this.redisClientManagerAsync = new Mock<IRedisClientsManagerAsync>();
+            this.redisClient = new Mock<ICacheClientAsync>();
         }
 
         [Fact]
         public void Get()
         {
-            this.redisClientManager.Setup(redisClientsManager => redisClientsManager.GetClient()).Returns(redisClient.Object);
-            this.redisClient.Setup(client => client.Get<string>("key")).Returns("value");
+            this.redisClientManagerAsync
+                .Setup(redisClientsManagerAsync => redisClientsManagerAsync.GetCacheClientAsync(CancellationToken.None))
+                .ReturnsAsync(redisClient.Object);
 
-            IKvsStore kvsStore = new KvsStore(this.redisClientManager.Object);
+            this.redisClient.Setup(client => client.GetAsync<string>("key", CancellationToken.None))
+                .ReturnsAsync("value");
 
+            IKvsStore kvsStore = new KvsStore(this.redisClientManagerAsync.Object);
             string actual = kvsStore.Get<string>("key").Wait();
 
+            this.redisClient.Verify(mock => mock.GetAsync<string>("key", CancellationToken.None), Times.Once);
             Assert.Equal("value", actual);
         }
 
         [Fact]
         public void Add()
         {
-            this.redisClientManager.Setup(redisClientsManager => redisClientsManager.GetClient()).Returns(redisClient.Object);
-            this.redisClient.Setup(client => client.Set("key", "value")).Returns(true);
+            this.redisClientManagerAsync
+                .Setup(redisClientsManagerAsync => redisClientsManagerAsync.GetCacheClientAsync(CancellationToken.None))
+                .ReturnsAsync(redisClient.Object);
 
-            IKvsStore kvsStore = new KvsStore(this.redisClientManager.Object);
+            this.redisClient.Setup(client => client.SetAsync("key", "value", CancellationToken.None))
+                .ReturnsAsync(true);
 
+            IKvsStore kvsStore = new KvsStore(this.redisClientManagerAsync.Object);
             kvsStore.Put("key", "value").Wait();
+
+            this.redisClient.Verify(mock => mock.SetAsync("key", "value", TimeSpan.Zero, CancellationToken.None),
+                Times.Once);
         }
     }
 }
