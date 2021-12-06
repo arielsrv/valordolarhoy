@@ -10,9 +10,9 @@ namespace ValorDolarHoy.Common.Storage
     {
         private readonly IRedisClientsManagerAsync redisClientsManagerAsync;
 
-        public RedisStore(IRedisClientsManagerAsync redisClientsManager)
+        public RedisStore(IRedisClientsManagerAsync redisClientsManagerAsync)
         {
-            this.redisClientsManagerAsync = redisClientsManager;
+            this.redisClientsManagerAsync = redisClientsManagerAsync;
         }
 
         public IObservable<T> Get<T>(string key)
