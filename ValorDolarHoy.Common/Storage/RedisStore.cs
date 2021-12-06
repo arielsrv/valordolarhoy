@@ -29,7 +29,7 @@ namespace ValorDolarHoy.Common.Storage
 
         public IObservable<Unit> Put<T>(string key, T value)
         {
-            return this.Put(key, value, 0);
+            return this.Put(key, value, TimeSpan.Zero.Seconds);
         }
 
         public IObservable<Unit> Put<T>(string key, T value, int seconds)
