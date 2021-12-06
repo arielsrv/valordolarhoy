@@ -1,6 +1,5 @@
 using System;
 using System.Reactive.Linq;
-using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 using Moq;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Storage;

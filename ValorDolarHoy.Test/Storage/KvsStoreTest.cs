@@ -20,10 +20,10 @@ namespace ValorDolarHoy.Test.Storage
         [Fact]
         public void Get()
         {
-            this.redisClientManager.Setup(x => x.GetClient()).Returns(redisClient.Object);
-            this.redisClient.Setup(x => x.Get<string>("key")).Returns("value");
+            this.redisClientManager.Setup(redisClientsManager => redisClientsManager.GetClient()).Returns(redisClient.Object);
+            this.redisClient.Setup(client => client.Get<string>("key")).Returns("value");
 
-            IKvsStore kvsStore = new KvsStore(redisClientManager.Object);
+            IKvsStore kvsStore = new KvsStore(this.redisClientManager.Object);
 
             string actual = kvsStore.Get<string>("key").Wait();
 
@@ -33,10 +33,10 @@ namespace ValorDolarHoy.Test.Storage
         [Fact]
         public void Add()
         {
-            this.redisClientManager.Setup(x => x.GetClient()).Returns(redisClient.Object);
-            this.redisClient.Setup(x => x.Set("key", "value")).Returns(true);
+            this.redisClientManager.Setup(redisClientsManager => redisClientsManager.GetClient()).Returns(redisClient.Object);
+            this.redisClient.Setup(client => client.Set("key", "value")).Returns(true);
 
-            IKvsStore kvsStore = new KvsStore(redisClientManager.Object);
+            IKvsStore kvsStore = new KvsStore(this.redisClientManager.Object);
 
             kvsStore.Put("key", "value").Wait();
         }
