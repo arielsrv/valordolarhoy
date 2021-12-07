@@ -74,7 +74,7 @@ namespace ValorDolarHoy.Test
             Dictionary<string, ItemDto> itemDtos = new()
             {
                 { itemDto1.Id, itemDto1 },
-                { itemDto2.Id, itemDto2 },
+                { itemDto2.Id, itemDto2 }
             };
 
             ItemDto itemDto = itemDtos[itemId];
