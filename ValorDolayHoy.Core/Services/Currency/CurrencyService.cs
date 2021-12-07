@@ -83,7 +83,7 @@ namespace ValorDolarHoy.Services.Currency
                     ? Observable.Return(currencyDto)
                     : GetFromApi().Map(response =>
                     {
-                        this.executorService.Run(() => this.keyValueStore.Put(cacheKey, response, 60 * 1).Wait()); // mm * ss
+                        this.executorService.Run(() => this.keyValueStore.Put(cacheKey, response, 60 * 10).Wait()); // mm * ss
                         return response;
                     });
             });
