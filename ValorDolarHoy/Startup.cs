@@ -15,24 +15,31 @@ namespace ValorDolarHoy
 {
     public class Startup
     {
+        private readonly IConfiguration configuration;
+
         public Startup(IConfiguration configuration)
         {
+            this.configuration = configuration;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(swaggerGenOptions =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ValorDolarHoy", Version = "v1" });
+                swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "ValorDolarHoy", Version = "v1" });
             });
 
             // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+            services.AddSpaStaticFiles(spaStaticFilesOptions =>
+            {
+                spaStaticFilesOptions.RootPath = "ClientApp/build";
+            });
 
-            services.AddClients();
-            services.AddServices();
+            services
+                .AddClients()
+                .AddServices(configuration);
 
             services
                 .AddMvc()

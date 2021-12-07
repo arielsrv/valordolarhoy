@@ -1,4 +1,5 @@
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 using Polly;
 using ServiceStack.Redis;
 using ValorDolarHoy.Clients.Currency;
@@ -9,15 +10,17 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class IServiceCollectionsExtensions
     {
-        public static void AddServices(this IServiceCollection services)
+        public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<CurrencyService>();
             services.AddSingleton<IKeyValueStore, RedisStore>();
             services.AddSingleton<IRedisClientsManagerAsync, PooledRedisClientManager>(_ =>
-                new PooledRedisClientManager("402639d6804af2a7bce70236e2ec3240@pike.redistogo.com:10753"));
+                new PooledRedisClientManager(configuration["Storage:Redis"]));
+
+            return services;
         }
 
-        public static void AddClients(this IServiceCollection services)
+        public static IServiceCollection AddClients(this IServiceCollection services)
         {
             services.AddHttpClient<ICurrencyClient, CurrencyClient>()
                 .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
@@ -25,6 +28,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     MaxConnectionsPerServer = 20
                 })
                 .AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(20, int.MaxValue));
+
+            return services;
         }
     }
 }
