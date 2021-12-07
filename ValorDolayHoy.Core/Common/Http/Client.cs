@@ -34,6 +34,7 @@ namespace ValorDolarHoy.Common
                     throw httpResponseMessage.StatusCode switch
                     {
                         HttpStatusCode.NotFound => new ApiNotFoundException("Not found: " + requestUri),
+                        HttpStatusCode.BadRequest => new ApiBadRequestException("Not found: " + requestUri),
                         _ => new ApiException(httpResponseMessage.ReasonPhrase)
                     };
                 }

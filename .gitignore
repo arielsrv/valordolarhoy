@@ -231,5 +231,11 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 
-#OpenCover
+# OpenCover
 **/CodeCoverage*/
+
+# macOS
+/.DS_Store
+
+# Rider
+/.idea

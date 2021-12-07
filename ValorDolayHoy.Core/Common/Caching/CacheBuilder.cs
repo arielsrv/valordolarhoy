@@ -5,7 +5,6 @@ namespace ValorDolarHoy.Common.Caching
 {
     public class CacheBuilder<TKey, TValue>
     {
-        private IMemoryCache memoryCache;
         private int size;
         private TimeSpan timeSpan;
 
@@ -28,12 +27,8 @@ namespace ValorDolarHoy.Common.Caching
 
         public ICache<TKey, TValue> Build()
         {
-            this.memoryCache = new MemoryCache(new MemoryCacheOptions
-            {
-                SizeLimit = this.size
-            });
-
-            return new Cache<TKey, TValue>(this.memoryCache, this.timeSpan, this.size);
+            MemoryCache memoryCache = new(new MemoryCacheOptions { SizeLimit = this.size });
+            return new Cache<TKey, TValue>(memoryCache, this.timeSpan, this.size);
         }
     }
 

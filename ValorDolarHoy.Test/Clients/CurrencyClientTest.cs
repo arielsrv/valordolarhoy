@@ -48,6 +48,21 @@ namespace ValorDolarHoy.Test.Clients.Currency
 
             Assert.Throws<ApiNotFoundException>(() => currencyClient.Get().Wait());
         }
+        
+        [Fact]
+        public void Get_Latest_Bad_Request()
+        {
+            this.httpClient
+                .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.BadRequest
+                });
+
+            CurrencyClient currencyClient = new(this.httpClient.Object);
+
+            Assert.Throws<ApiBadRequestException>(() => currencyClient.Get().Wait());
+        }
 
         [Fact]
         public void Get_Latest_Generic_Error()

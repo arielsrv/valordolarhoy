@@ -45,7 +45,7 @@ namespace ValorDolarHoy.Test.Services.Currency
 
             CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object)
             {
-                appCache = this.appCache.Object
+                AppCache = this.appCache.Object
             };
             
             CurrencyDto currencyDto = currencyService.GetLatest().Wait();
