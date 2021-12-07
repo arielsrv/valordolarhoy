@@ -1,4 +1,4 @@
-namespace ValorDolarHoy.Services.Clients.Currency
+namespace ValorDolarHoy.Clients.Currency
 {
     public class CurrencyResponse
     {

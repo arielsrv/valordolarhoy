@@ -3,11 +3,11 @@ using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading;
 using Moq;
+using ValorDolarHoy.Clients.Currency;
 using ValorDolarHoy.Common.Exceptions;
-using ValorDolarHoy.Services.Clients.Currency;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Clients
+namespace ValorDolarHoy.Test.Clients.Currency
 {
     public class CurrencyClientTest
     {

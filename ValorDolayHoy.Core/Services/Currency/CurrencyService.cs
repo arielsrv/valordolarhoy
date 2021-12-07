@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Observable.Aliases;
+using ValorDolarHoy.Clients.Currency;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Storage;
-using ValorDolarHoy.Common.Thread;
-using ValorDolarHoy.Services.Clients.Currency;
+using ValorDolarHoy.Common.Threading;
 
 namespace ValorDolarHoy.Services.Currency
 {

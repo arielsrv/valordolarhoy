@@ -1,9 +1,9 @@
 using System;
 using System.Reactive.Linq;
 using Moq;
+using ValorDolarHoy.Clients.Currency;
 using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Storage;
-using ValorDolarHoy.Services.Clients.Currency;
 using ValorDolarHoy.Services.Currency;
 using Xunit;
 

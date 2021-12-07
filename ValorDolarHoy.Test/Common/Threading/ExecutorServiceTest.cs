@@ -1,8 +1,9 @@
+
 using System.Threading;
-using ValorDolarHoy.Common.Thread;
+using ValorDolarHoy.Common.Threading;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Common
+namespace ValorDolarHoy.Test.Common.Threading
 {
     public class ExecutorServiceTest
     {

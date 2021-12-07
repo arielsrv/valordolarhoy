@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Threading;
 using Polly;
 using Polly.Bulkhead;
 
-namespace ValorDolarHoy.Common.Thread
+namespace ValorDolarHoy.Common.Threading
 {
     public class ExecutorService
     {

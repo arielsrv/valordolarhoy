@@ -2,17 +2,15 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy", "ValorDolarHoy\ValorDolarHoy.csproj", "{9CCEF262-3CC6-4D23-98D8-AE4CE41FF561}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy.Services", "ValorDolarHoy.Services\ValorDolarHoy.Services.csproj", "{0783926A-0B19-4CD8-81C4-BA037D618075}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy.Common", "ValorDolarHoy.Common\ValorDolarHoy.Common.csproj", "{9F3EAD16-3A21-443A-892D-6B4FEDB642D8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy.Test", "ValorDolarHoy.Test\ValorDolarHoy.Test.csproj", "{7AD72DF8-1821-4272-92DE-4079FBA84859}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{658D1138-6461-4024-A695-D483604E9D39}"
 ProjectSection(SolutionItems) = preProject
 	coverage.sh = coverage.sh
-	.editorconfig = .editorconfig 
+	.editorconfig = .editorconfig
 EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolayHoy.Core", "ValorDolayHoy.Core\ValorDolayHoy.Core.csproj", "{81799879-8A00-45B4-BEB6-78EE2C198EE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,17 +22,13 @@ Global
 		{9CCEF262-3CC6-4D23-98D8-AE4CE41FF561}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CCEF262-3CC6-4D23-98D8-AE4CE41FF561}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CCEF262-3CC6-4D23-98D8-AE4CE41FF561}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0783926A-0B19-4CD8-81C4-BA037D618075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0783926A-0B19-4CD8-81C4-BA037D618075}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0783926A-0B19-4CD8-81C4-BA037D618075}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0783926A-0B19-4CD8-81C4-BA037D618075}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F3EAD16-3A21-443A-892D-6B4FEDB642D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F3EAD16-3A21-443A-892D-6B4FEDB642D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F3EAD16-3A21-443A-892D-6B4FEDB642D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F3EAD16-3A21-443A-892D-6B4FEDB642D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7AD72DF8-1821-4272-92DE-4079FBA84859}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7AD72DF8-1821-4272-92DE-4079FBA84859}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AD72DF8-1821-4272-92DE-4079FBA84859}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AD72DF8-1821-4272-92DE-4079FBA84859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81799879-8A00-45B4-BEB6-78EE2C198EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81799879-8A00-45B4-BEB6-78EE2C198EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81799879-8A00-45B4-BEB6-78EE2C198EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81799879-8A00-45B4-BEB6-78EE2C198EE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

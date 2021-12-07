@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ValorDolarHoy.Services\ValorDolarHoy.Services.csproj" />
+      <ProjectReference Include="..\ValorDolayHoy.Core\ValorDolayHoy.Core.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

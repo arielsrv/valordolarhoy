@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Extensions
+namespace ValorDolarHoy.Test.Common.Extensions
 {
     public class StringExtensionsTest
     {
