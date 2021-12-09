@@ -4,18 +4,21 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reactive.Linq;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ValorDolarHoy.Common.Exceptions;
 
 namespace ValorDolarHoy.Common
 {
-    public class Client : HttpClient
+    public class Client: HttpClient
     {
         private readonly HttpClient httpClient;
+        private readonly ILogger<Client> logger;
 
-        protected Client(HttpClient httpClient)
+        protected Client(HttpClient httpClient, ILogger<Client> logger)
         {
             this.httpClient = httpClient;
+            this.logger = logger;
         }
 
         protected IObservable<T> Get<T>(string requestUri)
@@ -31,10 +34,12 @@ namespace ValorDolarHoy.Common
 
                 if (!httpResponseMessage.IsSuccessStatusCode)
                 {
+                    this.logger.LogError(
+                        $"Request failed with uri {requestUri}. Status code: {(int)httpResponseMessage.StatusCode}. Raw message: {response}. ");
                     throw httpResponseMessage.StatusCode switch
                     {
-                        HttpStatusCode.NotFound => new ApiNotFoundException("Not found: " + requestUri),
-                        HttpStatusCode.BadRequest => new ApiBadRequestException("Not found: " + requestUri),
+                        HttpStatusCode.NotFound => new ApiNotFoundException("Not found, " + requestUri),
+                        HttpStatusCode.BadRequest => new ApiBadRequestException("Bad request, " + requestUri),
                         _ => new ApiException(httpResponseMessage.ReasonPhrase)
                     };
                 }

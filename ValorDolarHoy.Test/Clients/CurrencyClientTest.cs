@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ValorDolarHoy.Clients.Currency;
 using ValorDolarHoy.Common.Exceptions;
@@ -12,11 +13,13 @@ namespace ValorDolarHoy.Test.Clients.Currency
     public class CurrencyClientTest
     {
         private readonly Mock<HttpClient> httpClient;
+        private readonly Mock<ILogger<CurrencyClient>> logger;
 
         public CurrencyClientTest()
         {
             Startup.JsonSerializerSettings();
             this.httpClient = new Mock<HttpClient>();
+            this.logger = new Mock<ILogger<CurrencyClient>>();
         }
 
         [Fact]
@@ -26,7 +29,7 @@ namespace ValorDolarHoy.Test.Clients.Currency
                 .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(GetResponse());
 
-            CurrencyClient currencyClient = new(this.httpClient.Object);
+            CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
             CurrencyResponse currencyResponse = currencyClient.Get().Wait();
 
             Assert.NotNull(currencyResponse);
@@ -44,7 +47,7 @@ namespace ValorDolarHoy.Test.Clients.Currency
                     StatusCode = HttpStatusCode.NotFound
                 });
 
-            CurrencyClient currencyClient = new(this.httpClient.Object);
+            CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
 
             Assert.Throws<ApiNotFoundException>(() => currencyClient.Get().Wait());
         }
@@ -59,7 +62,7 @@ namespace ValorDolarHoy.Test.Clients.Currency
                     StatusCode = HttpStatusCode.BadRequest
                 });
 
-            CurrencyClient currencyClient = new(this.httpClient.Object);
+            CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
 
             Assert.Throws<ApiBadRequestException>(() => currencyClient.Get().Wait());
         }
@@ -74,7 +77,7 @@ namespace ValorDolarHoy.Test.Clients.Currency
                     StatusCode = HttpStatusCode.InternalServerError
                 });
 
-            CurrencyClient currencyClient = new(this.httpClient.Object);
+            CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
 
             Assert.Throws<ApiException>(() => currencyClient.Get().Wait());
         }

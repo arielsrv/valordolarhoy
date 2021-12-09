@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
 using ValorDolarHoy.Common;
 
 namespace ValorDolarHoy.Clients.Currency
@@ -11,7 +12,7 @@ namespace ValorDolarHoy.Clients.Currency
 
     public class CurrencyClient : Client, ICurrencyClient
     {
-        public CurrencyClient(HttpClient httpClient) : base(httpClient)
+        public CurrencyClient(HttpClient httpClient, ILogger<CurrencyClient> logger) : base(httpClient, logger)
         {
         }
 
