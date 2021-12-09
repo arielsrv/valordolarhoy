@@ -22,9 +22,7 @@ namespace ValorDolarHoy.Common.Threading
 
         public void Run(Action action)
         {
-            Task
-                .Run(() => { bulkheadPolicy.Execute(action); })
-                .Forget();
+            Task.Run(() => { this.bulkheadPolicy.Execute(action); }).Forget();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ValorDolarHoy.Services.Currency
         private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
 
         private readonly IKeyValueStore keyValueStore;
-        
+
         public ICache<string, CurrencyDto> AppCache { get; init; } = CacheBuilder<string, CurrencyDto>
             .NewBuilder()
             .Size(2)
