@@ -6,28 +6,27 @@ using ValorDolarHoy.Clients.Currency;
 using ValorDolarHoy.Common.Storage;
 using ValorDolarHoy.Services.Currency;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection;
+
+public static class IServiceCollectionsExtensions
 {
-    public static class IServiceCollectionsExtensions
+    public static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        public static void AddServices(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddSingleton<CurrencyService>();
-            services.AddSingleton<IKeyValueStore, RedisStore>();
-            services.AddSingleton<IRedisClientsManagerAsync, PooledRedisClientManager>(_ =>
-                new PooledRedisClientManager(configuration["Storage:Redis"]));
-        }
+        services.AddSingleton<CurrencyService>();
+        services.AddSingleton<IKeyValueStore, RedisStore>();
+        services.AddSingleton<IRedisClientsManagerAsync, PooledRedisClientManager>(_ =>
+            new PooledRedisClientManager(configuration["Storage:Redis"]));
+    }
 
-        public static IServiceCollection AddClients(this IServiceCollection services)
-        {
-            services.AddHttpClient<ICurrencyClient, CurrencyClient>()
-                .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-                {
-                    MaxConnectionsPerServer = 20
-                })
-                .AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(20, int.MaxValue));
+    public static IServiceCollection AddClients(this IServiceCollection services)
+    {
+        services.AddHttpClient<ICurrencyClient, CurrencyClient>()
+            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            {
+                MaxConnectionsPerServer = 20
+            })
+            .AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(20, int.MaxValue));
 
-            return services;
-        }
+        return services;
     }
 }

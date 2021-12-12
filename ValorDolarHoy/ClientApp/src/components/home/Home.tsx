@@ -1,7 +1,7 @@
 import * as React from 'react';
 import httpClient from 'axios';
-import { connect } from 'react-redux';
-import { CurrencyDto } from "./CurrencyDto";
+import {connect} from 'react-redux';
+import {CurrencyDto} from "./CurrencyDto";
 
 function isLoading() {
     return (

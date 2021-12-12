@@ -6,88 +6,87 @@ using ValorDolarHoy.Common.Caching;
 using ValorDolarHoy.Common.Storage;
 using ValorDolarHoy.Common.Threading;
 
-namespace ValorDolarHoy.Services.Currency
+namespace ValorDolarHoy.Services.Currency;
+
+public class CurrencyService
 {
-    public class CurrencyService
+    private readonly ICurrencyClient currencyClient;
+
+    private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
+
+    private readonly IKeyValueStore keyValueStore;
+
+    public CurrencyService(
+        ICurrencyClient currencyClient,
+        IKeyValueStore keyValueStore
+    )
     {
-        private readonly ICurrencyClient currencyClient;
+        this.currencyClient = currencyClient;
+        this.keyValueStore = keyValueStore;
+    }
 
-        private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
+    public ICache<string, CurrencyDto> AppCache { get; init; } = CacheBuilder<string, CurrencyDto>
+        .NewBuilder()
+        .Size(2)
+        .ExpireAfterWrite(TimeSpan.FromMinutes(1))
+        .Build();
 
-        private readonly IKeyValueStore keyValueStore;
+    public IObservable<CurrencyDto> GetLatest()
+    {
+        string cacheKey = GetCacheKey();
 
-        public ICache<string, CurrencyDto> AppCache { get; init; } = CacheBuilder<string, CurrencyDto>
-            .NewBuilder()
-            .Size(2)
-            .ExpireAfterWrite(TimeSpan.FromMinutes(1))
-            .Build();
+        CurrencyDto currencyDto = this.AppCache.GetIfPresent(cacheKey);
 
-        public CurrencyService(
-            ICurrencyClient currencyClient,
-            IKeyValueStore keyValueStore
-        )
+        return currencyDto != null
+            ? Observable.Return(currencyDto)
+            : this.GetFromApi().Map(response =>
+            {
+                this.executorService.Run(() => this.AppCache.Put(cacheKey, response));
+                return response;
+            });
+    }
+
+    private IObservable<CurrencyDto> GetFromApi()
+    {
+        return this.currencyClient.Get().Map(currencyResponse =>
         {
-            this.currencyClient = currencyClient;
-            this.keyValueStore = keyValueStore;
-        }
+            CurrencyDto currencyDto = new()
+            {
+                Official = new CurrencyDto.OficialDto
+                {
+                    Buy = currencyResponse.oficial.ValueBuy,
+                    Sell = currencyResponse.oficial.ValueSell
+                },
+                Blue = new CurrencyDto.BlueDto
+                {
+                    Buy = currencyResponse.blue.ValueBuy,
+                    Sell = currencyResponse.blue.ValueSell
+                }
+            };
 
-        public IObservable<CurrencyDto> GetLatest()
+            return currencyDto;
+        });
+    }
+
+    private static string GetCacheKey()
+    {
+        return "bluelytics:v1";
+    }
+
+    public IObservable<CurrencyDto> GetFallback()
+    {
+        string cacheKey = GetCacheKey();
+
+        return this.keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
         {
-            string cacheKey = GetCacheKey();
-
-            CurrencyDto currencyDto = this.AppCache.GetIfPresent(cacheKey);
-
             return currencyDto != null
                 ? Observable.Return(currencyDto)
-                : GetFromApi().Map(response =>
+                : this.GetFromApi().Map(response =>
                 {
-                    this.executorService.Run(() => this.AppCache.Put(cacheKey, response));
+                    this.executorService.Run(() =>
+                        this.keyValueStore.Put(cacheKey, response, 60 * 10).Wait()); // mm * ss
                     return response;
                 });
-        }
-
-        private IObservable<CurrencyDto> GetFromApi()
-        {
-            return this.currencyClient.Get().Map(currencyResponse =>
-            {
-                CurrencyDto currencyDto = new()
-                {
-                    Official = new CurrencyDto.OficialDto
-                    {
-                        Buy = currencyResponse.oficial.ValueBuy,
-                        Sell = currencyResponse.oficial.ValueSell
-                    },
-                    Blue = new CurrencyDto.BlueDto
-                    {
-                        Buy = currencyResponse.blue.ValueBuy,
-                        Sell = currencyResponse.blue.ValueSell
-                    }
-                };
-
-                return currencyDto;
-            });
-        }
-
-        private static string GetCacheKey()
-        {
-            return "bluelytics:v1";
-        }
-
-        public IObservable<CurrencyDto> GetFallback()
-        {
-            string cacheKey = GetCacheKey();
-
-            return this.keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
-            {
-                return currencyDto != null
-                    ? Observable.Return(currencyDto)
-                    : GetFromApi().Map(response =>
-                    {
-                        this.executorService.Run(() =>
-                            this.keyValueStore.Put(cacheKey, response, 60 * 10).Wait()); // mm * ss
-                        return response;
-                    });
-            });
-        }
+        });
     }
 }

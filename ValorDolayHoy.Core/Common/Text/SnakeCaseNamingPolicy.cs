@@ -1,10 +1,12 @@
 using System;
 using System.Text.Json;
 
-namespace ValorDolarHoy.Common.Text
+namespace ValorDolarHoy.Common.Text;
+
+public class SnakeCaseNamingPolicy : JsonNamingPolicy
 {
-    public class SnakeCaseNamingPolicy : JsonNamingPolicy
+    public override string ConvertName(string name)
     {
-        public override string ConvertName(string name) => name.ToSnakeCase();
+        return name.ToSnakeCase();
     }
 }

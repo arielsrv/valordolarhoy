@@ -1,19 +1,15 @@
 using Newtonsoft.Json.Serialization;
 
-namespace System
+namespace System;
+
+public static class StringExtensions
 {
-    public static class StringExtensions
+    private static readonly SnakeCaseNamingStrategy snakeCaseNamingStrategy = new();
+
+    public static string ToSnakeCase(this string value)
     {
-        private static readonly SnakeCaseNamingStrategy snakeCaseNamingStrategy = new();
+        if (value == null) throw new ArgumentNullException(nameof(value));
 
-        public static string ToSnakeCase(this string value)
-        {
-            if (value == null)
-            {
-                throw new ArgumentNullException(nameof(value));
-            }
-
-            return snakeCaseNamingStrategy.GetPropertyName(value, false);
-        }
+        return snakeCaseNamingStrategy.GetPropertyName(value, false);
     }
 }

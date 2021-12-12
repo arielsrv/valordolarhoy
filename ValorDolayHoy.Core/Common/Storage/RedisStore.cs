@@ -4,44 +4,43 @@ using System.Reactive.Linq;
 using ServiceStack.Caching;
 using ServiceStack.Redis;
 
-namespace ValorDolarHoy.Common.Storage
+namespace ValorDolarHoy.Common.Storage;
+
+public class RedisStore : IKeyValueStore
 {
-    public class RedisStore : IKeyValueStore
+    private readonly IRedisClientsManagerAsync redisClientsManagerAsync;
+
+    public RedisStore(IRedisClientsManagerAsync redisClientsManagerAsync)
     {
-        private readonly IRedisClientsManagerAsync redisClientsManagerAsync;
+        this.redisClientsManagerAsync = redisClientsManagerAsync;
+    }
 
-        public RedisStore(IRedisClientsManagerAsync redisClientsManagerAsync)
+    public IObservable<T> Get<T>(string key)
+    {
+        return Observable.Create(async (IObserver<T> observer) =>
         {
-            this.redisClientsManagerAsync = redisClientsManagerAsync;
-        }
+            await using ICacheClientAsync cacheClientAsync = await this.redisClientsManagerAsync.GetCacheClientAsync();
+            T result = await cacheClientAsync.GetAsync<T>(key);
 
-        public IObservable<T> Get<T>(string key)
+            observer.OnNext(result);
+            observer.OnCompleted();
+        });
+    }
+
+    public IObservable<Unit> Put<T>(string key, T value)
+    {
+        return this.Put(key, value, TimeSpan.Zero.Seconds);
+    }
+
+    public IObservable<Unit> Put<T>(string key, T value, int seconds)
+    {
+        return Observable.Create(async (IObserver<Unit> observer) =>
         {
-            return Observable.Create(async (IObserver<T> observer) =>
-            {
-                await using ICacheClientAsync cacheClientAsync = await redisClientsManagerAsync.GetCacheClientAsync();
-                T result = await cacheClientAsync.GetAsync<T>(key);
+            await using ICacheClientAsync cacheClientAsync = await this.redisClientsManagerAsync.GetCacheClientAsync();
+            await cacheClientAsync.SetAsync(key, value, TimeSpan.FromSeconds(seconds));
 
-                observer.OnNext(result);
-                observer.OnCompleted();
-            });
-        }
-
-        public IObservable<Unit> Put<T>(string key, T value)
-        {
-            return this.Put(key, value, TimeSpan.Zero.Seconds);
-        }
-
-        public IObservable<Unit> Put<T>(string key, T value, int seconds)
-        {
-            return Observable.Create(async (IObserver<Unit> observer) =>
-            {
-                await using ICacheClientAsync cacheClientAsync = await redisClientsManagerAsync.GetCacheClientAsync();
-                await cacheClientAsync.SetAsync(key, value, TimeSpan.FromSeconds(seconds));
-
-                observer.OnNext(new Unit());
-                observer.OnCompleted();
-            });
-        }
+            observer.OnNext(new Unit());
+            observer.OnCompleted();
+        });
     }
 }

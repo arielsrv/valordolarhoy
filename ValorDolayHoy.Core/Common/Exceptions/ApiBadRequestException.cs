@@ -1,25 +1,24 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace ValorDolarHoy.Common.Exceptions
+namespace ValorDolarHoy.Common.Exceptions;
+
+[Serializable]
+public class ApiBadRequestException : Exception
 {
-    [Serializable]
-    public class ApiBadRequestException : Exception
+    public ApiBadRequestException()
     {
-        public ApiBadRequestException()
-        {
-        }
+    }
 
-        protected ApiBadRequestException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected ApiBadRequestException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
 
-        public ApiBadRequestException(string message) : base(message)
-        {
-        }
+    public ApiBadRequestException(string message) : base(message)
+    {
+    }
 
-        public ApiBadRequestException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
+    public ApiBadRequestException(string message, Exception innerException) : base(message, innerException)
+    {
     }
 }

@@ -5,46 +5,45 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using ValorDolarHoy.Common.Exceptions;
 
-namespace ValorDolarHoy.Middlewares
+namespace ValorDolarHoy.Middlewares;
+
+public class ErrorHandlerMiddleware
 {
-    public class ErrorHandlerMiddleware
+    private readonly RequestDelegate next;
+
+    public ErrorHandlerMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate next;
+        this.next = next;
+    }
 
-        public ErrorHandlerMiddleware(RequestDelegate next)
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
         {
-            this.next = next;
+            await this.next(context);
         }
-
-        public async Task InvokeAsync(HttpContext context)
+        catch (Exception error)
         {
-            try
+            HttpResponse httpResponse = context.Response;
+            httpResponse.ContentType = "application/json";
+
+            httpResponse.StatusCode = error switch
             {
-                await this.next(context);
-            }
-            catch (Exception error)
+                ApiBadRequestException => (int)HttpStatusCode.BadRequest,
+                ApiNotFoundException => (int)HttpStatusCode.NotFound,
+
+                _ => (int)HttpStatusCode.InternalServerError
+            };
+
+            string result = JsonConvert.SerializeObject(new
             {
-                HttpResponse httpResponse = context.Response;
-                httpResponse.ContentType = "application/json";
+                Code = httpResponse.StatusCode,
+                Type = error.GetType().Name,
+                error.Message,
+                Detail = error.StackTrace
+            });
 
-                httpResponse.StatusCode = error switch
-                {
-                    ApiBadRequestException => (int)HttpStatusCode.BadRequest,
-                    ApiNotFoundException => (int)HttpStatusCode.NotFound,
-
-                    _ => (int)HttpStatusCode.InternalServerError
-                };
-
-                string result = JsonConvert.SerializeObject(new
-                {
-                    Code = httpResponse.StatusCode,
-                    Type = error.GetType().Name,
-                    error.Message,
-                    Detail = error.StackTrace
-                });
-
-                await httpResponse.WriteAsync(result);
-            }
+            await httpResponse.WriteAsync(result);
         }
     }
 }
