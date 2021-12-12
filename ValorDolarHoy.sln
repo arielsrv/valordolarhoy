@@ -1,17 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy", "ValorDolarHoy\ValorDolarHoy.csproj", "{9CCEF262-3CC6-4D23-98D8-AE4CE41FF561}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValorDolarHoy", "ValorDolarHoy\ValorDolarHoy.csproj", "{9CCEF262-3CC6-4D23-98D8-AE4CE41FF561}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy.Test", "ValorDolarHoy.Test\ValorDolarHoy.Test.csproj", "{7AD72DF8-1821-4272-92DE-4079FBA84859}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValorDolarHoy.Test", "ValorDolarHoy.Test\ValorDolarHoy.Test.csproj", "{7AD72DF8-1821-4272-92DE-4079FBA84859}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{658D1138-6461-4024-A695-D483604E9D39}"
-ProjectSection(SolutionItems) = preProject
-	coverage.sh = coverage.sh
-	.editorconfig = .editorconfig
-	.gitignore = .gitignore
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		coverage.sh = coverage.sh
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolayHoy.Core", "ValorDolayHoy.Core\ValorDolayHoy.Core.csproj", "{81799879-8A00-45B4-BEB6-78EE2C198EE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValorDolayHoy.Core", "ValorDolayHoy.Core\ValorDolayHoy.Core.csproj", "{81799879-8A00-45B4-BEB6-78EE2C198EE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValorDolarHoy.Web", "ValorDolarHoy.Web\ValorDolarHoy.Web.csproj", "{3CA3C886-7DAB-493C-91D9-12B6C032DE24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,5 +36,15 @@ Global
 		{81799879-8A00-45B4-BEB6-78EE2C198EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81799879-8A00-45B4-BEB6-78EE2C198EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81799879-8A00-45B4-BEB6-78EE2C198EE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA3C886-7DAB-493C-91D9-12B6C032DE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA3C886-7DAB-493C-91D9-12B6C032DE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA3C886-7DAB-493C-91D9-12B6C032DE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA3C886-7DAB-493C-91D9-12B6C032DE24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91FDE9E1-D16B-4FBF-9AA5-07BD08CDC2A1}
 	EndGlobalSection
 EndGlobal
