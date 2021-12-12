@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{658D1138
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		coverage.sh = coverage.sh
+		build.cmd = build.cmd
+		build.sh = build.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValorDolayHoy.Core", "ValorDolayHoy.Core\ValorDolayHoy.Core.csproj", "{81799879-8A00-45B4-BEB6-78EE2C198EE4}"

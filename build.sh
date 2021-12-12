@@ -1,5 +1,5 @@
 #!/bin/bash
-( cd ValorDolarHoy/ClientApp ; npm cache verify )
+( cd ValorDolarHoy/ClientApp || exit ; npm cache verify )
 dotnet restore
 dotnet build
 ./coverage.sh
