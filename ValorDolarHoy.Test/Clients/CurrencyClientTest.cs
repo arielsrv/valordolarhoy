@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ValorDolarHoy.Clients.Currency;
 using ValorDolarHoy.Common.Exceptions;
+using ValorDolayHoy.Core.Common.Serializer;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Clients.Currency;
@@ -17,7 +18,7 @@ public class CurrencyClientTest
 
     public CurrencyClientTest()
     {
-        Startup.JsonSerializerSettings();
+        Serializer.JsonSerializerSettings();
         this.httpClient = new Mock<HttpClient>();
         this.logger = new Mock<ILogger<CurrencyClient>>();
     }

@@ -61,12 +61,5 @@
             </ResolvedFileToPublish>
         </ItemGroup>
     </Target>
-
-    <Target Name="EnsureTests" AfterTargets="Build">
-        <Exec Command="dotnet test --no-build --logger:'console;verbosity=detailed'" ContinueOnError="true">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-        </Exec>
-        <Error Condition="'$(ErrorCode)' != '0'" Text="Tests failed."/>
-    </Target>
-
+    
 </Project>
