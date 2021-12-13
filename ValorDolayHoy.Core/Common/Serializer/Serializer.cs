@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace ValorDolayHoy.Core.Common.Serializer;
 
-public class Serializer
+public static class Serializer
 {
     public static void JsonSerializerSettings()
     {
