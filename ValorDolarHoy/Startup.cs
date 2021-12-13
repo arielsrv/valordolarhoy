@@ -5,12 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using ValorDolarHoy.Common.Text;
 using ValorDolarHoy.Middlewares;
-using ValorDolayHoy.Core.Common.Serializer;
+using ValorDolayHoy.Common;
 
 namespace ValorDolarHoy;
 
