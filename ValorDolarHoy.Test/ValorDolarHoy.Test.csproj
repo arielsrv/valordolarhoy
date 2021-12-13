@@ -1,30 +1,45 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
+
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.0.64" />
-        <PackageReference Include="Moq" Version="4.16.1" />
-        <PackageReference Include="NUnit" Version="3.13.2" />
-        <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
+        <PackageReference Include="coverlet.msbuild" Version="3.1.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
+        <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.0.64"/>
+        <PackageReference Include="Moq" Version="4.16.1"/>
         <PackageReference Include="coverlet.collector" Version="3.1.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="ReportGenerator" Version="5.0.0"/>
+        <PackageReference Include="System.Reactive" Version="5.0.2"/>
+        <PackageReference Include="System.Reactive.Core" Version="5.0.2"/>
+        <PackageReference Include="System.Reactive.Interfaces" Version="5.0.2"/>
+        <PackageReference Include="System.Reactive.Linq" Version="5.0.2"/>
+        <PackageReference Include="System.Reactive.Observable.Aliases" Version="5.0.2"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
+        <PackageReference Include="xunit.analyzers" Version="0.10.0"/>
+        <PackageReference Include="xunit.core" Version="2.4.1"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ValorDolarHoy.Services\ValorDolarHoy.Services.csproj" />
-      <ProjectReference Include="..\ValorDolarHoy\ValorDolarHoy.csproj" />
+        <ProjectReference Include="..\ValorDolarHoy\ValorDolarHoy.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Services" />
+        <Folder Include="Services"/>
     </ItemGroup>
-
 </Project>

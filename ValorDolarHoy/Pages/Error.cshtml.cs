@@ -8,20 +8,17 @@ namespace ValorDolarHoy.Pages
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ErrorModel : PageModel
     {
-        private readonly ILogger<ErrorModel> logger;
-
         public ErrorModel(ILogger<ErrorModel> _logger)
         {
-            logger = _logger;
         }
 
-        public string RequestId { get; set; }
+        public string RequestId { get; private set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
 
         public void OnGet()
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            this.RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier;
         }
     }
 }

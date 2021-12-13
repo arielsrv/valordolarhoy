@@ -1,4 +1,3 @@
-using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -9,118 +8,100 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Polly;
 using ValorDolarHoy.Common.Text;
 using ValorDolarHoy.Middlewares;
-using ValorDolarHoy.Services;
-using ValorDolarHoy.Services.Clients;
 
-namespace ValorDolarHoy
+namespace ValorDolarHoy;
+
+public class Startup
 {
-    public class Startup
+    private readonly IConfiguration configuration;
+
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-        }
+        this.configuration = configuration;
+    }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllersWithViews();
+        services.AddSwaggerGen(swaggerGenOptions =>
         {
-            services.AddControllersWithViews();
-            services.AddSwaggerGen(c =>
+            swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "ValorDolarHoy", Version = "v1" });
+        });
+
+        // In production, the React files will be served from this directory
+        services.AddSpaStaticFiles(spaStaticFilesOptions => { spaStaticFilesOptions.RootPath = "ClientApp/build"; });
+
+        services
+            .AddClients()
+            .AddServices(this.configuration);
+
+        services
+            .AddMvc()
+            .AddJsonOptions(jsonOptions =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ValorDolarHoy", Version = "v1" });
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
             });
 
-            // In production, the React files will be served from this directory
-            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+        JsonSerializerSettings();
+    }
 
-            AddClients(services);
-            AddServices(services);
-
-            services
-                .AddMvc()
-                .AddJsonOptions(jsonOptions =>
-                {
-                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
-                });
-
-            JsonSerializerSettings();
-        }
-
-        public static void JsonSerializerSettings()
+    public static void JsonSerializerSettings()
+    {
+        JsonConvert.DefaultSettings = () =>
         {
-            JsonConvert.DefaultSettings = () =>
+            JsonSerializerSettings jsonSerializerSettings = new();
+
+            jsonSerializerSettings.Converters.Add(new StringEnumConverter());
+            jsonSerializerSettings.Formatting = Formatting.Indented;
+            jsonSerializerSettings.ContractResolver = new DefaultContractResolver
             {
-                JsonSerializerSettings jsonSerializerSettings = new();
-
-                jsonSerializerSettings.Converters.Add(new StringEnumConverter());
-                jsonSerializerSettings.Formatting = Formatting.Indented;
-                jsonSerializerSettings.ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                };
-
-                return jsonSerializerSettings;
+                NamingStrategy = new SnakeCaseNamingStrategy()
             };
-        }
 
-        private static void AddServices(IServiceCollection services)
+            return jsonSerializerSettings;
+        };
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
         {
-            services.AddSingleton<BluelyticsService>();
+            app.UseDeveloperExceptionPage();
         }
-
-        private static void AddClients(IServiceCollection services)
+        else
         {
-            services.AddHttpClient<IBluelyticsClient, BluelyticsClient>()
-                .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-                {
-                    MaxConnectionsPerServer = 20
-                })
-                .AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(20, int.MaxValue));
+            app.UseExceptionHandler("/Error");
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseSwagger();
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ValorDolarHoy v1"));
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseSpaStaticFiles();
+
+        app.UseRouting();
+
+        app.UseMiddleware<ErrorHandlerMiddleware>();
+
+        app.UseEndpoints(endpoints =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+            endpoints.MapControllerRoute(
+                "default",
+                "{controller}/{action=Index}/{id?}");
+        });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ValorDolarHoy v1"));
+        app.UseSpa(spa =>
+        {
+            spa.Options.SourcePath = "ClientApp";
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
-
-            app.UseRouting();
-
-            app.UseMiddleware<ErrorHandlerMiddleware>();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    "default",
-                    "{controller}/{action=Index}/{id?}");
-            });
-
-            app.UseSpa(spa =>
-            {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer("start");
-                }
-            });
-        }
+            if (env.IsDevelopment()) spa.UseReactDevelopmentServer("start");
+        });
     }
 }
