@@ -10,6 +10,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using ValorDolarHoy.Common.Text;
 using ValorDolarHoy.Middlewares;
+using ValorDolayHoy.Core.Common.Serializer;
 
 namespace ValorDolarHoy;
 
@@ -45,24 +46,7 @@ public class Startup
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
             });
 
-        JsonSerializerSettings();
-    }
-
-    public static void JsonSerializerSettings()
-    {
-        JsonConvert.DefaultSettings = () =>
-        {
-            JsonSerializerSettings jsonSerializerSettings = new();
-
-            jsonSerializerSettings.Converters.Add(new StringEnumConverter());
-            jsonSerializerSettings.Formatting = Formatting.Indented;
-            jsonSerializerSettings.ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            };
-
-            return jsonSerializerSettings;
-        };
+        Serializer.JsonSerializerSettings();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
