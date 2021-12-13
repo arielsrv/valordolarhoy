@@ -43,4 +43,11 @@
         <Folder Include="Services"/>
     </ItemGroup>
 
+    <Target Name="EnsureTests" AfterTargets="Build" Condition=" '$(env)' == 'prod'">
+        <Exec Command="dotnet test --no-build --logger:'console;verbosity=detailed'" ContinueOnError="true">
+            <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+        </Exec>
+        <Error Condition="'$(ErrorCode)' != '0'" Text="Tests failed."/>
+    </Target>
+
 </Project>
