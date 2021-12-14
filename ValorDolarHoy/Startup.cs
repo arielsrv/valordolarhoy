@@ -5,8 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using ValorDolarHoy.Extensions;
 using ValorDolarHoy.Middlewares;
-using ValorDolayHoy.Common.Serialization;
+using ValorDolayHoy.Core.Common.Serialization;
 
 namespace ValorDolarHoy;
 

@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace ValorDolarHoy.Common.Exceptions;
+namespace ValorDolayHoy.Core.Common.Exceptions;
 
 [Serializable]
 public class ApiException : Exception

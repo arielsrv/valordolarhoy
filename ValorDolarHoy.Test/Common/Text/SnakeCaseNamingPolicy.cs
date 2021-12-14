@@ -1,4 +1,4 @@
-using ValorDolarHoy.Common.Text;
+using ValorDolayHoy.Core.Common.Text;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Common.Text;

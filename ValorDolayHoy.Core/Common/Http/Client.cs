@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reactive.Linq;
 using System.Threading;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using ValorDolarHoy.Common.Exceptions;
+using ValorDolayHoy.Core.Common.Exceptions;
 
-namespace ValorDolarHoy.Common.Http;
+namespace ValorDolayHoy.Core.Common.Http;
 
 public class Client : HttpClient
 {

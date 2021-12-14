@@ -1,7 +1,7 @@
 using System;
 using System.Reactive;
 
-namespace ValorDolarHoy.Common.Storage;
+namespace ValorDolayHoy.Core.Common.Storage;
 
 public interface IKeyValueStore
 {

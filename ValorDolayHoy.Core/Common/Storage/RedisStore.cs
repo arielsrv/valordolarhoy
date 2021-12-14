@@ -1,10 +1,10 @@
+using ServiceStack.Caching;
+using ServiceStack.Redis;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using ServiceStack.Caching;
-using ServiceStack.Redis;
 
-namespace ValorDolarHoy.Common.Storage;
+namespace ValorDolayHoy.Core.Common.Storage;
 
 public class RedisStore : IKeyValueStore
 {
