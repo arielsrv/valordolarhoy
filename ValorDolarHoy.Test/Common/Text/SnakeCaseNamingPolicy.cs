@@ -1,7 +1,7 @@
-using ValorDolarHoy.Common.Text;
+using ValorDolayHoy.Core.Common.Text;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Text;
+namespace ValorDolarHoy.Test.Common.Text;
 
 public class SnakeCaseNamingPolicyTest
 {

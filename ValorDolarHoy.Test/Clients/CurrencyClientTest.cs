@@ -1,15 +1,15 @@
+using Microsoft.Extensions.Logging;
+using Moq;
 using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading;
-using Microsoft.Extensions.Logging;
-using Moq;
-using ValorDolarHoy.Clients.Currency;
-using ValorDolarHoy.Common.Exceptions;
-using ValorDolayHoy.Common;
+using ValorDolayHoy.Core.Clients.Currency;
+using ValorDolayHoy.Core.Common.Exceptions;
+using ValorDolayHoy.Core.Common.Serialization;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Clients.Currency;
+namespace ValorDolarHoy.Test.Clients;
 
 public class CurrencyClientTest
 {

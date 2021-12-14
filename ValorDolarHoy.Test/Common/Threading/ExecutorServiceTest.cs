@@ -1,5 +1,5 @@
 using System.Threading;
-using ValorDolarHoy.Common.Threading;
+using ValorDolayHoy.Core.Common.Threading;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Common.Threading;

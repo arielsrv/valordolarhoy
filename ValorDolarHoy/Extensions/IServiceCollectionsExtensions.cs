@@ -1,12 +1,13 @@
-using System.Net.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using ServiceStack.Redis;
-using ValorDolarHoy.Clients.Currency;
-using ValorDolarHoy.Common.Storage;
-using ValorDolarHoy.Services.Currency;
+using System.Net.Http;
+using ValorDolayHoy.Core.Clients.Currency;
+using ValorDolayHoy.Core.Common.Storage;
+using ValorDolayHoy.Core.Services.Currency;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace ValorDolarHoy.Extensions;
 
 public static class IServiceCollectionsExtensions
 {

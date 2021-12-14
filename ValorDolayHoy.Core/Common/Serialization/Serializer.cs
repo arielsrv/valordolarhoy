@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace ValorDolayHoy.Common;
+namespace ValorDolayHoy.Core.Common.Serialization;
 
 public static class Serializer
 {

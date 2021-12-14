@@ -1,6 +1,7 @@
 using Newtonsoft.Json.Serialization;
+using System;
 
-namespace System;
+namespace ValorDolayHoy.Core.Common.Extensions;
 
 public static class StringExtensions
 {

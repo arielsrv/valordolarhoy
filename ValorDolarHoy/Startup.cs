@@ -5,9 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using ValorDolarHoy.Common.Text;
+using ValorDolarHoy.Extensions;
 using ValorDolarHoy.Middlewares;
-using ValorDolayHoy.Common;
+using ValorDolayHoy.Core.Common.Serialization;
+using ValorDolayHoy.Core.Common.Text;
 
 namespace ValorDolarHoy;
 

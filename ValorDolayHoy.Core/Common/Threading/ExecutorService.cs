@@ -1,10 +1,10 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.Threading;
 using Polly;
 using Polly.Bulkhead;
+using System;
+using System.Threading.Tasks;
 
-namespace ValorDolarHoy.Common.Threading;
+namespace ValorDolayHoy.Core.Common.Threading;
 
 public class ExecutorService
 {

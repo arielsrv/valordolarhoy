@@ -1,7 +1,7 @@
-using System;
 using Microsoft.Extensions.Caching.Memory;
+using System;
 
-namespace ValorDolarHoy.Common.Caching;
+namespace ValorDolayHoy.Core.Common.Caching;
 
 public class CacheBuilder<TKey, TValue>
 {

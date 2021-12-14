@@ -1,10 +1,10 @@
+using Moq;
 using System;
 using System.Reactive.Linq;
-using Moq;
-using ValorDolarHoy.Clients.Currency;
-using ValorDolarHoy.Common.Caching;
-using ValorDolarHoy.Common.Storage;
-using ValorDolarHoy.Services.Currency;
+using ValorDolayHoy.Core.Clients.Currency;
+using ValorDolayHoy.Core.Common.Caching;
+using ValorDolayHoy.Core.Common.Storage;
+using ValorDolayHoy.Core.Services.Currency;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Services.Currency;
