@@ -5,9 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using ValorDolarHoy.Common.Text;
 using ValorDolarHoy.Middlewares;
-using ValorDolayHoy.Common;
+using ValorDolayHoy.Common.Serialization;
 
 namespace ValorDolarHoy;
 
@@ -35,13 +34,6 @@ public class Startup
         services
             .AddClients()
             .AddServices(this.configuration);
-
-        services
-            .AddMvc()
-            .AddJsonOptions(jsonOptions =>
-            {
-                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
-            });
 
         Serializer.JsonSerializerSettings();
     }

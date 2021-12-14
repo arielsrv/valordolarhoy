@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 using Microsoft.Extensions.Logging;
-using ValorDolarHoy.Common;
+using ValorDolarHoy.Common.Http;
 
 namespace ValorDolarHoy.Clients.Currency;
 

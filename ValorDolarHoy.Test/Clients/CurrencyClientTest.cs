@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ValorDolarHoy.Clients.Currency;
 using ValorDolarHoy.Common.Exceptions;
-using ValorDolayHoy.Common;
+using ValorDolayHoy.Common.Serialization;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Clients.Currency;

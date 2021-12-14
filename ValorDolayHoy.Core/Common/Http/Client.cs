@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ValorDolarHoy.Common.Exceptions;
 
-namespace ValorDolarHoy.Common;
+namespace ValorDolarHoy.Common.Http;
 
 public class Client : HttpClient
 {
