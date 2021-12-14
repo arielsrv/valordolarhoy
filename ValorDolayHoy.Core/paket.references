@@ -1,0 +1,11 @@
+Microsoft.Extensions.Caching.Memory
+Microsoft.VisualStudio.Threading
+Newtonsoft.Json
+Polly
+ServiceStack.Redis
+StackExchange.Redis.Extensions.Core
+System.Reactive
+System.Reactive.Core
+System.Reactive.Interfaces
+System.Reactive.Linq
+System.Reactive.Observable.Aliases

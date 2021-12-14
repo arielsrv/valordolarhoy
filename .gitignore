@@ -241,3 +241,7 @@ _Pvt_Extensions
 /.idea
 /.run
 
+# Paket dependency manager
+.paket/
+paket-files/
+

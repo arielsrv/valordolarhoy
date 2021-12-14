@@ -1,0 +1,28 @@
+source https://pkgs.dev.azure.com/dotnet/Rx.NET/_packaging/RxNet/nuget/v3/index.json
+source https://api.nuget.org/v3/index.json
+
+nuget coverlet.collector 3.1.0
+nuget coverlet.msbuild 3.1.0
+nuget Microsoft.AspNetCore.SpaServices.Extensions 6.0.0
+nuget Microsoft.Extensions.Caching.Memory 6.0.0
+nuget Microsoft.Extensions.Http.Polly 6.0.0
+nuget Microsoft.NET.Test.Sdk 17.0.0
+nuget Microsoft.OpenApi 1.2.3
+nuget Microsoft.VisualStudio.Threading 17.0.64
+nuget Moq 4.16.1
+nuget Newtonsoft.Json 13.0.1
+nuget Polly 7.2.2
+nuget ReportGenerator 5.0.0
+nuget ServiceStack.Redis 5.13.2
+nuget StackExchange.Redis.Extensions.Core 7.2.1
+nuget StackExchange.Redis.Extensions.Newtonsoft 7.2.1
+nuget Swashbuckle.AspNetCore 6.2.3
+nuget System.Reactive 5.0.2
+nuget System.Reactive.Core 5.0.2
+nuget System.Reactive.Interfaces 5.0.2
+nuget System.Reactive.Linq 5.0.2
+nuget System.Reactive.Observable.Aliases 5.0.2
+nuget xunit 2.4.1
+nuget xunit.analyzers 0.10.0
+nuget xunit.core 2.4.1
+nuget xunit.runner.visualstudio 2.4.3

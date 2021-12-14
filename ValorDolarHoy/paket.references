@@ -1,0 +1,12 @@
+Microsoft.AspNetCore.SpaServices.Extensions
+Microsoft.Extensions.Http.Polly
+Microsoft.OpenApi
+Newtonsoft.Json
+StackExchange.Redis.Extensions.Core
+StackExchange.Redis.Extensions.Newtonsoft
+Swashbuckle.AspNetCore
+System.Reactive
+System.Reactive.Core
+System.Reactive.Interfaces
+System.Reactive.Linq
+System.Reactive.Observable.Aliases
