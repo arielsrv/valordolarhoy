@@ -9,12 +9,21 @@ namespace ValorDolarHoy.Test;
 
 public class Scratch
 {
+    private readonly ItemService itemService;
+    private readonly RecommendationService recommendationService;
+
+    public Scratch()
+    {
+        this.recommendationService = new RecommendationService();
+        this.itemService = new ItemService();
+    }
+
     [Fact]
     public void Observable_Ok()
     {
-        RecommendedItemsDto recommendedItemsDto = GetRecommmendations()
+        RecommendedItemsDto recommendedItemsDto = this.recommendationService.GetRecommmendations()
             .FlatMap(recommmendationsDto => recommmendationsDto.Values)
-            .FlatMap(itemId => GetItemById(itemId)
+            .FlatMap(itemId => this.itemService.GetItemById(itemId)
                 .Map(itemDto =>
                 {
                     RecommendedItemDto recommendedItemDto = new(itemDto);
@@ -38,57 +47,64 @@ public class Scratch
         Assert.Equal("Test item 2", recommendedItemsDto.Items.Skip(1).Take(1).First().ItemDto.Title);
     }
 
-    /*
-     * Task 1
-     */
-    private static IObservable<RecommmendationsDto> GetRecommmendations()
-    {
-        RecommmendationsDto recommmendationsDto = new()
-        {
-            Values = new List<string>
-            {
-                "MLA1", "MLA2"
-            }
-        };
 
-        return Observable.Return(recommmendationsDto);
+    private class RecommendationService
+    {
+        /*
+        * Task 1
+        */
+        public IObservable<RecommmendationsDto> GetRecommmendations()
+        {
+            RecommmendationsDto recommmendationsDto = new()
+            {
+                Values = new List<string>
+                {
+                    "MLA1", "MLA2"
+                }
+            };
+
+            return Observable.Return(recommmendationsDto);
+        }
     }
 
-    /*
-     * Task 2
-     */
-    private static IObservable<ItemDto> GetItemById(string itemId)
+    private class ItemService
     {
-        ItemDto itemDto1 = new()
+        /*
+        * Task 2
+        */
+        public IObservable<ItemDto> GetItemById(string itemId)
         {
-            Id = "MLA1",
-            Title = "Test item 1"
-        };
+            ItemDto itemDto1 = new()
+            {
+                Id = "MLA1",
+                Title = "Test item 1"
+            };
 
-        ItemDto itemDto2 = new()
-        {
-            Id = "MLA2",
-            Title = "Test item 2"
-        };
+            ItemDto itemDto2 = new()
+            {
+                Id = "MLA2",
+                Title = "Test item 2"
+            };
 
-        Dictionary<string, ItemDto> itemDtos = new()
-        {
-            { itemDto1.Id, itemDto1 },
-            { itemDto2.Id, itemDto2 }
-        };
+            Dictionary<string, ItemDto> itemDtos = new()
+            {
+                { itemDto1.Id, itemDto1 },
+                { itemDto2.Id, itemDto2 }
+            };
 
-        ItemDto itemDto = itemDtos[itemId];
+            ItemDto itemDto = itemDtos[itemId];
 
-        return Observable.Return(itemDto);
+            return Observable.Return(itemDto);
+        }
     }
 }
 
-internal class RecommmendationsDto
+public class RecommmendationsDto
 {
     public List<string> Values { get; init; }
 }
 
-internal class ItemDto
+public class ItemDto
 {
     public string Id { get; init; }
     public string Title { get; init; }
