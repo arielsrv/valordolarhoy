@@ -37,6 +37,19 @@ public class CurrencyServiceTest
         Assert.Equal(12.0M, currencyDto.Blue.Buy);
         Assert.Equal(13.0M, currencyDto.Blue.Sell);
     }
+    
+    [Fact]
+    public void Get_All()
+    {
+        this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
+
+        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
+
+        string actual = currencyService.GetAll().Wait();
+
+        Assert.NotNull(actual);
+        Assert.Equal("Oficial: 11.0, Blue: 13.0", actual);
+    }
 
     [Fact]
     public void Get_Latest_Ok_From_Cache()
