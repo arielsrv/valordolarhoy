@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{B7DE
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		.github\dependabot.yml = .github\dependabot.yml
 	EndProjectSection
 EndProject
 Global
