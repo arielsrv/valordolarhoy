@@ -21,7 +21,7 @@
         <PackageReference Include="System.Reactive" Version="5.1.0-preview.183" />
         <PackageReference Include="System.Reactive.Core" Version="5.1.0-preview.183" />
         <PackageReference Include="System.Reactive.Interfaces" Version="5.1.0-preview.183" />
-        <PackageReference Include="System.Reactive.Linq" Version="5.1.0-preview.183" />
+        <PackageReference Include="System.Reactive.Linq" Version="5.1.0-preview.98" />
         <PackageReference Include="System.Reactive.Observable.Aliases" Version="5.1.0-preview.183" />
     </ItemGroup>
 
