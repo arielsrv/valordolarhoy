@@ -4,7 +4,7 @@ using System;
 using System.Reactive;
 using System.Reactive.Linq;
 
-namespace ValorDolayHoy.Core.Common.Storage;
+namespace ValorDolarHoy.Core.Common.Storage;
 
 public class RedisStore : IKeyValueStore
 {

@@ -4,7 +4,7 @@ using ServiceStack.Redis;
 using System;
 using System.Reactive.Linq;
 using System.Threading;
-using ValorDolayHoy.Core.Common.Storage;
+using ValorDolarHoy.Core.Common.Storage;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Common.Storage;

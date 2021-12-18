@@ -1,4 +1,4 @@
-namespace ValorDolayHoy.Core.Services.Currency;
+namespace ValorDolarHoy.Core.Services.Currency;
 
 public class CurrencyDto
 {

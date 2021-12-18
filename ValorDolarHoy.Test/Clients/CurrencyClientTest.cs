@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading;
-using ValorDolayHoy.Core.Clients.Currency;
-using ValorDolayHoy.Core.Common.Exceptions;
-using ValorDolayHoy.Core.Common.Serialization;
+using ValorDolarHoy.Core.Clients.Currency;
+using ValorDolarHoy.Core.Common.Exceptions;
+using ValorDolarHoy.Core.Common.Serialization;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Clients;
