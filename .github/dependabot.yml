@@ -1,6 +1,15 @@
 version: 2
 updates:
   - package-ecosystem: "nuget"
-    directory: "/"
+    directory: "/ValorDolarHoy.Test"
     schedule:
-      interval: "daily"      
+      interval: "daily" 
+  - package-ecosystem: "nuget"
+    directory: "/ValorDolarHoy.Core"
+    schedule:
+      interval: "daily" 
+  - package-ecosystem: "nuget"
+    directory: "/ValorDolarHoy"
+    schedule:
+      interval: "daily"         
+        
