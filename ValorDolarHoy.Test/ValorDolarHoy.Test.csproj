@@ -40,6 +40,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\ValorDolayHoy.Core\ValorDolayHoy.Core.csproj" />
+      <ProjectReference Include="..\ValorDolarHoy.Core\ValorDolarHoy.Core.csproj" />
     </ItemGroup>
 </Project>

@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <LangVersion>10</LangVersion>
+        <AssemblyName>ValorDolarHoy.Core</AssemblyName>
+        <RootNamespace>ValorDolarHoy.Core</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
