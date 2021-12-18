@@ -20,4 +20,10 @@ public class FallbackController : CustomControllerBase
     {
         return await this.QueryAsync(this.currencyService.GetFallback());
     }
+    
+    [HttpGet("test/zip")]
+    public async Task<IActionResult> ZipAsync()
+    {
+        return await this.QueryAsync(this.currencyService.GetAll());
+    }
 }

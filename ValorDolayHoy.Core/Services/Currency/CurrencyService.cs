@@ -89,4 +89,18 @@ public class CurrencyService
                 });
         });
     }
+
+    public IObservable<string> GetAll()
+    {
+        IObservable<CurrencyResponse> client1Observable = this.currencyClient.Get();
+        IObservable<CurrencyResponse> client2Observable = this.currencyClient.Get();
+        
+        return client1Observable.Zip(client2Observable, (currencyResponse1, currencyResponse2) =>
+        {
+            string message =
+                $"Oficial: {currencyResponse1.oficial.ValueSell}, Blue: {currencyResponse2.blue.ValueSell}";
+
+            return message;
+        });
+    }
 }
