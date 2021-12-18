@@ -12,7 +12,7 @@
         <PackageReference Include="Polly" Version="7.2.2" />
         <PackageReference Include="ServiceStack.Redis" Version="5.13.2" />
         <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="7.2.1" />
-        <PackageReference Include="System.Reactive" Version="5.1.0-preview.183" />
+        <PackageReference Include="System.Reactive" Version="5.1.0-preview.98" />
         <PackageReference Include="System.Reactive.Core" Version="5.1.0-preview.183" />
         <PackageReference Include="System.Reactive.Interfaces" Version="5.1.0-preview.183" />
         <PackageReference Include="System.Reactive.Linq" Version="5.1.0-preview.183" />
