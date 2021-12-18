@@ -7,8 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ValorDolarHoy.Extensions;
 using ValorDolarHoy.Middlewares;
-using ValorDolayHoy.Core.Common.Serialization;
-using ValorDolayHoy.Core.Common.Text;
+using ValorDolarHoy.Core.Common.Serialization;
+using ValorDolarHoy.Core.Common.Text;
 
 namespace ValorDolarHoy;
 

@@ -6,9 +6,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reactive.Linq;
 using System.Threading;
-using ValorDolayHoy.Core.Common.Exceptions;
+using ValorDolarHoy.Core.Common.Exceptions;
 
-namespace ValorDolayHoy.Core.Common.Http;
+namespace ValorDolarHoy.Core.Common.Http;
 
 public class Client : HttpClient
 {

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using ValorDolayHoy.Core.Common.Exceptions;
+using ValorDolarHoy.Core.Common.Exceptions;
 
 namespace ValorDolarHoy.Middlewares;
 

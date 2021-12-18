@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Observable.Aliases;
-using ValorDolayHoy.Core.Clients.Currency;
-using ValorDolayHoy.Core.Common.Caching;
-using ValorDolayHoy.Core.Common.Storage;
-using ValorDolayHoy.Core.Common.Threading;
+using ValorDolarHoy.Core.Clients.Currency;
+using ValorDolarHoy.Core.Common.Caching;
+using ValorDolarHoy.Core.Common.Storage;
+using ValorDolarHoy.Core.Common.Threading;
 
-namespace ValorDolayHoy.Core.Services.Currency;
+namespace ValorDolarHoy.Core.Services.Currency;
 
 public class CurrencyService
 {

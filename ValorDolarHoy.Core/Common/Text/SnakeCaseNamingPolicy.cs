@@ -1,7 +1,7 @@
 using System.Text.Json;
-using ValorDolayHoy.Core.Common.Extensions;
+using ValorDolarHoy.Core.Common.Extensions;
 
-namespace ValorDolayHoy.Core.Common.Text;
+namespace ValorDolarHoy.Core.Common.Text;
 
 public class SnakeCaseNamingPolicy : JsonNamingPolicy
 {

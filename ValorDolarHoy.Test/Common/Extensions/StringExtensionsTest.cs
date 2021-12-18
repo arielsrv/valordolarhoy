@@ -1,5 +1,5 @@
 using System;
-using ValorDolayHoy.Core.Common.Extensions;
+using ValorDolarHoy.Core.Common.Extensions;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Common.Extensions;

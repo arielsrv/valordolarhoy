@@ -1,9 +1,9 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
-using ValorDolayHoy.Core.Common.Http;
+using ValorDolarHoy.Core.Common.Http;
 
-namespace ValorDolayHoy.Core.Clients.Currency;
+namespace ValorDolarHoy.Core.Clients.Currency;
 
 public interface ICurrencyClient
 {

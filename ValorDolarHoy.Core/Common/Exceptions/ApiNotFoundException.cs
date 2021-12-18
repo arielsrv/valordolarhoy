@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace ValorDolayHoy.Core.Common.Exceptions;
+namespace ValorDolarHoy.Core.Common.Exceptions;
 
 [Serializable]
 public class ApiNotFoundException : Exception
