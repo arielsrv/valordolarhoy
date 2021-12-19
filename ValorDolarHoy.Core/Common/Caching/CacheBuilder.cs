@@ -34,7 +34,7 @@ public class CacheBuilder<TKey, TValue>
 
 public interface ICache<in TKey, TValue>
 {
-    TValue GetIfPresent(TKey key);
+    TValue? GetIfPresent(TKey key);
     void Put(TKey key, TValue value);
 }
 

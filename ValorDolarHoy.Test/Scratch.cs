@@ -23,10 +23,7 @@ public class Scratch
             .ToList()
             .Map(recommendedItemDtos =>
             {
-                RecommendedItemsDto recommendedItemsDto = new()
-                {
-                    Items = recommendedItemDtos
-                };
+                RecommendedItemsDto recommendedItemsDto = new(recommendedItemDtos);
                 return recommendedItemsDto;
             })
             .Wait();
@@ -43,13 +40,10 @@ public class Scratch
      */
     private static IObservable<RecommmendationsDto> GetRecommmendations()
     {
-        RecommmendationsDto recommmendationsDto = new()
+        RecommmendationsDto recommmendationsDto = new(new List<string>
         {
-            Values = new List<string>
-            {
-                "MLA1", "MLA2"
-            }
-        };
+            "MLA1", "MLA2"
+        });
 
         return Observable.Return(recommmendationsDto);
     }
@@ -59,17 +53,8 @@ public class Scratch
      */
     private static IObservable<ItemDto> GetItemById(string itemId)
     {
-        ItemDto itemDto1 = new()
-        {
-            Id = "MLA1",
-            Title = "Test item 1"
-        };
-
-        ItemDto itemDto2 = new()
-        {
-            Id = "MLA2",
-            Title = "Test item 2"
-        };
+        ItemDto itemDto1 = new("MLA1", "Test item 1");
+        ItemDto itemDto2 = new("MLA2", "Test item 2");
 
         Dictionary<string, ItemDto> itemDtos = new()
         {
@@ -85,17 +70,33 @@ public class Scratch
 
 internal class RecommmendationsDto
 {
+    public RecommmendationsDto(List<string> values)
+    {
+        this.Values = values;
+    }
+
     public List<string> Values { get; init; }
 }
 
 internal class ItemDto
 {
+    public ItemDto(string id, string title)
+    {
+        this.Id = id;
+        this.Title = title;
+    }
+
     public string Id { get; init; }
     public string Title { get; init; }
 }
 
 internal class RecommendedItemsDto
 {
+    public RecommendedItemsDto(IEnumerable<RecommendedItemDto> items)
+    {
+        this.Items = items;
+    }
+
     public IEnumerable<RecommendedItemDto> Items { get; init; }
 }
 
