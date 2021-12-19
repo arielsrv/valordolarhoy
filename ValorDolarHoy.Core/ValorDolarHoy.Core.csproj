@@ -5,6 +5,7 @@
         <LangVersion>10</LangVersion>
         <AssemblyName>ValorDolarHoy.Core</AssemblyName>
         <RootNamespace>ValorDolarHoy.Core</RootNamespace>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>

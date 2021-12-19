@@ -34,8 +34,8 @@ public class CurrencyClientTest
         CurrencyResponse currencyResponse = currencyClient.Get().Wait();
 
         Assert.NotNull(currencyResponse);
-        Assert.NotNull(currencyResponse.oficial);
-        Assert.Equal(105.96m, currencyResponse.oficial.ValueSell);
+        Assert.NotNull(currencyResponse.Oficial);
+        Assert.Equal(105.96m, currencyResponse.Oficial!.ValueSell);
     }
 
     [Fact]

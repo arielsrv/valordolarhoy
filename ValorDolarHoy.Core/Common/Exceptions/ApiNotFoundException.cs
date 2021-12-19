@@ -14,11 +14,11 @@ public class ApiNotFoundException : Exception
     {
     }
 
-    public ApiNotFoundException(string message) : base(message)
+    public ApiNotFoundException(string? message) : base(message)
     {
     }
 
-    public ApiNotFoundException(string message, Exception innerException) : base(message, innerException)
+    public ApiNotFoundException(string? message, Exception? innerException) : base(message, innerException)
     {
     }
 }

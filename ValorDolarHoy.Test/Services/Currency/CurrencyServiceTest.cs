@@ -32,12 +32,14 @@ public class CurrencyServiceTest
         CurrencyDto currencyDto = currencyService.GetLatest().Wait();
 
         Assert.NotNull(currencyDto);
-        Assert.Equal(10.0M, currencyDto.Official.Buy);
+        Assert.NotNull(currencyDto.Official);
+        Assert.Equal(10.0M, currencyDto.Official!.Buy);
         Assert.Equal(11.0M, currencyDto.Official.Sell);
-        Assert.Equal(12.0M, currencyDto.Blue.Buy);
+        Assert.NotNull(currencyDto.Blue);
+        Assert.Equal(12.0M, currencyDto.Blue!.Buy);
         Assert.Equal(13.0M, currencyDto.Blue.Sell);
     }
-    
+
     [Fact]
     public void Get_All()
     {
@@ -64,9 +66,9 @@ public class CurrencyServiceTest
         CurrencyDto currencyDto = currencyService.GetLatest().Wait();
 
         Assert.NotNull(currencyDto);
-        Assert.Equal(10.0M, currencyDto.Official.Buy);
+        Assert.Equal(10.0M, currencyDto.Official!.Buy);
         Assert.Equal(11.0M, currencyDto.Official.Sell);
-        Assert.Equal(12.0M, currencyDto.Blue.Buy);
+        Assert.Equal(12.0M, currencyDto.Blue!.Buy);
         Assert.Equal(13.0M, currencyDto.Blue.Sell);
     }
 
@@ -81,9 +83,9 @@ public class CurrencyServiceTest
         CurrencyDto currencyDto = currencyService.GetFallback().Wait();
 
         Assert.NotNull(currencyDto);
-        Assert.Equal(10.0M, currencyDto.Official.Buy);
+        Assert.Equal(10.0M, currencyDto.Official!.Buy);
         Assert.Equal(11.0M, currencyDto.Official.Sell);
-        Assert.Equal(12.0M, currencyDto.Blue.Buy);
+        Assert.Equal(12.0M, currencyDto.Blue!.Buy);
         Assert.Equal(13.0M, currencyDto.Blue.Sell);
     }
 
@@ -91,7 +93,7 @@ public class CurrencyServiceTest
     public void Get_Latest_Ok_Fallback_FromApi()
     {
         this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
-            .Returns(Observable.Return(default(CurrencyDto)));
+            .Returns(Observable.Return(default(CurrencyDto))!);
 
         this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
@@ -100,9 +102,9 @@ public class CurrencyServiceTest
         CurrencyDto currencyDto = currencyService.GetFallback().Wait();
 
         Assert.NotNull(currencyDto);
-        Assert.Equal(10.0M, currencyDto.Official.Buy);
+        Assert.Equal(10.0M, currencyDto.Official!.Buy);
         Assert.Equal(11.0M, currencyDto.Official.Sell);
-        Assert.Equal(12.0M, currencyDto.Blue.Buy);
+        Assert.Equal(12.0M, currencyDto.Blue!.Buy);
         Assert.Equal(13.0M, currencyDto.Blue.Sell);
     }
 
@@ -110,12 +112,12 @@ public class CurrencyServiceTest
     {
         return new CurrencyDto
         {
-            Official = new CurrencyDto.OficialDto
+            Official = new OficialDto
             {
                 Buy = 10.0M,
                 Sell = 11.0M
             },
-            Blue = new CurrencyDto.BlueDto
+            Blue = new BlueDto
             {
                 Buy = 12.0M,
                 Sell = 13.0M
@@ -127,12 +129,12 @@ public class CurrencyServiceTest
     {
         return Observable.Return(new CurrencyResponse
         {
-            oficial = new CurrencyResponse.Oficial
+            Oficial = new OficialResponse
             {
                 ValueBuy = 10.0M,
                 ValueSell = 11.0M
             },
-            blue = new CurrencyResponse.Blue
+            Blue = new BlueResponse
             {
                 ValueBuy = 12.0M,
                 ValueSell = 13.0M

@@ -1,8 +1,6 @@
-// using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-// using System.Diagnostics;
 
 namespace ValorDolarHoy.Pages;
 
@@ -17,9 +15,4 @@ public class ErrorModel : PageModel
     public string RequestId { get; }
 
     public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
-
-    // public void OnGet()
-    // {
-    //     this.RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier;
-    // }
 }

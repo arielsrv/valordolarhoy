@@ -35,7 +35,7 @@ public class CurrencyService
     {
         string cacheKey = GetCacheKey();
 
-        CurrencyDto currencyDto = this.AppCache.GetIfPresent(cacheKey);
+        CurrencyDto? currencyDto = this.AppCache.GetIfPresent(cacheKey);
 
         return currencyDto != null
             ? Observable.Return(currencyDto)
@@ -52,15 +52,15 @@ public class CurrencyService
         {
             CurrencyDto currencyDto = new()
             {
-                Official = new CurrencyDto.OficialDto
+                Official = new OficialDto
                 {
-                    Buy = currencyResponse.oficial.ValueBuy,
-                    Sell = currencyResponse.oficial.ValueSell
+                    Buy = currencyResponse.Oficial!.ValueBuy,
+                    Sell = currencyResponse.Oficial.ValueSell
                 },
-                Blue = new CurrencyDto.BlueDto
+                Blue = new BlueDto
                 {
-                    Buy = currencyResponse.blue.ValueBuy,
-                    Sell = currencyResponse.blue.ValueSell
+                    Buy = currencyResponse.Blue!.ValueBuy,
+                    Sell = currencyResponse.Blue.ValueSell
                 }
             };
 
@@ -94,11 +94,11 @@ public class CurrencyService
     {
         IObservable<CurrencyResponse> client1Observable = this.currencyClient.Get();
         IObservable<CurrencyResponse> client2Observable = this.currencyClient.Get();
-        
+
         return client1Observable.Zip(client2Observable, (currencyResponse1, currencyResponse2) =>
         {
             string message =
-                $"Oficial: {currencyResponse1.oficial.ValueSell}, Blue: {currencyResponse2.blue.ValueSell}";
+                $"Oficial: {currencyResponse1.Oficial!.ValueSell}, Blue: {currencyResponse2.Blue!.ValueSell}";
 
             return message;
         });
