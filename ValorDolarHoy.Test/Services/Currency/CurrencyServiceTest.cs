@@ -1,6 +1,6 @@
-using Moq;
 using System;
 using System.Reactive.Linq;
+using Moq;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Caching;
 using ValorDolarHoy.Core.Common.Storage;
@@ -93,7 +93,7 @@ public class CurrencyServiceTest
     public void Get_Latest_Ok_Fallback_FromApi()
     {
         this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
-            .Returns(Observable.Return(default(CurrencyDto))!);
+            .Returns(Observable.Return(default(CurrencyDto)));
 
         this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 

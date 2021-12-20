@@ -1,9 +1,9 @@
-using Moq;
-using ServiceStack.Caching;
-using ServiceStack.Redis;
 using System;
 using System.Reactive.Linq;
 using System.Threading;
+using Moq;
+using ServiceStack.Caching;
+using ServiceStack.Redis;
 using ValorDolarHoy.Core.Common.Storage;
 using Xunit;
 

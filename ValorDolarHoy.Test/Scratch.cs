@@ -75,7 +75,7 @@ internal class RecommmendationsDto
         this.Values = values;
     }
 
-    public List<string> Values { get; init; }
+    public List<string> Values { get; }
 }
 
 internal class ItemDto
@@ -86,8 +86,8 @@ internal class ItemDto
         this.Title = title;
     }
 
-    public string Id { get; init; }
-    public string Title { get; init; }
+    public string Id { get; }
+    public string Title { get; }
 }
 
 internal class RecommendedItemsDto
@@ -97,7 +97,7 @@ internal class RecommendedItemsDto
         this.Items = items;
     }
 
-    public IEnumerable<RecommendedItemDto> Items { get; init; }
+    public IEnumerable<RecommendedItemDto> Items { get; }
 }
 
 internal class RecommendedItemDto

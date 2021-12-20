@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using ValorDolarHoy.Core.Services.Currency;
 
 namespace ValorDolarHoy.Controllers;
@@ -20,7 +20,7 @@ public class FallbackController : CustomControllerBase
     {
         return await this.QueryAsync(this.currencyService.GetFallback());
     }
-    
+
     [HttpGet("test/zip")]
     public async Task<IActionResult> ZipAsync()
     {

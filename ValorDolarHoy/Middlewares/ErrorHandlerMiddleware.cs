@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using ValorDolarHoy.Core.Common.Exceptions;
 
 namespace ValorDolarHoy.Middlewares;

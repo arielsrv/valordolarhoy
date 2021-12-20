@@ -1,6 +1,6 @@
-using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
+using Microsoft.Extensions.Logging;
 using ValorDolarHoy.Core.Common.Http;
 
 namespace ValorDolarHoy.Core.Clients.Currency;

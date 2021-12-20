@@ -1,5 +1,5 @@
-using Newtonsoft.Json.Serialization;
 using System;
+using Newtonsoft.Json.Serialization;
 
 namespace ValorDolarHoy.Core.Common.Extensions;
 
