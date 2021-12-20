@@ -12,7 +12,7 @@ public class CurrencyService
 {
     private readonly ICurrencyClient currencyClient;
 
-    private readonly ExecutorService executorService = ExecutorService.NewFixedThreadPool(10);
+    private readonly ExecutorService executorService = Executors.NewFixedThreadPool(10);
 
     private readonly IKeyValueStore keyValueStore;
 
