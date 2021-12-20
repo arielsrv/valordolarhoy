@@ -6,18 +6,13 @@ namespace ValorDolarHoy.Test.Common.Threading;
 
 public class ExecutorServiceTest
 {
-    private readonly ExecutorService executorService;
-
-    public ExecutorServiceTest()
-    {
-        this.executorService = ExecutorService.NewFixedThreadPool(10);
-    }
-
     [Fact]
     public void Fire_And_Forget()
     {
+        ExecutorService executorService = Executors.NewFixedThreadPool(10);
+        
         int value = 0;
-        this.executorService.Run(() =>
+        executorService.Run(() =>
         {
             Thread.Sleep(100);
             value = int.MaxValue;
@@ -29,8 +24,10 @@ public class ExecutorServiceTest
     [Fact]
     public void Fire_And_Forget_Expected_Value()
     {
+        ExecutorService executorService = Executors.NewFixedThreadPool(10);
+        
         int value = 0;
-        this.executorService.Run(() =>
+        executorService.Run(() =>
         {
             Thread.Sleep(100);
             value = int.MaxValue;
