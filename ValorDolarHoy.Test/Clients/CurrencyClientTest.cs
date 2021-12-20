@@ -1,9 +1,9 @@
-using Microsoft.Extensions.Logging;
-using Moq;
 using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading;
+using Microsoft.Extensions.Logging;
+using Moq;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Exceptions;
 using ValorDolarHoy.Core.Common.Serialization;

@@ -3,11 +3,11 @@ updates:
   - package-ecosystem: "nuget"
     directory: "/ValorDolarHoy.Test"
     schedule:
-      interval: "daily" 
+      interval: "daily"
   - package-ecosystem: "nuget"
     directory: "/ValorDolarHoy.Core"
     schedule:
-      interval: "daily" 
+      interval: "daily"
   - package-ecosystem: "nuget"
     directory: "/ValorDolarHoy"
     schedule:

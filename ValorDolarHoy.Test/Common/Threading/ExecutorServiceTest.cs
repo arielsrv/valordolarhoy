@@ -10,7 +10,7 @@ public class ExecutorServiceTest
     public void Fire_And_Forget()
     {
         ExecutorService executorService = Executors.NewFixedThreadPool(10);
-        
+
         int value = 0;
         executorService.Run(() =>
         {
@@ -25,7 +25,7 @@ public class ExecutorServiceTest
     public void Fire_And_Forget_Expected_Value()
     {
         ExecutorService executorService = Executors.NewFixedThreadPool(10);
-        
+
         int value = 0;
         executorService.Run(() =>
         {
