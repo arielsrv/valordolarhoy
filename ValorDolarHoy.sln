@@ -15,7 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{658D1138
 		build.sh = build.sh
 		coverage.sh = coverage.sh
 		NuGet.Config = NuGet.Config
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		README.md = README.md
 		package.json = package.json
 	EndProjectSection
