@@ -14,7 +14,8 @@ Service
 ```csharp
 public IObservable<CurrencyDto> GetFallback()
 {
-    string cacheKey = GetCacheKey
+    string cacheKey = GetCacheKey();
+    
     return this.keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
     {
         return currencyDto != null
