@@ -7,7 +7,7 @@ using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Services.Currency;
 
-namespace ValorDolarHoy.Extensions;
+namespace ValorDolarHoy.Core.Extensions;
 
 public static class IServiceCollectionsExtensions
 {
