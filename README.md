@@ -37,7 +37,7 @@ Controller
 [HttpGet]
 public async Task<IActionResult> GetLatestAsync()
 {
-    return await this.QueryAsync(this.currencyService.GetFallback());
+    return await TaskExecutor.ExecuteAsync(this.currencyService.GetLatest());
 }
 ```
 
