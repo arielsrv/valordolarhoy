@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using ValorDolarHoy.Core.Common.Exceptions;
 
-namespace ValorDolarHoy.Middlewares;
+namespace ValorDolarHoy.Core.Middlewares;
 
 public class ErrorHandlerMiddleware
 {

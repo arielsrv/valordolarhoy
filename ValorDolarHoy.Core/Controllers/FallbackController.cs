@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ValorDolarHoy.Controllers;
 using ValorDolarHoy.Core.Services.Currency;
 
-namespace ValorDolarHoy.Controllers;
+namespace ValorDolarHoy.Core.Controllers;
 
 [ApiController]
 [Route("[controller]")]
