@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,7 @@
         <AssemblyName>ValorDolarHoy.Core</AssemblyName>
         <RootNamespace>ValorDolarHoy.Core</RootNamespace>
         <Nullable>enable</Nullable>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
