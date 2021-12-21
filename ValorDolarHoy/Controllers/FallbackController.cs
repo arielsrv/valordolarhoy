@@ -6,7 +6,7 @@ namespace ValorDolarHoy.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class FallbackController : CustomControllerBase
+public class FallbackController : ControllerBase
 {
     private readonly CurrencyService currencyService;
 
@@ -18,12 +18,12 @@ public class FallbackController : CustomControllerBase
     [HttpGet]
     public async Task<IActionResult> GetLatestAsync()
     {
-        return await this.QueryAsync(this.currencyService.GetFallback());
+        return await TaskExecutor.ExecuteAsync(this.currencyService.GetFallback());
     }
 
     [HttpGet("test/zip")]
     public async Task<IActionResult> ZipAsync()
     {
-        return await this.QueryAsync(this.currencyService.GetAll());
+        return await TaskExecutor.ExecuteAsync(this.currencyService.GetAll());
     }
 }

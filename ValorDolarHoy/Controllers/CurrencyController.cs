@@ -6,7 +6,7 @@ namespace ValorDolarHoy.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CurrencyController : CustomControllerBase
+public class CurrencyController : ControllerBase
 {
     private readonly CurrencyService currencyService;
 
@@ -18,6 +18,6 @@ public class CurrencyController : CustomControllerBase
     [HttpGet]
     public async Task<IActionResult> GetLatestAsync()
     {
-        return await this.QueryAsync(this.currencyService.GetLatest());
+        return await TaskExecutor.ExecuteAsync(this.currencyService.GetLatest());
     }
 }
