@@ -13,7 +13,7 @@ public static class IServiceCollectionsExtensions
 {
     public static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<CurrencyService>();
+        services.AddSingleton<ICurrencyService, CurrencyService>();
         services.AddSingleton<IKeyValueStore, RedisStore>();
         services.AddSingleton<IRedisClientsManagerAsync, PooledRedisClientManager>(_ =>
             new PooledRedisClientManager(configuration["Storage:Redis"]));
