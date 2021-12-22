@@ -8,7 +8,14 @@ using ValorDolarHoy.Core.Common.Threading;
 
 namespace ValorDolarHoy.Core.Services.Currency;
 
-public class CurrencyService
+public interface ICurrencyService
+{
+    IObservable<CurrencyDto> GetLatest();
+    IObservable<CurrencyDto> GetFallback();
+    IObservable<string> GetAll();
+}
+
+public class CurrencyService : ICurrencyService
 {
     private readonly ICurrencyClient currencyClient;
 

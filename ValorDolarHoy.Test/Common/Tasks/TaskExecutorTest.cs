@@ -12,10 +12,10 @@ public class TaskExecutorTest
     public async Task ExecuteAsync_From_ObservableAsync()
     {
         IActionResult actionResult = await TaskExecutor.ExecuteAsync(Observable.Return("hello_world!"));
-        
+
         Assert.NotNull(actionResult);
         Assert.IsType<OkObjectResult>(actionResult);
-        
+
         OkObjectResult okObjectResult = (OkObjectResult)actionResult;
         Assert.Equal(200, okObjectResult.StatusCode);
         Assert.Equal("hello_world!", okObjectResult.Value);

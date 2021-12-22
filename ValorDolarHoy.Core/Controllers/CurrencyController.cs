@@ -9,9 +9,9 @@ namespace ValorDolarHoy.Core.Controllers;
 [Route("[controller]")]
 public class CurrencyController : ControllerBase
 {
-    private readonly CurrencyService currencyService;
+    private readonly ICurrencyService currencyService;
 
-    public CurrencyController(CurrencyService currencyService)
+    public CurrencyController(ICurrencyService currencyService)
     {
         this.currencyService = currencyService;
     }

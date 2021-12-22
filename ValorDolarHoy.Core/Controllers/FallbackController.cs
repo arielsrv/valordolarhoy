@@ -9,9 +9,9 @@ namespace ValorDolarHoy.Core.Controllers;
 [Route("[controller]")]
 public class FallbackController : ControllerBase
 {
-    private readonly CurrencyService currencyService;
+    private readonly ICurrencyService currencyService;
 
-    public FallbackController(CurrencyService currencyService)
+    public FallbackController(ICurrencyService currencyService)
     {
         this.currencyService = currencyService;
     }

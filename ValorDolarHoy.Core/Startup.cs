@@ -83,7 +83,10 @@ public class Startup
         {
             spa.Options.SourcePath = "ClientApp";
 
-            if (env.IsDevelopment()) spa.UseReactDevelopmentServer("start");
+            if (env.IsDevelopment())
+            {
+                spa.UseReactDevelopmentServer("start");
+            }
         });
     }
 }
