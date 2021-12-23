@@ -21,7 +21,9 @@ public class CurrencyControllerTest
     [Fact]
     public async Task Get_LatestAsync()
     {
-        this.currencyService.Setup(service => service.GetLatest()).Returns(GetLatest());
+        IObservable<CurrencyDto> observableCurrencyDto = GetLatest();
+        
+        this.currencyService.Setup(service => service.GetLatest()).Returns(observableCurrencyDto);
 
         CurrencyController currencyController = new(this.currencyService.Object);
 
@@ -32,7 +34,7 @@ public class CurrencyControllerTest
 
         OkObjectResult okObjectResult = (OkObjectResult)actionResult;
         Assert.Equal(200, okObjectResult.StatusCode);
-        Assert.Equivalent(GetLatest().Wait(), okObjectResult.Value);
+        Assert.Equivalent(observableCurrencyDto.Wait(), okObjectResult.Value);
     }
 
     private static IObservable<CurrencyDto> GetLatest()

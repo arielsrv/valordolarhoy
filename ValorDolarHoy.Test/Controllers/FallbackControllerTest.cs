@@ -21,7 +21,9 @@ public class FallbackControllerTest
     [Fact]
     public async Task Get_LatestAsync()
     {
-        this.currencyService.Setup(service => service.GetFallback()).Returns(GetLatest);
+        IObservable<CurrencyDto> observableCurrencyDto = GetLatest();
+        
+        this.currencyService.Setup(service => service.GetFallback()).Returns(observableCurrencyDto);
 
         FallbackController fallbackController = new(this.currencyService.Object);
 
@@ -32,13 +34,15 @@ public class FallbackControllerTest
 
         OkObjectResult okObjectResult = (OkObjectResult)actionResult;
         Assert.Equal(200, okObjectResult.StatusCode);
-        Assert.Equivalent(GetLatest().Wait(), okObjectResult.Value);
+        Assert.Equivalent(observableCurrencyDto.Wait(), okObjectResult.Value);
     }
 
     [Fact]
     public async Task Get_ZipAsync()
     {
-        this.currencyService.Setup(service => service.GetAll()).Returns(GetMessage);
+        IObservable<string> observableMessage = GetMessage();
+        
+        this.currencyService.Setup(service => service.GetAll()).Returns(observableMessage);
 
         FallbackController fallbackController = new(this.currencyService.Object);
 
@@ -49,7 +53,7 @@ public class FallbackControllerTest
 
         OkObjectResult okObjectResult = (OkObjectResult)actionResult;
         Assert.Equal(200, okObjectResult.StatusCode);
-        Assert.Equivalent(GetMessage().Wait(), okObjectResult.Value);
+        Assert.Equivalent(observableMessage.Wait(), okObjectResult.Value);
     }
 
     private static IObservable<CurrencyDto> GetLatest()
