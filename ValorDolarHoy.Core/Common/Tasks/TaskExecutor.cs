@@ -3,7 +3,7 @@ using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ValorDolarHoy.Controllers;
+namespace ValorDolarHoy.Core.Controllers;
 
 public static class TaskExecutor
 {
