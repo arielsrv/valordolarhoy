@@ -1,7 +1,7 @@
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ValorDolarHoy.Controllers;
+using ValorDolarHoy.Core.Controllers;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Common.Tasks;
