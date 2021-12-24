@@ -27,8 +27,17 @@ public class CacheBuilder<TKey, TValue>
 
     public ICache<TKey, TValue> Build()
     {
-        MemoryCache memoryCache = new(new MemoryCacheOptions { SizeLimit = this.size });
-        return new Cache<TKey, TValue>(memoryCache, this.timeSpan, this.size);
+        MemoryCache memoryCache = new(new MemoryCacheOptions
+        {
+            SizeLimit = this.size
+        });
+
+        MemoryCacheEntryOptions memoryCacheEntryOptions = new();
+        memoryCacheEntryOptions
+            .SetSize(1)
+            .SetAbsoluteExpiration(this.timeSpan);
+
+        return new Cache<TKey, TValue>(memoryCache, memoryCacheEntryOptions);
     }
 }
 
@@ -41,14 +50,12 @@ public interface ICache<in TKey, TValue>
 public class Cache<TKey, TValue> : ICache<TKey, TValue>
 {
     private readonly IMemoryCache memoryCache;
-    private readonly int size;
-    private readonly TimeSpan timeSpan;
+    private readonly MemoryCacheEntryOptions memoryCacheEntryOptions;
 
-    public Cache(IMemoryCache memoryCache, TimeSpan timeSpan, int size)
+    public Cache(IMemoryCache memoryCache, MemoryCacheEntryOptions memoryCacheEntryOptions)
     {
         this.memoryCache = memoryCache;
-        this.timeSpan = timeSpan;
-        this.size = size;
+        this.memoryCacheEntryOptions = memoryCacheEntryOptions;
     }
 
     public TValue GetIfPresent(TKey key)
@@ -58,11 +65,6 @@ public class Cache<TKey, TValue> : ICache<TKey, TValue>
 
     public void Put(TKey key, TValue value)
     {
-        MemoryCacheEntryOptions memoryCacheEntryOptions = new MemoryCacheEntryOptions()
-            .SetSize(this.size)
-            .SetPriority(CacheItemPriority.Low)
-            .SetAbsoluteExpiration(this.timeSpan);
-
-        this.memoryCache.Set(key, value, memoryCacheEntryOptions);
+        this.memoryCache.Set(key, value, this.memoryCacheEntryOptions);
     }
 }
