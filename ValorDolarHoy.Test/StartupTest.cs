@@ -86,7 +86,7 @@ public class StartupTest
     }
 
     [Fact]
-    public async Task Basic_Integration_Test_FailAsync()
+    public async Task Basic_Integration_Test_InternalServerErrorAsync()
     {
         Mock<ICurrencyService> currencyService = new();
         currencyService.Setup(service => service.GetLatest())
@@ -115,16 +115,79 @@ public class StartupTest
         Assert.Equal(nameof(ApiException), errorModel.Type);
     }
 
+    [Fact]
+    public async Task Basic_Integration_Test_ApiNotFoundAsync()
+    {
+        Mock<ICurrencyService> currencyService = new();
+        currencyService.Setup(service => service.GetLatest())
+            .Returns(Observable.Throw<CurrencyDto>(new ApiNotFoundException("not found")));
+
+        IHostBuilder hostBuilder = new HostBuilder()
+            .ConfigureWebHost(webHost =>
+            {
+                webHost.UseTestServer();
+                webHost.UseStartup<Startup>();
+                webHost.ConfigureTestServices(services => { services.SwapTransient(_ => currencyService.Object); });
+            });
+
+        IHost? host = await hostBuilder.StartAsync();
+
+        HttpClient httpClient = host.GetTestClient();
+
+        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync("/Currency");
+        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        Assert.NotNull(responseString);
+
+        ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorModel>(responseString);
+
+        Assert.NotNull(errorModel);
+        Assert.Equal(404, errorModel.Code);
+        Assert.Equal(nameof(ApiNotFoundException), errorModel.Type);
+        Assert.Equal("not found", errorModel.Message);
+    }
+    
+    [Fact]
+    public async Task Basic_Integration_Test_BadRequestAsync()
+    {
+        Mock<ICurrencyService> currencyService = new();
+        currencyService.Setup(service => service.GetLatest())
+            .Returns(Observable.Throw<CurrencyDto>(new ApiBadRequestException("bad request")));
+
+        IHostBuilder hostBuilder = new HostBuilder()
+            .ConfigureWebHost(webHost =>
+            {
+                webHost.UseTestServer();
+                webHost.UseStartup<Startup>();
+                webHost.ConfigureTestServices(services => { services.SwapTransient(_ => currencyService.Object); });
+            });
+
+        IHost? host = await hostBuilder.StartAsync();
+
+        HttpClient httpClient = host.GetTestClient();
+
+        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync("/Currency");
+        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        Assert.NotNull(responseString);
+
+        ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorModel>(responseString);
+
+        Assert.NotNull(errorModel);
+        Assert.Equal(400, errorModel.Code);
+        Assert.Equal(nameof(ApiBadRequestException), errorModel.Type);
+        Assert.Equal("bad request", errorModel.Message);
+    }
+
     public class ErrorModel
     {
-        public ErrorModel(int code, string? type)
+        public ErrorModel(int code, string? type, string? message)
         {
             this.Code = code;
             this.Type = type;
+            this.Message = message;
         }
-
         public int Code { get; }
         public string? Type { get; }
+        public string? Message { get; }
     }
 
     private static IObservable<CurrencyDto> GetLatest()
