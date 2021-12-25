@@ -34,25 +34,6 @@ public static class IServiceCollectionsExtensions
         return services;
     }
 
-    public static void SwapTransient<TService, TImplementation>(this IServiceCollection services)
-        where TImplementation : class, TService
-    {
-        if (services.Any(serviceDescriptor => serviceDescriptor.ServiceType == typeof(TService) &&
-                                              serviceDescriptor.Lifetime == ServiceLifetime.Transient))
-        {
-            List<ServiceDescriptor> serviceDescriptors = services
-                .Where(serviceDescriptor => serviceDescriptor.ServiceType == typeof(TService) &&
-                                            serviceDescriptor.Lifetime == ServiceLifetime.Transient).ToList();
-
-            foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
-            {
-                services.Remove(serviceDescriptor);
-            }
-        }
-
-        services.AddTransient(typeof(TService), typeof(TImplementation));
-    }
-
     public static void SwapTransient<TService>(this IServiceCollection services,
         Func<IServiceProvider, TService> implementationFactory)
     {
