@@ -22,7 +22,7 @@ public class FallbackControllerTest
     public async Task Get_LatestAsync()
     {
         IObservable<CurrencyDto> observableCurrencyDto = GetLatest();
-        
+
         this.currencyService.Setup(service => service.GetFallback()).Returns(observableCurrencyDto);
 
         FallbackController fallbackController = new(this.currencyService.Object);
@@ -41,7 +41,7 @@ public class FallbackControllerTest
     public async Task Get_ZipAsync()
     {
         IObservable<string> observableMessage = GetMessage();
-        
+
         this.currencyService.Setup(service => service.GetAll()).Returns(observableMessage);
 
         FallbackController fallbackController = new(this.currencyService.Object);
