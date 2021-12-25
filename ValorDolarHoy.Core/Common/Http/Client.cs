@@ -40,7 +40,7 @@ public class Client : HttpClient
                 {
                     HttpStatusCode.NotFound => new ApiNotFoundException("Not found, " + requestUri),
                     HttpStatusCode.BadRequest => new ApiBadRequestException("Bad request, " + requestUri),
-                    _ => new ApiException(httpResponseMessage.ReasonPhrase)
+                    _ => new ApiException(httpResponseMessage.ReasonPhrase ?? "Unknown reason")
                 };
             }
 
