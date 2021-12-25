@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Moq;
 using Newtonsoft.Json;
+using ValorDolarHoy.Core.Common.Exceptions;
 using ValorDolarHoy.Core.Controllers;
 using ValorDolarHoy.Core.Extensions;
 using ValorDolarHoy.Core.Services.Currency;
@@ -57,7 +58,7 @@ public class StartupTest
 
 
     [Fact]
-    public async Task BasicIntegrationTestAsync()
+    public async Task Basic_Integration_Test_OkAsync()
     {
         Mock<ICurrencyService> currencyService = new();
         currencyService.Setup(service => service.GetLatest())
@@ -68,16 +69,13 @@ public class StartupTest
             {
                 webHost.UseTestServer();
                 webHost.UseStartup<Startup>();
-                webHost.ConfigureTestServices(services =>
-                {
-                    services.SwapTransient(_ => currencyService.Object);
-                });
+                webHost.ConfigureTestServices(services => { services.SwapTransient(_ => currencyService.Object); });
             });
-        
+
         IHost? host = await hostBuilder.StartAsync();
-        
+
         HttpClient httpClient = host.GetTestClient();
-        
+
         HttpResponseMessage httpResponseMessage = await httpClient.GetAsync("/Currency");
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
@@ -85,6 +83,48 @@ public class StartupTest
         CurrencyDto? currencyDto = JsonConvert.DeserializeObject<CurrencyDto>(responseString);
         Assert.NotNull(currencyDto);
         Assert.Equivalent(GetLatest(), currencyDto);
+    }
+
+    [Fact]
+    public async Task Basic_Integration_Test_FailAsync()
+    {
+        Mock<ICurrencyService> currencyService = new();
+        currencyService.Setup(service => service.GetLatest())
+            .Returns(Observable.Throw<CurrencyDto>(new ApiException()));
+
+        IHostBuilder hostBuilder = new HostBuilder()
+            .ConfigureWebHost(webHost =>
+            {
+                webHost.UseTestServer();
+                webHost.UseStartup<Startup>();
+                webHost.ConfigureTestServices(services => { services.SwapTransient(_ => currencyService.Object); });
+            });
+
+        IHost? host = await hostBuilder.StartAsync();
+
+        HttpClient httpClient = host.GetTestClient();
+
+        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync("/Currency");
+        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        Assert.NotNull(responseString);
+
+        ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorModel>(responseString);
+
+        Assert.NotNull(errorModel);
+        Assert.Equal(500, errorModel.Code);
+        Assert.Equal(nameof(ApiException), errorModel.Type);
+    }
+
+    public class ErrorModel
+    {
+        public ErrorModel(int code, string? type)
+        {
+            this.Code = code;
+            this.Type = type;
+        }
+
+        public int Code { get; }
+        public string? Type { get; }
     }
 
     private static IObservable<CurrencyDto> GetLatest()
