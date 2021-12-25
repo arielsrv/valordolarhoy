@@ -22,7 +22,7 @@ public class CurrencyControllerTest
     public async Task Get_LatestAsync()
     {
         IObservable<CurrencyDto> observableCurrencyDto = GetLatest();
-        
+
         this.currencyService.Setup(service => service.GetLatest()).Returns(observableCurrencyDto);
 
         CurrencyController currencyController = new(this.currencyService.Object);
