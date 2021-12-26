@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using System.Reactive.Observable.Aliases;
+using AutoMapper;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Caching;
 using ValorDolarHoy.Core.Common.Storage;
@@ -18,18 +19,19 @@ public interface ICurrencyService
 public class CurrencyService : ICurrencyService
 {
     private readonly ICurrencyClient currencyClient;
-
     private readonly ExecutorService executorService = Executors.NewFixedThreadPool(10);
-
     private readonly IKeyValueStore keyValueStore;
+    private readonly IMapper mapper;
 
     public CurrencyService(
         ICurrencyClient currencyClient,
-        IKeyValueStore keyValueStore
+        IKeyValueStore keyValueStore,
+        IMapper mapper
     )
     {
         this.currencyClient = currencyClient;
         this.keyValueStore = keyValueStore;
+        this.mapper = mapper;
     }
 
     public ICache<string, CurrencyDto> AppCache { get; init; } = CacheBuilder<string, CurrencyDto>
@@ -55,24 +57,8 @@ public class CurrencyService : ICurrencyService
 
     private IObservable<CurrencyDto> GetFromApi()
     {
-        return this.currencyClient.Get().Map(currencyResponse =>
-        {
-            CurrencyDto currencyDto = new()
-            {
-                Official = new OficialDto
-                {
-                    Buy = currencyResponse.Oficial!.ValueBuy,
-                    Sell = currencyResponse.Oficial.ValueSell
-                },
-                Blue = new BlueDto
-                {
-                    Buy = currencyResponse.Blue!.ValueBuy,
-                    Sell = currencyResponse.Blue.ValueSell
-                }
-            };
-
-            return currencyDto;
-        });
+        return this.currencyClient.Get()
+            .Map(currencyResponse => this.mapper.Map<CurrencyDto>(currencyResponse));
     }
 
     private static string GetCacheKey()

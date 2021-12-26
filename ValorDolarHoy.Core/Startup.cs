@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -35,6 +36,7 @@ public class Startup
 
         services
             .AddClients()
+            .AddMappings()
             .AddServices(this.configuration);
 
         services
