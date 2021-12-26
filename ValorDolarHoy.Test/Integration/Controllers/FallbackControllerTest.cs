@@ -15,8 +15,8 @@ namespace ValorDolarHoy.Test.Integration.Controllers;
 
 public class FallbackControllerTest
 {
-    private readonly HttpClient httpClient;
     private readonly Mock<ICurrencyService> currencyService;
+    private readonly HttpClient httpClient;
 
     public FallbackControllerTest()
     {
@@ -44,7 +44,7 @@ public class FallbackControllerTest
         this.currencyService.Setup(service => service.GetFallback())
             .Returns(GetLatest());
 
-        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync("/Fallback");
+        HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Fallback");
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 

@@ -55,17 +55,6 @@ public class CurrencyService : ICurrencyService
             });
     }
 
-    private IObservable<CurrencyDto> GetFromApi()
-    {
-        return this.currencyClient.Get()
-            .Map(currencyResponse => this.mapper.Map<CurrencyDto>(currencyResponse));
-    }
-
-    private static string GetCacheKey()
-    {
-        return "bluelytics:v1";
-    }
-
     public IObservable<CurrencyDto> GetFallback()
     {
         string cacheKey = GetCacheKey();
@@ -95,5 +84,16 @@ public class CurrencyService : ICurrencyService
 
             return message;
         });
+    }
+
+    private IObservable<CurrencyDto> GetFromApi()
+    {
+        return this.currencyClient.Get()
+            .Map(currencyResponse => this.mapper.Map<CurrencyDto>(currencyResponse));
+    }
+
+    private static string GetCacheKey()
+    {
+        return "bluelytics:v1";
     }
 }

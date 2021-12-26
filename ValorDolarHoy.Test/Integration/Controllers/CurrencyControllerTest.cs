@@ -16,8 +16,8 @@ namespace ValorDolarHoy.Test.Integration.Controllers;
 
 public class CurrencyControllerTest
 {
-    private readonly HttpClient httpClient;
     private readonly Mock<ICurrencyService> currencyService;
+    private readonly HttpClient httpClient;
 
     public CurrencyControllerTest()
     {
@@ -45,7 +45,7 @@ public class CurrencyControllerTest
         this.currencyService.Setup(service => service.GetLatest())
             .Returns(GetLatest());
 
-        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync("/Currency");
+        HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
@@ -112,20 +112,6 @@ public class CurrencyControllerTest
         Assert.Equal("bad request", errorModel.Message);
     }
 
-    public class ErrorModel
-    {
-        public ErrorModel(int code, string? type, string? message)
-        {
-            this.Code = code;
-            this.Type = type;
-            this.Message = message;
-        }
-
-        public int Code { get; }
-        public string? Type { get; }
-        public string? Message { get; }
-    }
-
     private static IObservable<CurrencyDto> GetLatest()
     {
         CurrencyDto currencyDto = new()
@@ -143,5 +129,19 @@ public class CurrencyControllerTest
         };
 
         return Observable.Return(currencyDto);
+    }
+
+    public class ErrorModel
+    {
+        public ErrorModel(int code, string? type, string? message)
+        {
+            this.Code = code;
+            this.Type = type;
+            this.Message = message;
+        }
+
+        public int Code { get; }
+        public string? Type { get; }
+        public string? Message { get; }
     }
 }

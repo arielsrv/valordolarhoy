@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -85,10 +84,7 @@ public class Startup
         {
             spa.Options.SourcePath = "ClientApp";
 
-            if (env.IsDevelopment())
-            {
-                spa.UseReactDevelopmentServer("start");
-            }
+            if (env.IsDevelopment()) spa.UseReactDevelopmentServer("start");
         });
     }
 }

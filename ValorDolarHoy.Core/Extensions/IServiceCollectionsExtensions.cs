@@ -55,10 +55,7 @@ public static class IServiceCollectionsExtensions
                 .Where(serviceDescriptor => serviceDescriptor.ServiceType == typeof(TService) &&
                                             serviceDescriptor.Lifetime == ServiceLifetime.Transient).ToList();
 
-            foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
-            {
-                services.Remove(serviceDescriptor);
-            }
+            foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors) services.Remove(serviceDescriptor);
         }
 
         services.AddTransient(typeof(TService),
