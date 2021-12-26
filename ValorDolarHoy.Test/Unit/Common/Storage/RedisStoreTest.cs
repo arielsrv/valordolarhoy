@@ -7,7 +7,7 @@ using ServiceStack.Redis;
 using ValorDolarHoy.Core.Common.Storage;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Common.Storage;
+namespace ValorDolarHoy.Test.Unit.Common.Storage;
 
 public class RedisStoreTest
 {

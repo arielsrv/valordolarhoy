@@ -3,7 +3,7 @@ using System.Threading;
 using ValorDolarHoy.Core.Common.Caching;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Common.Caching;
+namespace ValorDolarHoy.Test.Unit.Common.Caching;
 
 public class CacheInMemoryTest
 {

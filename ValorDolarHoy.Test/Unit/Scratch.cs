@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using System.Reactive.Observable.Aliases;
 using Xunit;
 
-namespace ValorDolarHoy.Test;
+namespace ValorDolarHoy.Test.Unit;
 
 public class Scratch
 {
