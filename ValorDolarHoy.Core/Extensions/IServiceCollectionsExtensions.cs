@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
@@ -9,6 +10,7 @@ using ServiceStack.Redis;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Services.Currency;
+using ValorDolarHoy.Mappings;
 
 namespace ValorDolarHoy.Core.Extensions;
 
@@ -34,6 +36,15 @@ public static class IServiceCollectionsExtensions
         return services;
     }
 
+    public static IServiceCollection AddMappings(this IServiceCollection services)
+    {
+        MapperConfiguration mapperConfiguration = new(configure => { configure.AddProfile(new MappingProfile()); });
+        IMapper mapper = mapperConfiguration.CreateMapper();
+        services.AddSingleton(mapper);
+
+        return services;
+    }
+
     public static void SwapTransient<TService>(this IServiceCollection services,
         Func<IServiceProvider, TService> implementationFactory)
     {
@@ -44,10 +55,7 @@ public static class IServiceCollectionsExtensions
                 .Where(serviceDescriptor => serviceDescriptor.ServiceType == typeof(TService) &&
                                             serviceDescriptor.Lifetime == ServiceLifetime.Transient).ToList();
 
-            foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
-            {
-                services.Remove(serviceDescriptor);
-            }
+            foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors) services.Remove(serviceDescriptor);
         }
 
         services.AddTransient(typeof(TService),

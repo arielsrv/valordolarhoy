@@ -1,10 +1,12 @@
 using System;
 using System.Reactive.Linq;
+using AutoMapper;
 using Moq;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Caching;
 using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Services.Currency;
+using ValorDolarHoy.Mappings;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Unit.Services.Currency;
@@ -14,12 +16,15 @@ public class CurrencyServiceTest
     private readonly Mock<ICache<string, CurrencyDto>> appCache;
     private readonly Mock<ICurrencyClient> currencyClient;
     private readonly Mock<IKeyValueStore> keyValueStore;
+    private readonly IMapper mapper;
 
     public CurrencyServiceTest()
     {
         this.currencyClient = new Mock<ICurrencyClient>();
         this.appCache = new Mock<ICache<string, CurrencyDto>>();
         this.keyValueStore = new Mock<IKeyValueStore>();
+        MapperConfiguration mapperConfiguration = new(configure => { configure.AddProfile(new MappingProfile()); });
+        this.mapper = mapperConfiguration.CreateMapper();
     }
 
     [Fact]
@@ -27,7 +32,7 @@ public class CurrencyServiceTest
     {
         this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
+        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
         CurrencyDto currencyDto = currencyService.GetLatest().Wait();
 
@@ -45,7 +50,7 @@ public class CurrencyServiceTest
     {
         this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
+        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
         string actual = currencyService.GetAll().Wait();
 
@@ -58,7 +63,7 @@ public class CurrencyServiceTest
     {
         this.appCache.Setup(client => client.GetIfPresent("bluelytics:v1")).Returns(GetFromCache());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object)
+        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper)
         {
             AppCache = this.appCache.Object
         };
@@ -78,7 +83,7 @@ public class CurrencyServiceTest
         this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
             .Returns(Observable.Return(GetFromCache()));
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
+        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
         CurrencyDto currencyDto = currencyService.GetFallback().Wait();
 
@@ -97,7 +102,7 @@ public class CurrencyServiceTest
 
         this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
+        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
         CurrencyDto currencyDto = currencyService.GetFallback().Wait();
 
