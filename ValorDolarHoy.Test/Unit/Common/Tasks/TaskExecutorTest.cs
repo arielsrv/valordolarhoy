@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using ValorDolarHoy.Core.Controllers;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Common.Tasks;
+namespace ValorDolarHoy.Test.Unit.Common.Tasks;
 
 public class TaskExecutorTest
 {

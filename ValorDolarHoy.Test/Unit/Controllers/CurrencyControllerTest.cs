@@ -7,7 +7,7 @@ using ValorDolarHoy.Core.Controllers;
 using ValorDolarHoy.Core.Services.Currency;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Controllers;
+namespace ValorDolarHoy.Test.Unit.Controllers;
 
 public class CurrencyControllerTest
 {

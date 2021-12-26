@@ -4,7 +4,7 @@ using Moq;
 using ValorDolarHoy.Core.Controllers;
 using Xunit;
 
-namespace ValorDolarHoy.Test;
+namespace ValorDolarHoy.Test.Unit;
 
 public class StartupTest
 {

@@ -12,14 +12,14 @@ using ValorDolarHoy.Core.Extensions;
 using ValorDolarHoy.Core.Services.Currency;
 using Xunit;
 
-namespace ValorDolarHoy.Test;
+namespace ValorDolarHoy.Test.Integration.Controllers;
 
-public class IntegrationTest
+public class CurrencyControllerTest
 {
     private readonly HttpClient httpClient;
     private readonly Mock<ICurrencyService> currencyService;
 
-    public IntegrationTest()
+    public CurrencyControllerTest()
     {
         this.currencyService = new Mock<ICurrencyService>();
 

@@ -2,7 +2,7 @@ using System.Threading;
 using ValorDolarHoy.Core.Common.Threading;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Common.Threading;
+namespace ValorDolarHoy.Test.Unit.Common.Threading;
 
 public class ExecutorServiceTest
 {
@@ -12,11 +12,7 @@ public class ExecutorServiceTest
         ExecutorService executorService = Executors.NewFixedThreadPool(10);
 
         int value = 0;
-        executorService.Run(() =>
-        {
-            Thread.Sleep(100);
-            value = int.MaxValue;
-        });
+        executorService.Run(() => { value = int.MaxValue; });
 
         Assert.Equal(0, value);
     }

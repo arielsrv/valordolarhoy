@@ -7,7 +7,7 @@ using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Services.Currency;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Services.Currency;
+namespace ValorDolarHoy.Test.Unit.Services.Currency;
 
 public class CurrencyServiceTest
 {

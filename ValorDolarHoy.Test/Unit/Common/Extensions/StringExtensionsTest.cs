@@ -2,7 +2,7 @@ using System;
 using ValorDolarHoy.Core.Common.Extensions;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Common.Extensions;
+namespace ValorDolarHoy.Test.Unit.Common.Extensions;
 
 public class StringExtensionsTest
 {

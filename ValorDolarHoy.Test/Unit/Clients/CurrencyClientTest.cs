@@ -9,7 +9,7 @@ using ValorDolarHoy.Core.Common.Exceptions;
 using ValorDolarHoy.Core.Common.Serialization;
 using Xunit;
 
-namespace ValorDolarHoy.Test.Clients;
+namespace ValorDolarHoy.Test.Unit.Clients;
 
 public class CurrencyClientTest
 {
