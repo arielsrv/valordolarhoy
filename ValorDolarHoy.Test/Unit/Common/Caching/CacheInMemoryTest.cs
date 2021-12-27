@@ -44,12 +44,12 @@ public class CacheInMemoryTest
         ICache<string, string> appCache = CacheBuilder<string, string>
             .NewBuilder()
             .Size(2)
-            .ExpireAfterWrite(TimeSpan.FromMilliseconds(50))
+            .ExpireAfterWrite(TimeSpan.FromMilliseconds(100))
             .Build();
 
         appCache.Put("key", "value");
 
-        Thread.Sleep(100);
+        Thread.Sleep(200);
 
         string? actual = appCache.GetIfPresent("key");
 
@@ -68,7 +68,7 @@ public class CacheInMemoryTest
         appCache.Put("key1", "value1");
         appCache.Put("key2", "value2");
 
-        Thread.Sleep(100);
+        Thread.Sleep(200);
 
         string? actual = appCache.GetIfPresent("key1");
 
