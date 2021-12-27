@@ -25,11 +25,11 @@ public class ExecutorServiceTest
         int value = 0;
         executorService.Run(() =>
         {
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             value = int.MaxValue;
         });
 
-        Thread.Sleep(200);
+        Thread.Sleep(100);
         Assert.Equal(int.MaxValue, value);
     }
 }
