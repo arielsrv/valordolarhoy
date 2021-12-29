@@ -12,7 +12,11 @@ public class ExecutorServiceTest
         ExecutorService executorService = Executors.NewFixedThreadPool(10);
 
         int value = 0;
-        executorService.Run(() => { value = int.MaxValue; });
+        executorService.Run(() =>
+        {
+            Thread.Sleep(100);
+            value = int.MaxValue;
+        });
 
         Assert.Equal(0, value);
     }
