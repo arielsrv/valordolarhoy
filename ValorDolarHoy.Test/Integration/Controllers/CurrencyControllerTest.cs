@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Castle.DynamicProxy.Generators;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +22,8 @@ public class CurrencyControllerTest
 
     public CurrencyControllerTest()
     {
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", Environments.Production);
+            
         this.currencyService = new Mock<ICurrencyService>();
 
         IHostBuilder hostBuilder = new HostBuilder()

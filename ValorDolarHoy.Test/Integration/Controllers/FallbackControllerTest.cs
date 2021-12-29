@@ -20,6 +20,8 @@ public class FallbackControllerTest
 
     public FallbackControllerTest()
     {
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", Environments.Development);
+        
         this.currencyService = new Mock<ICurrencyService>();
 
         IHostBuilder hostBuilder = new HostBuilder()
