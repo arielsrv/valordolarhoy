@@ -21,6 +21,8 @@ public class CurrencyControllerTest
 
     public CurrencyControllerTest()
     {
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", Environments.Production);
+            
         this.currencyService = new Mock<ICurrencyService>();
 
         IHostBuilder hostBuilder = new HostBuilder()

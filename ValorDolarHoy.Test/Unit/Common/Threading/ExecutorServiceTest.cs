@@ -29,7 +29,6 @@ public class ExecutorServiceTest
         int value = 0;
         executorService.Run(() =>
         {
-            Thread.Sleep(100);
             value = int.MaxValue;
         });
 
