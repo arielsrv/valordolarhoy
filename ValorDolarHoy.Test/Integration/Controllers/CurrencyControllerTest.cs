@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Castle.DynamicProxy.Generators;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
