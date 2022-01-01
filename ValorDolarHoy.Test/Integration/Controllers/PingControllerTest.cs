@@ -10,7 +10,7 @@ namespace ValorDolarHoy.Test.Integration.Controllers;
 public class PingControllerTest
 {
     private readonly HttpClient httpClient;
-    
+
     public PingControllerTest()
     {
         IHostBuilder hostBuilder = new HostBuilder()

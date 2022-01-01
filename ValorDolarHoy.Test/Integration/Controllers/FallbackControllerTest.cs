@@ -4,10 +4,10 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Moq;
 using Newtonsoft.Json;
-using ValorDolarHoy.Core.Extensions;
 using ValorDolarHoy.Core.Services.Currency;
 using Xunit;
 
@@ -21,7 +21,7 @@ public class FallbackControllerTest
     public FallbackControllerTest()
     {
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", Environments.Development);
-        
+
         this.currencyService = new Mock<ICurrencyService>();
 
         IHostBuilder hostBuilder = new HostBuilder()
@@ -29,10 +29,7 @@ public class FallbackControllerTest
             {
                 webHost.UseTestServer();
                 webHost.UseStartup<Startup>();
-                webHost.ConfigureTestServices(services =>
-                {
-                    services.SwapTransient(_ => this.currencyService.Object);
-                });
+                webHost.ConfigureTestServices(services => { services.AddSingleton(_ => this.currencyService.Object); });
             });
 
         IHost? host = hostBuilder.Start();
