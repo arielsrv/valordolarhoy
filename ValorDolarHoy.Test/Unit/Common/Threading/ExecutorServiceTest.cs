@@ -27,10 +27,7 @@ public class ExecutorServiceTest
         ExecutorService executorService = Executors.NewFixedThreadPool(10);
 
         int value = 0;
-        executorService.Run(() =>
-        {
-            value = int.MaxValue;
-        });
+        executorService.Run(() => { value = int.MaxValue; });
 
         Thread.Sleep(200);
         Assert.Equal(int.MaxValue, value);

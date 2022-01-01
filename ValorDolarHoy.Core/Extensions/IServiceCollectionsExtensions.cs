@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
@@ -43,22 +40,5 @@ public static class IServiceCollectionsExtensions
         services.AddSingleton(mapper);
 
         return services;
-    }
-
-    public static void SwapTransient<TService>(this IServiceCollection services,
-        Func<IServiceProvider, TService> implementationFactory)
-    {
-        if (services.Any(serviceDescriptor => serviceDescriptor.ServiceType == typeof(TService) &&
-                                              serviceDescriptor.Lifetime == ServiceLifetime.Transient))
-        {
-            List<ServiceDescriptor> serviceDescriptors = services
-                .Where(serviceDescriptor => serviceDescriptor.ServiceType == typeof(TService) &&
-                                            serviceDescriptor.Lifetime == ServiceLifetime.Transient).ToList();
-
-            foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors) services.Remove(serviceDescriptor);
-        }
-
-        services.AddTransient(typeof(TService),
-            serviceProvider => implementationFactory(serviceProvider) ?? throw new InvalidOperationException());
     }
 }

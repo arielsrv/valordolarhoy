@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Mime;
 using System.Reactive.Linq;
 using System.Threading;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ public class Client : HttpClient
         return Observable.Create(async (IObserver<T> observer) =>
         {
             HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
-            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
             using HttpResponseMessage httpResponseMessage =
                 await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
