@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -25,8 +26,7 @@ public class ErrorHandlerMiddleware
         catch (Exception error)
         {
             HttpResponse httpResponse = context.Response;
-            httpResponse.ContentType = "application/json";
-
+            httpResponse.ContentType = MediaTypeNames.Application.Json;
             httpResponse.StatusCode = error switch
             {
                 ApiBadRequestException => (int)HttpStatusCode.BadRequest,
