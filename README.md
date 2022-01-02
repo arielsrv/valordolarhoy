@@ -41,14 +41,13 @@ public async Task<IActionResult> GetLatestAsync()
 }
 ```
 
-Test
+Unit Test
 
 ```csharp
 [Fact]
 public void Get_Latest_Ok_Fallback_FromApi()
 {
-    this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
-        .Returns(Observable.Return(default(CurrencyDto)));
+    this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1")).Returns(Observable.Return(default(CurrencyDto)));
     this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
     
     CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
@@ -60,6 +59,27 @@ public void Get_Latest_Ok_Fallback_FromApi()
     Assert.Equal(11.0M, currencyDto.Official.Sell);
     Assert.Equal(12.0M, currencyDto.Blue!.Buy);
     Assert.Equal(13.0M, currencyDto.Blue.Sell);
+}
+```
+
+Integration Test
+
+```csharp
+[Fact]
+public async Task Basic_Integration_Test_InternalServerErrorAsync()
+{
+    this.currencyService.Setup(service => service.GetLatest()).Returns(Observable.Throw<CurrencyDto>(new ApiException()));
+
+    HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
+    string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+    Assert.NotNull(responseString);
+
+    ErrorHandlerMiddleware.ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
+
+    Assert.NotNull(errorModel);
+    Assert.Equal(500, errorModel.Code);
+    Assert.Equal(nameof(ApiException), errorModel.Type);
+    Assert.NotNull(errorModel.Detail);
 }
 ```
 

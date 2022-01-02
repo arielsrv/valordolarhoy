@@ -42,7 +42,8 @@ public class Startup
         services
             .AddMvc(options =>
             {
-                options.Filters.Add(new ProducesResponseTypeAttribute(typeof(ErrorHandlerMiddleware.ErrorModel), 500));
+                options.Filters.Add(
+                    new ProducesResponseTypeAttribute(typeof(ErrorHandlerMiddleware.ErrorModel), 500));
             })
             .AddJsonOptions(jsonOptions =>
             {

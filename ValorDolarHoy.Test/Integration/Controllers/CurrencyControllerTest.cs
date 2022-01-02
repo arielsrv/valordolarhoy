@@ -69,7 +69,8 @@ public class CurrencyControllerTest
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
-        ErrorHandlerMiddleware.ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
+        ErrorHandlerMiddleware.ErrorModel? errorModel =
+            JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
 
         Assert.NotNull(errorModel);
         Assert.Equal(500, errorModel.Code);
@@ -87,7 +88,8 @@ public class CurrencyControllerTest
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
-        ErrorHandlerMiddleware.ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
+        ErrorHandlerMiddleware.ErrorModel? errorModel =
+            JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
 
         Assert.NotNull(errorModel);
         Assert.Equal(404, errorModel.Code);
@@ -106,7 +108,8 @@ public class CurrencyControllerTest
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
-        ErrorHandlerMiddleware.ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
+        ErrorHandlerMiddleware.ErrorModel? errorModel =
+            JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
 
         Assert.NotNull(errorModel);
         Assert.Equal(400, errorModel.Code);
