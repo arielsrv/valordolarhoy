@@ -87,6 +87,10 @@ public async Task Basic_Integration_Test_InternalServerErrorAsync()
 
     curl 'https://valordolarhoy.herokuapp.com/fallback'
 
+## Responses
+
+### 200
+
 ```json
 {
   "official": {
@@ -97,5 +101,16 @@ public async Task Basic_Integration_Test_InternalServerErrorAsync()
     "sell": 200,
     "buy": 196
   }
+}
+```
+
+### 500
+
+```json
+{
+  "code": 500,
+  "type": "ApiException",
+  "message": "An internal server error has occurred. ",
+  "detail": "Please try again later"
 }
 ```
