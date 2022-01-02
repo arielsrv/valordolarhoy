@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ValorDolarHoy.Core.Services.Currency;
 
@@ -16,6 +17,7 @@ public class CurrencyController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(CurrencyDto), 200)]
     public async Task<IActionResult> GetLatestAsync()
     {
         return await TaskExecutor.ExecuteAsync(this.currencyService.GetLatest());
