@@ -39,8 +39,8 @@ public class Client : HttpClient
                     $"Request failed with uri {requestUri}. Status code: {(int)httpResponseMessage.StatusCode}. Raw message: {response}. ");
                 throw httpResponseMessage.StatusCode switch
                 {
-                    HttpStatusCode.NotFound => new ApiNotFoundException("Not found, " + requestUri),
-                    HttpStatusCode.BadRequest => new ApiBadRequestException("Bad request, " + requestUri),
+                    HttpStatusCode.NotFound => new ApiNotFoundException(response),
+                    HttpStatusCode.BadRequest => new ApiBadRequestException(response),
                     _ => new ApiException(httpResponseMessage.ReasonPhrase ?? "Unknown reason")
                 };
             }

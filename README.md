@@ -104,6 +104,17 @@ public async Task Basic_Integration_Test_InternalServerErrorAsync()
 }
 ```
 
+### 404
+
+```json
+{
+  "code": 404,
+  "type": "ApiNotFoundException",
+  "message": "{\"message\":\"Not Found\"}",
+  "detail": "   at ValorDolarHoy.Core.Common..."
+}
+```
+
 ### 500
 
 ```json
