@@ -17,6 +17,22 @@ public class ErrorHandlerMiddleware
         this.next = next;
     }
 
+    public class ErrorModel
+    {
+        public int Code { get; }
+        public string Type { get; }
+        public string Message { get; }
+        public string? Detail { get; }
+
+        public ErrorModel(int code, string type, string message, string? detail)
+        {
+            this.Code = code;
+            this.Type = type;
+            this.Message = message;
+            this.Detail = detail;
+        }
+    }
+
     public async Task InvokeAsync(HttpContext context)
     {
         try
@@ -35,13 +51,8 @@ public class ErrorHandlerMiddleware
                 _ => (int)HttpStatusCode.InternalServerError
             };
 
-            string result = JsonConvert.SerializeObject(new
-            {
-                Code = httpResponse.StatusCode,
-                Type = error.GetType().Name,
-                error.Message,
-                Detail = error.StackTrace
-            });
+            ErrorModel errorModel = new(httpResponse.StatusCode, error.GetType().Name, error.Message, error.StackTrace);
+            string result = JsonConvert.SerializeObject(errorModel);
 
             await httpResponse.WriteAsync(result);
         }

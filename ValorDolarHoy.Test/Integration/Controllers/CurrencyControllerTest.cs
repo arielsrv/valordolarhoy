@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Moq;
 using Newtonsoft.Json;
 using ValorDolarHoy.Core.Common.Exceptions;
+using ValorDolarHoy.Core.Middlewares;
 using ValorDolarHoy.Core.Services.Currency;
 using Xunit;
 
@@ -68,11 +69,13 @@ public class CurrencyControllerTest
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
-        ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorModel>(responseString);
+        ErrorHandlerMiddleware.ErrorModel? errorModel =
+            JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
 
         Assert.NotNull(errorModel);
         Assert.Equal(500, errorModel.Code);
         Assert.Equal(nameof(ApiException), errorModel.Type);
+        Assert.NotNull(errorModel.Detail);
     }
 
     [Fact]
@@ -85,12 +88,14 @@ public class CurrencyControllerTest
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
-        ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorModel>(responseString);
+        ErrorHandlerMiddleware.ErrorModel? errorModel =
+            JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
 
         Assert.NotNull(errorModel);
         Assert.Equal(404, errorModel.Code);
         Assert.Equal(nameof(ApiNotFoundException), errorModel.Type);
         Assert.Equal("not found", errorModel.Message);
+        Assert.NotNull(errorModel.Detail);
     }
 
     [Fact]
@@ -103,12 +108,14 @@ public class CurrencyControllerTest
         string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
-        ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorModel>(responseString);
+        ErrorHandlerMiddleware.ErrorModel? errorModel =
+            JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
 
         Assert.NotNull(errorModel);
         Assert.Equal(400, errorModel.Code);
         Assert.Equal(nameof(ApiBadRequestException), errorModel.Type);
         Assert.Equal("bad request", errorModel.Message);
+        Assert.NotNull(errorModel.Detail);
     }
 
     private static IObservable<CurrencyDto> GetLatest()
@@ -128,19 +135,5 @@ public class CurrencyControllerTest
         };
 
         return Observable.Return(currencyDto);
-    }
-
-    public class ErrorModel
-    {
-        public ErrorModel(int code, string? type, string? message)
-        {
-            this.Code = code;
-            this.Type = type;
-            this.Message = message;
-        }
-
-        public int Code { get; }
-        public string? Type { get; }
-        public string? Message { get; }
     }
 }

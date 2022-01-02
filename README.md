@@ -41,14 +41,13 @@ public async Task<IActionResult> GetLatestAsync()
 }
 ```
 
-Test
+Unit Test
 
 ```csharp
 [Fact]
 public void Get_Latest_Ok_Fallback_FromApi()
 {
-    this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
-        .Returns(Observable.Return(default(CurrencyDto)));
+    this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1")).Returns(Observable.Return(default(CurrencyDto)));
     this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
     
     CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
@@ -63,9 +62,34 @@ public void Get_Latest_Ok_Fallback_FromApi()
 }
 ```
 
+Integration Test
+
+```csharp
+[Fact]
+public async Task Basic_Integration_Test_InternalServerErrorAsync()
+{
+    this.currencyService.Setup(service => service.GetLatest()).Returns(Observable.Throw<CurrencyDto>(new ApiException()));
+
+    HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
+    string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+    Assert.NotNull(responseString);
+
+    ErrorHandlerMiddleware.ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
+
+    Assert.NotNull(errorModel);
+    Assert.Equal(500, errorModel.Code);
+    Assert.Equal(nameof(ApiException), errorModel.Type);
+    Assert.NotNull(errorModel.Detail);
+}
+```
+
 ## Request
 
     curl 'https://valordolarhoy.herokuapp.com/fallback'
+
+## Responses
+
+### 200
 
 ```json
 {
@@ -77,5 +101,27 @@ public void Get_Latest_Ok_Fallback_FromApi()
     "sell": 200,
     "buy": 196
   }
+}
+```
+
+### 404
+
+```json
+{
+  "code": 404,
+  "type": "ApiNotFoundException",
+  "message": "{\"message\":\"Not Found\"}",
+  "detail": "   at ValorDolarHoy.Core.Common..."
+}
+```
+
+### 500
+
+```json
+{
+  "code": 500,
+  "type": "ApiException",
+  "message": "An internal server error has occurred. ",
+  "detail": "Please try again later"
 }
 ```

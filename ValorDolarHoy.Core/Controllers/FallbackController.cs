@@ -16,12 +16,14 @@ public class FallbackController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(CurrencyDto), 200)]
     public async Task<IActionResult> GetLatestAsync()
     {
         return await TaskExecutor.ExecuteAsync(this.currencyService.GetFallback());
     }
 
     [HttpGet("test/zip")]
+    [ProducesResponseType(typeof(CurrencyDto), 200)]
     public async Task<IActionResult> ZipAsync()
     {
         return await TaskExecutor.ExecuteAsync(this.currencyService.GetAll());
