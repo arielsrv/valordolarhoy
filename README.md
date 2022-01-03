@@ -47,7 +47,8 @@ Unit Test
 [Fact]
 public void Get_Latest_Ok_Fallback_FromApi()
 {
-    this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1")).Returns(Observable.Return(default(CurrencyDto)));
+    this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
+        .Returns(Observable.Return(default(CurrencyDto)));
     this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
     
     CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
@@ -68,13 +69,15 @@ Integration Test
 [Fact]
 public async Task Basic_Integration_Test_InternalServerErrorAsync()
 {
-    this.currencyService.Setup(service => service.GetLatest()).Returns(Observable.Throw<CurrencyDto>(new ApiException()));
+    this.currencyService.Setup(service => service.GetLatest())
+        .Returns(Observable.Throw<CurrencyDto>(new ApiException()));
 
     HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
     string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
     Assert.NotNull(responseString);
 
-    ErrorHandlerMiddleware.ErrorModel? errorModel = JsonConvert.DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
+    ErrorHandlerMiddleware.ErrorModel? errorModel = JsonConvert
+        .DeserializeObject<ErrorHandlerMiddleware.ErrorModel>(responseString);
 
     Assert.NotNull(errorModel);
     Assert.Equal(500, errorModel.Code);
