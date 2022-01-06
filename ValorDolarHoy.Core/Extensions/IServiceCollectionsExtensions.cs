@@ -1,8 +1,7 @@
-using System.Net.Http;
+using System;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Polly;
 using ServiceStack.Redis;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Storage;
@@ -24,11 +23,9 @@ public static class IServiceCollectionsExtensions
     public static IServiceCollection AddClients(this IServiceCollection services)
     {
         services.AddHttpClient<ICurrencyClient, CurrencyClient>()
-            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-            {
-                MaxConnectionsPerServer = 20
-            })
-            .AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(20, int.MaxValue));
+            .SetTimeout(TimeSpan.FromMilliseconds(1500))
+            .SetMaxConnectionsPerServer(20)
+            .SetMaxParallelization(20);
 
         return services;
     }
@@ -36,7 +33,9 @@ public static class IServiceCollectionsExtensions
     public static IServiceCollection AddMappings(this IServiceCollection services)
     {
         MapperConfiguration mapperConfiguration = new(configure => { configure.AddProfile(new MappingProfile()); });
+
         IMapper mapper = mapperConfiguration.CreateMapper();
+
         services.AddSingleton(mapper);
 
         return services;

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -51,7 +53,12 @@ public class ErrorHandlerMiddleware
                 _ => (int)HttpStatusCode.InternalServerError
             };
 
-            ErrorModel errorModel = new(httpResponse.StatusCode, error.GetType().Name, error.Message, error.StackTrace);
+            ErrorModel errorModel = new(
+                httpResponse.StatusCode,
+                error.GetType().Name,
+                $"{error.Data["HttpClient"]}. {error.Message}",
+                error.StackTrace);
+
             string result = JsonConvert.SerializeObject(errorModel);
 
             await httpResponse.WriteAsync(result);

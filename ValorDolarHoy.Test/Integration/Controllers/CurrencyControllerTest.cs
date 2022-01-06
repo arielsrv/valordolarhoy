@@ -94,7 +94,6 @@ public class CurrencyControllerTest
         Assert.NotNull(errorModel);
         Assert.Equal(404, errorModel.Code);
         Assert.Equal(nameof(ApiNotFoundException), errorModel.Type);
-        Assert.Equal("not found", errorModel.Message);
         Assert.NotNull(errorModel.Detail);
     }
 
@@ -114,7 +113,6 @@ public class CurrencyControllerTest
         Assert.NotNull(errorModel);
         Assert.Equal(400, errorModel.Code);
         Assert.Equal(nameof(ApiBadRequestException), errorModel.Type);
-        Assert.Equal("bad request", errorModel.Message);
         Assert.NotNull(errorModel.Detail);
     }
 
