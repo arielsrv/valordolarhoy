@@ -38,7 +38,7 @@ public class ErrorHandlerMiddleware
             ErrorModel errorModel = new(
                 httpResponse.StatusCode,
                 error.GetType().Name,
-                GerErrorMessage(error),
+                GetErrorMessage(error),
                 error.StackTrace);
 
             string result = JsonConvert.SerializeObject(errorModel);
@@ -47,7 +47,7 @@ public class ErrorHandlerMiddleware
         }
     }
 
-    private static string GerErrorMessage(Exception error)
+    private static string GetErrorMessage(Exception error)
     {
         const string httpClientKey = "HttpClient";
 
