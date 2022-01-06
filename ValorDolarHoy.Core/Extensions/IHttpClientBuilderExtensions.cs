@@ -10,7 +10,7 @@ public static class IHttpClientBuilderExtensions
     public static IHttpClientBuilder SetTimeout(this IHttpClientBuilder httpClientBuilder, TimeSpan timeSpan)
     {
         httpClientBuilder.AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(timeSpan));
-        
+
         return httpClientBuilder;
     }
 

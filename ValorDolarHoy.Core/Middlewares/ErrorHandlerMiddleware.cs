@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -17,22 +15,6 @@ public class ErrorHandlerMiddleware
     public ErrorHandlerMiddleware(RequestDelegate next)
     {
         this.next = next;
-    }
-
-    public class ErrorModel
-    {
-        public int Code { get; }
-        public string Type { get; }
-        public string Message { get; }
-        public string? Detail { get; }
-
-        public ErrorModel(int code, string type, string message, string? detail)
-        {
-            this.Code = code;
-            this.Type = type;
-            this.Message = message;
-            this.Detail = detail;
-        }
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -63,5 +45,21 @@ public class ErrorHandlerMiddleware
 
             await httpResponse.WriteAsync(result);
         }
+    }
+
+    public class ErrorModel
+    {
+        public ErrorModel(int code, string type, string message, string? detail)
+        {
+            this.Code = code;
+            this.Type = type;
+            this.Message = message;
+            this.Detail = detail;
+        }
+
+        public int Code { get; }
+        public string Type { get; }
+        public string Message { get; }
+        public string? Detail { get; }
     }
 }
