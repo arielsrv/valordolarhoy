@@ -38,7 +38,9 @@ public class ErrorHandlerMiddleware
             ErrorModel errorModel = new(
                 httpResponse.StatusCode,
                 error.GetType().Name,
-                $"{error.Data["HttpClient"]}. {error.Message}",
+                error.Data.Count > 0 && error.Data.Contains("HttpClient")
+                    ? $"{error.Data["HttpClient"]}. {error.Message}"
+                    : error.Message,
                 error.StackTrace);
 
             string result = JsonConvert.SerializeObject(errorModel);
