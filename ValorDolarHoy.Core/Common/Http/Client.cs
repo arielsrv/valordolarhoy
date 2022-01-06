@@ -29,26 +29,35 @@ public class Client : HttpClient
             HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
             httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
-            using HttpResponseMessage httpResponseMessage =
-                await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
-            string response = await httpResponseMessage.Content.ReadAsStringAsync();
-
-            if (!httpResponseMessage.IsSuccessStatusCode)
+            try
             {
-                this.logger.LogError(
-                    $"Request failed with uri {requestUri}. Status code: {(int)httpResponseMessage.StatusCode}. Raw message: {response}. ");
-                throw httpResponseMessage.StatusCode switch
+                using HttpResponseMessage httpResponseMessage =
+                    await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
+                string response = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                if (!httpResponseMessage.IsSuccessStatusCode)
                 {
-                    HttpStatusCode.NotFound => new ApiNotFoundException(response),
-                    HttpStatusCode.BadRequest => new ApiBadRequestException(response),
-                    _ => new ApiException(httpResponseMessage.ReasonPhrase ?? "Unknown reason")
-                };
+                    this.logger.LogError(
+                        $"Request failed with uri {requestUri}. Status code: {(int)httpResponseMessage.StatusCode}. Raw message: {response}. ");
+                    throw httpResponseMessage.StatusCode switch
+                    {
+                        HttpStatusCode.NotFound => new ApiNotFoundException(response),
+                        HttpStatusCode.BadRequest => new ApiBadRequestException(response),
+                        _ => new ApiException(httpResponseMessage.ReasonPhrase ?? "Unknown reason")
+                    };
+                }
+
+                T result = JsonConvert.DeserializeObject<T>(response) ?? new T();
+
+                observer.OnNext(result);
+                observer.OnCompleted();
             }
-
-            T result = JsonConvert.DeserializeObject<T>(response) ?? new T();
-
-            observer.OnNext(result);
-            observer.OnCompleted();
+            catch (Exception e)
+            {
+                e.Data.Add("HttpClient", this.GetType().Name);
+                observer.OnError(e);
+                throw;
+            }
         });
     }
 }

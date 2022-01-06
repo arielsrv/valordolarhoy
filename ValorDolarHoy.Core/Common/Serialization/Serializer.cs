@@ -10,14 +10,16 @@ public static class Serializer
     {
         JsonConvert.DefaultSettings = () =>
         {
-            JsonSerializerSettings jsonSerializerSettings = new();
+            JsonSerializerSettings jsonSerializerSettings = new()
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                }
+            };
 
             jsonSerializerSettings.Converters.Add(new StringEnumConverter());
-            jsonSerializerSettings.Formatting = Formatting.Indented;
-            jsonSerializerSettings.ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            };
 
             return jsonSerializerSettings;
         };
