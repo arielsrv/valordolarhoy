@@ -38,15 +38,22 @@ public class ErrorHandlerMiddleware
             ErrorModel errorModel = new(
                 httpResponse.StatusCode,
                 error.GetType().Name,
-                error.Data.Count > 0 && error.Data.Contains("HttpClient")
-                    ? $"{error.Data["HttpClient"]}. {error.Message}"
-                    : error.Message,
+                GerErrorMessage(error),
                 error.StackTrace);
 
             string result = JsonConvert.SerializeObject(errorModel);
 
             await httpResponse.WriteAsync(result);
         }
+    }
+
+    private static string GerErrorMessage(Exception error)
+    {
+        const string httpClientKey = "HttpClient";
+
+        return error.Data.Count > 0 && error.Data.Contains(httpClientKey)
+            ? $"{error.Data[httpClientKey]}. {error.Message}"
+            : error.Message;
     }
 
     public class ErrorModel
