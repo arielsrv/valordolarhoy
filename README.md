@@ -10,7 +10,18 @@ This project was bootstrapped with [Rx.Net](https://github.com/dotnet/reactive).
 
 This is an simple example where there are two observables and fire a forget in another thread.
 
-Service
+
+### Controller
+
+```csharp
+[HttpGet]
+public async Task<IActionResult> GetLatestAsync()
+{
+    return await TaskExecutor.ExecuteAsync(this.currencyService.GetLatest());
+}
+```
+
+### Service
 
 ```csharp
 public IObservable<CurrencyDto> GetFallback()
@@ -31,17 +42,16 @@ public IObservable<CurrencyDto> GetFallback()
 }
 ```
 
-Controller
+### Clients (beta)
 
 ```csharp
-[HttpGet]
-public async Task<IActionResult> GetLatestAsync()
-{
-    return await TaskExecutor.ExecuteAsync(this.currencyService.GetLatest());
-}
+services.AddHttpClient<ICurrencyClient, CurrencyClient>()
+    .SetTimeout(TimeSpan.FromMilliseconds(1500))
+    .SetMaxConnectionsPerServer(20)
+    .SetMaxParallelization(20);
 ```
 
-Unit Test
+### Unit Test
 
 ```csharp
 [Fact]
@@ -63,7 +73,7 @@ public void Get_Latest_Ok_Fallback_FromApi()
 }
 ```
 
-Integration Test
+### Integration Test
 
 ```csharp
 [Fact]
