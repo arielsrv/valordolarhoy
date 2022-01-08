@@ -17,7 +17,7 @@ public class PingControllerTest
             .ConfigureWebHost(webHost =>
             {
                 webHost.UseTestServer();
-                webHost.UseStartup<Startup>();
+                webHost.UseStartup<Application>();
             });
 
         IHost? host = hostBuilder.Start();

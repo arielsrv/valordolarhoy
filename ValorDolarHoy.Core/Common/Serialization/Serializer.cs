@@ -1,12 +1,20 @@
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using ValorDolarHoy.Core.Common.Text;
 
 namespace ValorDolarHoy.Core.Common.Serialization;
 
 public static class Serializer
 {
-    public static void JsonSerializerSettings()
+    public static void BuildSettings(JsonOptions jsonOptions)
+    {
+        BuildIncomingSettings();
+        BuildOutgoingSettings(jsonOptions);
+    }
+
+    public static void BuildIncomingSettings()
     {
         JsonConvert.DefaultSettings = () =>
         {
@@ -23,5 +31,10 @@ public static class Serializer
 
             return jsonSerializerSettings;
         };
+    }
+
+    private static void BuildOutgoingSettings(JsonOptions jsonOptions)
+    {
+        jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
     }
 }
