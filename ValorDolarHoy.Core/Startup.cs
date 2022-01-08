@@ -45,12 +45,7 @@ public class Startup
                 options.Filters.Add(
                     new ProducesResponseTypeAttribute(typeof(ErrorHandlerMiddleware.ErrorModel), 500));
             })
-            .AddJsonOptions(jsonOptions =>
-            {
-                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new SnakeCaseNamingPolicy();
-            });
-
-        Serializer.JsonSerializerSettings();
+            .AddJsonOptions(Serializer.BuildSettings);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

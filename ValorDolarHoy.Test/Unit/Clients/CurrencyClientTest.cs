@@ -18,7 +18,7 @@ public class CurrencyClientTest
 
     public CurrencyClientTest()
     {
-        Serializer.JsonSerializerSettings();
+        Serializer.BuildIncomingSettings();
         this.httpClient = new Mock<HttpClient>();
         this.logger = new Mock<ILogger<CurrencyClient>>();
     }
