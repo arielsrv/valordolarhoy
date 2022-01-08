@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using ValorDolarHoy.Core.Common.Serialization;
 using ValorDolarHoy.Core.Middlewares;
+using ValorDolarHoy.Mappings;
 
 namespace ValorDolarHoy;
 
@@ -18,7 +21,7 @@ public abstract class Startup
     {
         this.configuration = configuration;
     }
-    
+
     protected abstract void Init(IServiceCollection services);
 
     // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,9 +41,18 @@ public abstract class Startup
             {
                 options.Filters.Add(
                     new ProducesResponseTypeAttribute(typeof(ErrorHandlerMiddleware.ErrorModel), 500));
-            });
+            })
+            .AddJsonOptions(Serializer.BuildSettings);
 
+        BuildMapper(services);
         Init(services);
+    }
+
+    private static void BuildMapper(IServiceCollection services)
+    {
+        MapperConfiguration mapperConfiguration = new(configure => { configure.AddProfile(new MappingProfile()); });
+        IMapper mapper = mapperConfiguration.CreateMapper();
+        services.AddSingleton(mapper);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
