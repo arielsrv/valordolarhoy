@@ -13,11 +13,11 @@ using ValorDolarHoy.Mappings;
 
 namespace ValorDolarHoy;
 
-public abstract class Startup
+public abstract class Application
 {
     protected readonly IConfiguration configuration;
 
-    protected Startup(IConfiguration configuration)
+    protected Application(IConfiguration configuration)
     {
         this.configuration = configuration;
     }

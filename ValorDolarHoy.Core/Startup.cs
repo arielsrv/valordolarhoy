@@ -12,9 +12,9 @@ using ValorDolarHoy.Mappings;
 
 namespace ValorDolarHoy;
 
-public class Application : Startup
+public class Startup : Application
 {
-    public Application(IConfiguration configuration) : base(configuration)
+    public Startup(IConfiguration configuration) : base(configuration)
     {
     }
 

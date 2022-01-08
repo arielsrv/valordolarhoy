@@ -21,7 +21,7 @@ public class StartupTest
         this.configuration.SetupGet(config => config["Storage:Redis"]).Returns("redis.io");
 
         IServiceCollection serviceCollection = new ServiceCollection();
-        Application startup = new(this.configuration.Object);
+        Startup startup = new(this.configuration.Object);
         startup.ConfigureServices(serviceCollection);
         serviceCollection.AddTransient<CurrencyController>();
 
@@ -36,7 +36,7 @@ public class StartupTest
         this.configuration.SetupGet(config => config["Storage:Redis"]).Returns("redis.io");
 
         IServiceCollection serviceCollection = new ServiceCollection();
-        Application startup = new(this.configuration.Object);
+        Startup startup = new(this.configuration.Object);
         startup.ConfigureServices(serviceCollection);
         serviceCollection.AddTransient<FallbackController>();
 
