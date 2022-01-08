@@ -10,7 +10,6 @@ This project was bootstrapped with [Rx.Net](https://github.com/dotnet/reactive).
 
 This is an simple example where there are two observables and fire a forget in another thread.
 
-
 ### Controller
 
 ```csharp
