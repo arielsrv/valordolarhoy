@@ -28,7 +28,7 @@ public class FallbackControllerTest
             .ConfigureWebHost(webHost =>
             {
                 webHost.UseTestServer();
-                webHost.UseStartup<Application>();
+                webHost.UseStartup<Startup>();
                 webHost.ConfigureTestServices(services => { services.AddSingleton(_ => this.currencyService.Object); });
             });
 
