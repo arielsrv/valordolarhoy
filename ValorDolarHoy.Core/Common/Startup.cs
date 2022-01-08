@@ -6,20 +6,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using ValorDolarHoy.Core.Common.Serialization;
-using ValorDolarHoy.Core.Extensions;
 using ValorDolarHoy.Core.Middlewares;
 
 namespace ValorDolarHoy;
 
-public class Startup
+public abstract class Startup
 {
-    private readonly IConfiguration configuration;
+    protected readonly IConfiguration configuration;
 
-    public Startup(IConfiguration configuration)
+    protected Startup(IConfiguration configuration)
     {
         this.configuration = configuration;
     }
+    
+    protected abstract void Init(IServiceCollection services);
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -34,17 +34,13 @@ public class Startup
         services.AddSpaStaticFiles(spaStaticFilesOptions => { spaStaticFilesOptions.RootPath = "ClientApp/build"; });
 
         services
-            .AddClients()
-            .AddMappings()
-            .AddServices(this.configuration);
-
-        services
             .AddMvc(options =>
             {
                 options.Filters.Add(
                     new ProducesResponseTypeAttribute(typeof(ErrorHandlerMiddleware.ErrorModel), 500));
-            })
-            .AddJsonOptions(Serializer.BuildSettings);
+            });
+
+        Init(services);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
