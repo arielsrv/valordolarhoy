@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ValorDolarHoy.Core.Common.Serialization;
-using ValorDolarHoy.Core.Common.Text;
 using ValorDolarHoy.Core.Extensions;
 using ValorDolarHoy.Core.Middlewares;
 
