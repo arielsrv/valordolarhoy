@@ -1,20 +1,42 @@
 using System;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
+using ServiceStack;
 
 namespace ValorDolarHoy.Core.Extensions;
 
 public static class IHttpClientBuilderExtensions
 {
-    public static IHttpClientBuilder SetTimeout(this IHttpClientBuilder httpClientBuilder, TimeSpan timeSpan)
+    public static void WithAppSettings<TImplementation>(this IHttpClientBuilder httpClientBuilder,
+        IConfiguration configuration)
+    {
+        string key = $"{typeof(TImplementation).Name.ToLowerInvariant()}:";
+
+        int timeout = GetIntValue(configuration, key, "timeout");
+        int maxConnectionsPerServer = GetIntValue(configuration, key, "max_connections_per_server");
+        int maxParallelization = GetIntValue(configuration, key, "max_parallelization");
+
+        httpClientBuilder
+            .SetTimeout(timeout > 0 ? TimeSpan.FromMilliseconds(timeout) : TimeSpan.FromMilliseconds(5000))
+            .SetMaxConnectionsPerServer(maxConnectionsPerServer > 0 ? maxConnectionsPerServer : 20)
+            .SetMaxParallelization(maxParallelization > 0 ? maxParallelization : 20);
+    }
+
+    private static int GetIntValue(IConfiguration configuration, string key, string value)
+    {
+        return configuration[key + value].ToInt();
+    }
+
+    private static IHttpClientBuilder SetTimeout(this IHttpClientBuilder httpClientBuilder, TimeSpan timeSpan)
     {
         httpClientBuilder.AddPolicyHandler(Policy.TimeoutAsync<HttpResponseMessage>(timeSpan));
 
         return httpClientBuilder;
     }
 
-    public static IHttpClientBuilder SetMaxConnectionsPerServer(this IHttpClientBuilder httpClientBuilder,
+    private static IHttpClientBuilder SetMaxConnectionsPerServer(this IHttpClientBuilder httpClientBuilder,
         int maxConnectionsPerServer)
     {
         httpClientBuilder.ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
@@ -25,11 +47,9 @@ public static class IHttpClientBuilderExtensions
         return httpClientBuilder;
     }
 
-    public static IHttpClientBuilder SetMaxParallelization(this IHttpClientBuilder httpClientBuilder,
+    private static void SetMaxParallelization(this IHttpClientBuilder httpClientBuilder,
         int maxParallelization)
     {
         httpClientBuilder.AddPolicyHandler(Policy.BulkheadAsync<HttpResponseMessage>(maxParallelization, int.MaxValue));
-
-        return httpClientBuilder;
     }
 }

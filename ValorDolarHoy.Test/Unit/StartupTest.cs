@@ -34,7 +34,7 @@ public class StartupTest
     public void Fallback()
     {
         this.configuration.SetupGet(config => config["Storage:Redis"]).Returns("redis.io");
-
+        
         IServiceCollection serviceCollection = new ServiceCollection();
         Startup startup = new(this.configuration.Object);
         startup.ConfigureServices(serviceCollection);
