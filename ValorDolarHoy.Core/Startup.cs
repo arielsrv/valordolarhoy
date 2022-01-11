@@ -1,14 +1,10 @@
-using System;
-using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStack.Redis;
 using ValorDolarHoy.Core.Clients.Currency;
-using ValorDolarHoy.Core.Common.Serialization;
+using ValorDolarHoy.Core.Common.Extensions;
 using ValorDolarHoy.Core.Common.Storage;
-using ValorDolarHoy.Core.Extensions;
 using ValorDolarHoy.Core.Services.Currency;
-using ValorDolarHoy.Mappings;
 
 namespace ValorDolarHoy;
 
@@ -23,11 +19,9 @@ public class Startup : Application
         services.AddSingleton<ICurrencyService, CurrencyService>();
         services.AddSingleton<IKeyValueStore, RedisStore>();
         services.AddSingleton<IRedisClientsManagerAsync, PooledRedisClientManager>(_ =>
-            new PooledRedisClientManager(configuration["Storage:Redis"]));
+            new PooledRedisClientManager(this.configuration["Storage:Redis"]));
 
         services.AddHttpClient<ICurrencyClient, CurrencyClient>()
-            .SetTimeout(TimeSpan.FromMilliseconds(1500))
-            .SetMaxConnectionsPerServer(20)
-            .SetMaxParallelization(20);
+            .WithAppSettings<CurrencyClient>(this.configuration);
     }
 }
