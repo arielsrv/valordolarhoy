@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using ServiceStack;
 
-namespace ValorDolarHoy.Core.Extensions;
+namespace ValorDolarHoy.Core.Common.Extensions;
 
 public static class IHttpClientBuilderExtensions
 {
@@ -15,7 +15,7 @@ public static class IHttpClientBuilderExtensions
         string key = $"{typeof(TImplementation).Name.ToLowerInvariant()}:";
 
         int timeout = GetIntValue(configuration, key, "timeout");
-        int maxConnectionsPerServer = GetIntValue(configuration, key, "max_connections_per_server");
+        int maxConnectionsPerServer = GetIntValue(configuration, key, "max_connections");
         int maxParallelization = GetIntValue(configuration, key, "max_parallelization");
 
         httpClientBuilder
