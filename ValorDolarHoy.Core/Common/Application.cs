@@ -45,7 +45,7 @@ public abstract class Application
             .AddJsonOptions(Serializer.BuildSettings);
 
         BuildMapper(services);
-        Init(services);
+        this.Init(services);
     }
 
     private static void BuildMapper(IServiceCollection services)
