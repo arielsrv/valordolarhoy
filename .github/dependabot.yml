@@ -11,5 +11,9 @@ updates:
   - package-ecosystem: "nuget"
     directory: "/ValorDolarHoy"
     schedule:
-      interval: "daily"         
-        
+      interval: "daily"
+  - package-ecosystem:  "npm"
+    directory: "/ValorDolarHoy/ClientApp"
+    schedule: 
+      interval: "daily"
+      
