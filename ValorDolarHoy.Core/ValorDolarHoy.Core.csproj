@@ -18,7 +18,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Polly" Version="7.2.3" />
         <PackageReference Include="ServiceStack.Redis" Version="6.0.2" />
-        <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="8.0.3" />
+        <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="8.0.4" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="System.Reactive" Version="5.1.0-preview.197" />
         <PackageReference Include="System.Reactive.Core" Version="5.1.0-preview.197" />
