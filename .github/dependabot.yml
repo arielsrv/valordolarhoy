@@ -12,8 +12,8 @@ updates:
     directory: "/ValorDolarHoy"
     schedule:
       interval: "daily"
-  - package-ecosystem:  "npm"
+  - package-ecosystem: "npm"
     directory: "/ValorDolarHoy/ClientApp"
-    schedule: 
+    schedule:
       interval: "daily"
       
