@@ -66,7 +66,7 @@ public class CurrencyService : ICurrencyService
                 : this.GetFromApi().Map(response =>
                 {
                     this.executorService.Run(() =>
-                        this.keyValueStore.Put(cacheKey, response, 60 * 10).Wait()); // mm * ss
+                        this.keyValueStore.Put(cacheKey, response, 60 * 10).ToBlocking()); // mm * ss
                     return response;
                 });
         });

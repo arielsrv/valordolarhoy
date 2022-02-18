@@ -34,7 +34,7 @@ public class FallbackControllerTest
 
         OkObjectResult okObjectResult = (OkObjectResult)actionResult;
         Assert.Equal(200, okObjectResult.StatusCode);
-        Assert.Equivalent(observableCurrencyDto.Wait(), okObjectResult.Value);
+        Assert.Equivalent(observableCurrencyDto.ToBlocking(), okObjectResult.Value);
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class FallbackControllerTest
 
         OkObjectResult okObjectResult = (OkObjectResult)actionResult;
         Assert.Equal(200, okObjectResult.StatusCode);
-        Assert.Equivalent(observableMessage.Wait(), okObjectResult.Value);
+        Assert.Equivalent(observableMessage.ToBlocking(), okObjectResult.Value);
     }
 
     private static IObservable<CurrencyDto> GetLatest()

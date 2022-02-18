@@ -34,7 +34,7 @@ public class CurrencyControllerTest
 
         OkObjectResult okObjectResult = (OkObjectResult)actionResult;
         Assert.Equal(200, okObjectResult.StatusCode);
-        Assert.Equivalent(observableCurrencyDto.Wait(), okObjectResult.Value);
+        Assert.Equivalent(observableCurrencyDto.ToBlocking(), okObjectResult.Value);
     }
 
     private static IObservable<CurrencyDto> GetLatest()

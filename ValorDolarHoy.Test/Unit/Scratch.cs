@@ -26,7 +26,7 @@ public class Scratch
                 RecommendedItemsDto recommendedItemsDto = new(recommendedItemDtos);
                 return recommendedItemsDto;
             })
-            .Wait();
+            .ToBlocking();
 
         Assert.NotNull(recommendedItemsDto);
         Assert.NotNull(recommendedItemsDto.Items);

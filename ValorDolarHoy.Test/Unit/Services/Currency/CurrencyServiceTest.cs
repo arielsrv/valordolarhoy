@@ -34,7 +34,7 @@ public class CurrencyServiceTest
 
         CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
-        CurrencyDto currencyDto = currencyService.GetLatest().Wait();
+        CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
 
         Assert.NotNull(currencyDto);
         Assert.NotNull(currencyDto.Official);
@@ -52,7 +52,7 @@ public class CurrencyServiceTest
 
         CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
-        string actual = currencyService.GetAll().Wait();
+        string actual = currencyService.GetAll().ToBlocking();
 
         Assert.NotNull(actual);
         Assert.Equal("Oficial: 11.0, Blue: 13.0", actual);
@@ -68,7 +68,7 @@ public class CurrencyServiceTest
             AppCache = this.appCache.Object
         };
 
-        CurrencyDto currencyDto = currencyService.GetLatest().Wait();
+        CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
 
         Assert.NotNull(currencyDto);
         Assert.Equal(10.0M, currencyDto.Official!.Buy);
@@ -85,7 +85,7 @@ public class CurrencyServiceTest
 
         CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
-        CurrencyDto currencyDto = currencyService.GetFallback().Wait();
+        CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
 
         Assert.NotNull(currencyDto);
         Assert.Equal(10.0M, currencyDto.Official!.Buy);
@@ -104,7 +104,7 @@ public class CurrencyServiceTest
 
         CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
-        CurrencyDto currencyDto = currencyService.GetFallback().Wait();
+        CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
 
         Assert.NotNull(currencyDto);
         Assert.Equal(10.0M, currencyDto.Official!.Buy);

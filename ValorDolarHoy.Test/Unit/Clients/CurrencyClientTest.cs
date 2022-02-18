@@ -31,7 +31,7 @@ public class CurrencyClientTest
             .ReturnsAsync(GetResponse());
 
         CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
-        CurrencyResponse currencyResponse = currencyClient.Get().Wait();
+        CurrencyResponse currencyResponse = currencyClient.Get().ToBlocking();
 
         Assert.NotNull(currencyResponse);
         Assert.NotNull(currencyResponse.Oficial);
@@ -50,7 +50,7 @@ public class CurrencyClientTest
 
         CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
 
-        Assert.Throws<ApiNotFoundException>(() => currencyClient.Get().Wait());
+        Assert.Throws<ApiNotFoundException>(() => currencyClient.Get().ToBlocking());
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class CurrencyClientTest
 
         CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
 
-        Assert.Throws<ApiBadRequestException>(() => currencyClient.Get().Wait());
+        Assert.Throws<ApiBadRequestException>(() => currencyClient.Get().ToBlocking());
     }
 
     [Fact]
@@ -80,7 +80,7 @@ public class CurrencyClientTest
 
         CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
 
-        Assert.Throws<ApiException>(() => currencyClient.Get().Wait());
+        Assert.Throws<ApiException>(() => currencyClient.Get().ToBlocking());
     }
 
     private static HttpResponseMessage GetResponse()
