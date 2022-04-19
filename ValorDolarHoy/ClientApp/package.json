@@ -17,7 +17,7 @@
     "react-router-dom": "5.1.2",
     "react-scripts": "^3.4.4",
     "reactstrap": "8.1.1",
-    "redux": "4.0.4",
+    "redux": "4.2.0",
     "redux-thunk": "2.3.0",
     "svgo": "1.3.0"
   },
