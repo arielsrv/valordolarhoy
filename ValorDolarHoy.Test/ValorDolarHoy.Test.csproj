@@ -16,7 +16,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.5" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
         <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.2.32" />
         <PackageReference Include="Moq" Version="4.17.2" />
