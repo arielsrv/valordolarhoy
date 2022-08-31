@@ -17,7 +17,7 @@
         <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.3.44" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="Polly" Version="7.2.3" />
-        <PackageReference Include="ServiceStack.Redis" Version="6.2.0" />
+        <PackageReference Include="ServiceStack.Redis" Version="6.3.0" />
         <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="8.0.5" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <PackageReference Include="System.Reactive" Version="5.1.0-preview.207" />
