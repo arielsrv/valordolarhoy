@@ -25,7 +25,6 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-
 # Install the agent
 RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
 && echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list \
@@ -33,7 +32,7 @@ RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
 && apt-key add 548C16BF.gpg \
 && apt-get update \
 && apt-get install -y newrelic-dotnet-agent \
-&& rm -rf /var/lib/apt/lists/*
+&& rm -rf /var/lib/apt/lists/* 
 
 # Enable the agent
 ENV CORECLR_ENABLE_PROFILING=1 \
