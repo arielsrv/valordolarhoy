@@ -24,7 +24,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="ReportGenerator" Version="5.1.9" />
+        <PackageReference Include="ReportGenerator" Version="5.1.10" />
         <PackageReference Include="System.Reactive" Version="5.1.0-preview.207" />
         <PackageReference Include="System.Reactive.Core" Version="5.1.0-preview.207" />
         <PackageReference Include="System.Reactive.Interfaces" Version="5.1.0-preview.207" />
