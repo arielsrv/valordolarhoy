@@ -55,7 +55,7 @@ public class CurrencyServiceTest
         string actual = currencyService.GetAll().ToBlocking();
 
         Assert.NotNull(actual);
-        Assert.Equal("Oficial: 11,0, Blue: 13,0", actual);
+        Assert.Equal("Oficial: 11.0, Blue: 13.0", actual);
     }
 
     [Fact]
