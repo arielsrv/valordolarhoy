@@ -55,7 +55,7 @@ public class CurrencyServiceTest
         string actual = currencyService.GetAll().ToBlocking();
 
         Assert.NotNull(actual);
-        Assert.Equal("Oficial: 11.0, Blue: 13.0", actual);
+        Assert.Equal("Oficial: 11, Blue: 13", actual);
     }
 
     [Fact]
@@ -119,13 +119,13 @@ public class CurrencyServiceTest
         {
             Official = new OficialDto
             {
-                Buy = 10.0M,
-                Sell = 11.0M
+                Buy = 10,
+                Sell = 11
             },
             Blue = new BlueDto
             {
-                Buy = 12.0M,
-                Sell = 13.0M
+                Buy = 12,
+                Sell = 13
             }
         };
     }
@@ -136,13 +136,13 @@ public class CurrencyServiceTest
         {
             Oficial = new OficialResponse
             {
-                ValueBuy = 10.0M,
-                ValueSell = 11.0M
+                ValueBuy = 10,
+                ValueSell = 11
             },
             Blue = new BlueResponse
             {
-                ValueBuy = 12.0M,
-                ValueSell = 13.0M
+                ValueBuy = 12,
+                ValueSell = 13
             }
         });
     }
