@@ -1,16 +1,17 @@
 namespace ValorDolarHoy.Core.Services.Currency;
 
 /// <summary>
-/// Blue
+///     Blue
 /// </summary>
 public class BlueDto
 {
     /// <summary>
-    /// To sell
+    ///     To sell
     /// </summary>
     public decimal Sell { get; init; }
+
     /// <summary>
-    /// To buy
+    ///     To buy
     /// </summary>
     public decimal Buy { get; init; }
 }

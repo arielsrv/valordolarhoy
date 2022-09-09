@@ -1,17 +1,17 @@
 namespace ValorDolarHoy.Core.Services.Currency;
 
 /// <summary>
-/// Currency
+///     Currency
 /// </summary>
 public class CurrencyDto
 {
     /// <summary>
-    /// Official
+    ///     Official
     /// </summary>
     public OficialDto? Official { get; init; }
 
     /// <summary>
-    /// Blue
+    ///     Blue
     /// </summary>
     public BlueDto? Blue { get; init; }
 }

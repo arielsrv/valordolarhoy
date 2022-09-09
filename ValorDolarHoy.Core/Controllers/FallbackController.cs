@@ -5,7 +5,7 @@ using ValorDolarHoy.Core.Services.Currency;
 namespace ValorDolarHoy.Core.Controllers;
 
 /// <summary>
-/// FallbackController
+///     FallbackController
 /// </summary>
 [ApiController]
 [Route("[controller]")]
@@ -14,7 +14,7 @@ public class FallbackController : ControllerBase
     private readonly ICurrencyService currencyService;
 
     /// <summary>
-    /// FallbackController
+    ///     FallbackController
     /// </summary>
     /// <param name="currencyService"></param>
     public FallbackController(ICurrencyService currencyService)
@@ -23,7 +23,7 @@ public class FallbackController : ControllerBase
     }
 
     /// <summary>
-    /// Get from fallback
+    ///     Get from fallback
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -34,7 +34,7 @@ public class FallbackController : ControllerBase
     }
 
     /// <summary>
-    /// Example for zip
+    ///     Example for zip
     /// </summary>
     /// <returns></returns>
     [HttpGet("test/zip")]

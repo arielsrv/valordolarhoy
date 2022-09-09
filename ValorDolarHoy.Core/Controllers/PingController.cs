@@ -5,14 +5,14 @@ using ValorDolarHoy.Core.Common.Extensions;
 namespace ValorDolarHoy.Core.Controllers;
 
 /// <summary>
-/// Ping
+///     Ping
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 public class PingController : ControllerBase
 {
     /// <summary>
-    /// Check if app is online
+    ///     Check if app is online
     /// </summary>
     /// <returns>Http Status Code and string message</returns>
     /// <response code="200">ping is available</response>
