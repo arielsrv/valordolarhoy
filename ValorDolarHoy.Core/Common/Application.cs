@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using ValorDolarHoy.Core.Common.Extensions;
 using ValorDolarHoy.Core.Common.Serialization;
 using ValorDolarHoy.Core.Middlewares;
 using ValorDolarHoy.Mappings;
@@ -79,6 +81,8 @@ public abstract class Application
         app.UseRouting();
 
         app.UseMiddleware<ErrorHandlerMiddleware>();
+
+        app.UseWarmUp(new ApplicationWarmupper(TimeSpan.FromMilliseconds(1000), 3));
 
         app.UseEndpoints(endpoints =>
         {
