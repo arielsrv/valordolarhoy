@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,24 +17,43 @@ using ValorDolarHoy.Mappings;
 
 namespace ValorDolarHoy;
 
+/// <summary>
+/// Application
+/// </summary>
 public abstract class Application
 {
+    /// <summary>
+    /// Config
+    /// </summary>
     protected readonly IConfiguration configuration;
 
+    /// <summary>
+    /// Application
+    /// </summary>
+    /// <param name="configuration"></param>
     protected Application(IConfiguration configuration)
     {
         this.configuration = configuration;
     }
 
+    /// <summary>
+    /// Services
+    /// </summary>
+    /// <param name="services"></param>
     protected abstract void Init(IServiceCollection services);
 
-    // This method gets called by the runtime. Use this method to add services to the container.
+    /// <summary>
+    /// This method gets called by the runtime. Use this method to add services to the container.
+    /// </summary>
+    /// <param name="services"></param>
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllersWithViews();
         services.AddSwaggerGen(swaggerGenOptions =>
         {
             swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "ValorDolarHoy", Version = "v1" });
+            string xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            swaggerGenOptions.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
 
         // In production, the React files will be served from this directory
@@ -56,7 +78,11 @@ public abstract class Application
         services.AddSingleton(mapper);
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    /// <summary>
+    /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    /// </summary>
+    /// <param name="app"></param>
+    /// <param name="env"></param>
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
