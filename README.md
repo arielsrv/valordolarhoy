@@ -52,6 +52,65 @@ services.AddHttpClient<ICurrencyClient, CurrencyClient>()
     .SetMaxParallelization(20);
 ```
 
+### Warmup
+
+#### Enabler
+```csharp
+public static void UseWarmUp(this IApplicationBuilder applicationBuilder)
+    {
+        Task.Run(() =>
+            {
+                IApplicationWarmUpper? applicationWarmUpper =
+                    applicationBuilder.ApplicationServices.GetService<IApplicationWarmUpper>();
+
+                if (applicationWarmUpper == null) return;
+
+                WarmupExecutor.Warmup(applicationWarmUpper);
+            }
+        ).Forget();
+    }
+```
+
+#### Custom func
+```csharp 
+public bool Warmup()
+    {
+        Thread.Sleep(1000);
+
+        for (int i = 0; i < 3; i++)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(this.baseUrl)) return true;
+
+                string requestUri = $"{this.baseUrl}/Currency";
+                HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
+                HttpResponseMessage httpResponseMessage = this.httpClient.Send(httpRequestMessage);
+
+                if (httpResponseMessage.StatusCode == HttpStatusCode.OK) return true;
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            Thread.Sleep(1000);
+        }
+
+        return false;
+    }
+```
+#### Ping
+
+```csharp
+public ActionResult<string> Pong()
+    {
+        return WarmupExecutor.Initialized
+            ? this.StatusCode(StatusCodes.Status200OK, "pong")
+            : this.StatusCode(StatusCodes.Status503ServiceUnavailable, "offline");
+    }
+```
+
 ### Unit Test
 
 ```csharp
