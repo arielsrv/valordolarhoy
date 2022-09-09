@@ -1,4 +1,5 @@
 namespace System.Reactive.Linq;
+#pragma warning disable CS1591
 
 public static class ObservableExtensions
 {

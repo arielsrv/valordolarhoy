@@ -1,3 +1,4 @@
+#pragma warning disable CS1591
 namespace ValorDolarHoy.Core.Clients.Currency;
 
 public class BlueResponse

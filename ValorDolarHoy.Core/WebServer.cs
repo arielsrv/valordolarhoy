@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy;
 
 public static class WebServer

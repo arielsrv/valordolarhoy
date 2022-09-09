@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ValorDolarHoy.Core.Common.Exceptions;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy.Core.Common.Http;
 
 public class Client : HttpClient

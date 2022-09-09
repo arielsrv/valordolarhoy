@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using ValorDolarHoy.Core.Common.Exceptions;
+#pragma warning disable CS1591
 
 namespace ValorDolarHoy.Core.Middlewares;
 

@@ -4,6 +4,8 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy.Core.Common.Extensions;
 
 public interface IApplicationWarmUpper
@@ -13,7 +15,10 @@ public interface IApplicationWarmUpper
 
 public class WarmupExecutor
 {
-    public static bool Initialized { get; private set; }
+    /// <summary>
+    ///     Check flag
+    /// </summary>
+    public static bool Initialized { get; set; } = true;
 
     public static void Warmup(IApplicationWarmUpper applicationWarmUpper)
     {

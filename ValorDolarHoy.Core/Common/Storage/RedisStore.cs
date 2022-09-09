@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using ServiceStack.Caching;
 using ServiceStack.Redis;
+#pragma warning disable CS1591
 
 namespace ValorDolarHoy.Core.Common.Storage;
 

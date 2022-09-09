@@ -1,4 +1,5 @@
 namespace ValorDolarHoy.Core.Clients.Currency;
+#pragma warning disable CS1591
 
 public class OficialResponse
 {

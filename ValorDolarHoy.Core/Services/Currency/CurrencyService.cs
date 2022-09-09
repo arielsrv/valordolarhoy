@@ -6,6 +6,7 @@ using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Caching;
 using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Common.Threading;
+#pragma warning disable CS1591
 
 namespace ValorDolarHoy.Core.Services.Currency;
 

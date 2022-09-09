@@ -18,17 +18,17 @@ using ValorDolarHoy.Mappings;
 namespace ValorDolarHoy;
 
 /// <summary>
-/// Application
+///     Application
 /// </summary>
 public abstract class Application
 {
     /// <summary>
-    /// Config
+    ///     Config
     /// </summary>
     protected readonly IConfiguration configuration;
 
     /// <summary>
-    /// Application
+    ///     Application
     /// </summary>
     /// <param name="configuration"></param>
     protected Application(IConfiguration configuration)
@@ -37,13 +37,13 @@ public abstract class Application
     }
 
     /// <summary>
-    /// Services
+    ///     Services
     /// </summary>
     /// <param name="services"></param>
     protected abstract void Init(IServiceCollection services);
 
     /// <summary>
-    /// This method gets called by the runtime. Use this method to add services to the container.
+    ///     This method gets called by the runtime. Use this method to add services to the container.
     /// </summary>
     /// <param name="services"></param>
     public void ConfigureServices(IServiceCollection services)
@@ -79,7 +79,7 @@ public abstract class Application
     }
 
     /// <summary>
-    /// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    ///     This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     /// </summary>
     /// <param name="app"></param>
     /// <param name="env"></param>

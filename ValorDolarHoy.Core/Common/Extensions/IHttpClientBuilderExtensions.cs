@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using ServiceStack;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy.Core.Common.Extensions;
 
 public static class IHttpClientBuilderExtensions

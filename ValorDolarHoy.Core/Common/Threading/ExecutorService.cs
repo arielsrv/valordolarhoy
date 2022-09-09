@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.Threading;
 using Polly;
 using Polly.Bulkhead;
+#pragma warning disable CS1591
 
 namespace ValorDolarHoy.Core.Common.Threading;
 

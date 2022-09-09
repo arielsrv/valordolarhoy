@@ -1,6 +1,7 @@
 using AutoMapper;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Services.Currency;
+#pragma warning disable CS1591
 
 namespace ValorDolarHoy.Mappings;
 

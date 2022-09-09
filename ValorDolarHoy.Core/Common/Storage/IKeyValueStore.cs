@@ -1,5 +1,6 @@
 using System;
 using System.Reactive;
+#pragma warning disable CS1591
 
 namespace ValorDolarHoy.Core.Common.Storage;
 

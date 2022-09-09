@@ -3,6 +3,8 @@ using System.Net.Http;
 using Microsoft.Extensions.Logging;
 using ValorDolarHoy.Core.Common.Http;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy.Core.Clients.Currency;
 
 public interface ICurrencyClient

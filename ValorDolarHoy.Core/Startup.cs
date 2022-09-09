@@ -6,6 +6,8 @@ using ValorDolarHoy.Core.Common.Extensions;
 using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Services.Currency;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy;
 
 public class Startup : Application

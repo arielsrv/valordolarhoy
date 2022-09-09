@@ -1,6 +1,8 @@
 using System;
 using Newtonsoft.Json.Serialization;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy.Core.Common.Extensions;
 
 public static class StringExtensions

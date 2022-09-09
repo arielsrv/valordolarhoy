@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using ValorDolarHoy.Core.Common.Text;
+#pragma warning disable CS1591
 
 namespace ValorDolarHoy.Core.Common.Serialization;
 

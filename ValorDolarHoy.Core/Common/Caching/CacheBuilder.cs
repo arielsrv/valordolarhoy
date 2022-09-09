@@ -1,6 +1,8 @@
 using System;
 using Microsoft.Extensions.Caching.Memory;
 
+#pragma warning disable CS1591
+
 namespace ValorDolarHoy.Core.Common.Caching;
 
 public class CacheBuilder<TKey, TValue>
