@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 namespace ValorDolarHoy.Pages;
 
 /// <summary>
-/// Error model
+///     Error model
 /// </summary>
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 public class ErrorModel : PageModel
 {
     /// <summary>
-    /// ErrorModel
+    ///     ErrorModel
     /// </summary>
     /// <param name="logger"></param>
     public ErrorModel(ILogger<ErrorModel> logger)
@@ -20,12 +20,12 @@ public class ErrorModel : PageModel
     }
 
     /// <summary>
-    /// RequestId
+    ///     RequestId
     /// </summary>
     public string RequestId { get; }
 
     /// <summary>
-    /// ShowRequestId
+    ///     ShowRequestId
     /// </summary>
     public bool ShowRequestId => !string.IsNullOrEmpty(this.RequestId);
 }

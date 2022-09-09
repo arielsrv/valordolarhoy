@@ -1,12 +1,12 @@
 namespace ValorDolarHoy;
 
 /// <summary>
-/// Main
+///     Main
 /// </summary>
 public static class Program
 {
     /// <summary>
-    /// Run
+    ///     Run
     /// </summary>
     /// <param name="args"></param>
     public static void Main(string[] args)

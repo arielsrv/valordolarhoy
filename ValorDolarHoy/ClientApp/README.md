@@ -301,7 +301,8 @@ Then add the block below to your `launch.json` file and put it inside the `.vsco
 }
 ```
 
-> Note: the URL may be different if you've made adjustments via the [HOST or PORT environment variables](#advanced-configuration).
+> Note: the URL may be different if you've made adjustments via
+> the [HOST or PORT environment variables](#advanced-configuration).
 
 Start your app by running `npm start`, and start debugging in VS Code by pressing `F5` or by clicking the green debug
 icon. You can now write code, set breakpoints, make changes to the code, and debug your newly modified code—all from
@@ -319,7 +320,8 @@ Chrome extension installed.
 In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and select `JavaScript Debug`.
 Paste `http://localhost:3000` into the URL field and save the configuration.
 
-> Note: the URL may be different if you've made adjustments via the [HOST or PORT environment variables](#advanced-configuration).
+> Note: the URL may be different if you've made adjustments via
+> the [HOST or PORT environment variables](#advanced-configuration).
 
 Start your app by running `npm start`, then press `^D` on macOS or `F9` on Windows and Linux or click the green debug
 icon to start debugging in WebStorm.
@@ -643,7 +645,8 @@ Then in `package.json`, add the following lines to `scripts`:
      "test": "react-scripts test --env=jsdom",
 ```
 
-> Note: To use a different preprocessor, replace `build-css` and `watch-css` commands according to your preprocessor’s documentation.
+> Note: To use a different preprocessor, replace `build-css` and `watch-css` commands according to your preprocessor’s
+> documentation.
 
 Now you can rename `src/App.css` to `src/App.scss` and run `npm run watch-css`. The watcher will find every Sass file
 in `src` subdirectories, and create a corresponding CSS file next to it, in our case overwriting `src/App.css`.
@@ -943,7 +946,10 @@ bundle, it can’t possibly read them at runtime. To read them at runtime, you w
 server and replace placeholders in runtime, just like [described here](#injecting-data-from-the-server-into-the-page).
 Alternatively you can rebuild the app on the server anytime you change them.
 
-> Note: You must create custom environment variables beginning with `REACT_APP_`. Any other variables except `NODE_ENV` will be ignored to avoid accidentally [exposing a private key on the machine that could have the same name](https://github.com/facebookincubator/create-react-app/issues/865#issuecomment-252199527). Changing any environment variables will require you to restart the development server if it is running.
+> Note: You must create custom environment variables beginning with `REACT_APP_`. Any other variables except `NODE_ENV`
+> will be ignored to avoid
+> accidentally [exposing a private key on the machine that could have the same name](https://github.com/facebookincubator/create-react-app/issues/865#issuecomment-252199527)
+> . Changing any environment variables will require you to restart the development server if it is running.
 
 These environment variables will be defined for you on `process.env`. For example, having an environment variable
 named `REACT_APP_SECRET_CODE` will be exposed in your JS as `process.env.REACT_APP_SECRET_CODE`.
@@ -1071,7 +1077,10 @@ Files on the left have more priority than files on the right:
 These variables will act as the defaults if the machine does not explicitly set them.<br>
 Please refer to the [dotenv documentation](https://github.com/motdotla/dotenv) for more details.
 
-> Note: If you are defining environment variables for development, your CI and/or hosting platform will most likely need these defined as well. Consult their documentation how to do this. For example, see the documentation for [Travis CI](https://docs.travis-ci.com/user/environment-variables/) or [Heroku](https://devcenter.heroku.com/articles/config-vars).
+> Note: If you are defining environment variables for development, your CI and/or hosting platform will most likely need
+> these defined as well. Consult their documentation how to do this. For example, see the documentation
+> for [Travis CI](https://docs.travis-ci.com/user/environment-variables/)
+> or [Heroku](https://devcenter.heroku.com/articles/config-vars).
 
 ## Can I Use Decorators?
 
@@ -1726,7 +1735,9 @@ CI=true npm run build
 
 The test command will force Jest to run tests once instead of launching the watcher.
 
-> If you find yourself doing this often in development, please [file an issue](https://github.com/facebookincubator/create-react-app/issues/new) to tell us about your use case because we want to make watcher the best experience and are open to changing how it works to accommodate more workflows.
+> If you find yourself doing this often in development,
+> please [file an issue](https://github.com/facebookincubator/create-react-app/issues/new) to tell us about your use case
+> because we want to make watcher the best experience and are open to changing how it works to accommodate more workflows.
 
 The build command will check for linter warnings and fail if any are found.
 
@@ -2502,7 +2513,8 @@ It is reported that `npm run build` can fail on machines with limited memory and
 environments. Even with small projects this command can increase RAM usage in your system by hundreds of megabytes, so
 if you have less than 1 GB of available memory your build is likely to fail with the following message:
 
-> The build failed because the process exited too early. This probably means the system ran out of memory or someone called `kill -9` on the process.
+> The build failed because the process exited too early. This probably means the system ran out of memory or someone
+> called `kill -9` on the process.
 
 If you are completely sure that you didn't terminate the process,
 consider [adding some swap space](https://www.digitalocean.com/community/tutorials/how-to-add-swap-on-ubuntu-14-04) to
