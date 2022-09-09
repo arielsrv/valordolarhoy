@@ -16,8 +16,7 @@ public static class IApplicationBuilderExtensions
 
                 if (applicationWarmUpper == null) return;
 
-                WarmupExecutor warmupExecutor = new(applicationWarmUpper);
-                warmupExecutor.Warmup();
+                WarmupExecutor.Warmup(applicationWarmUpper);
             }
         ).Forget();
     }

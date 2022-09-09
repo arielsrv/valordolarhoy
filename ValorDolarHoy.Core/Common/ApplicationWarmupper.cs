@@ -13,18 +13,11 @@ public interface IApplicationWarmUpper
 
 public class WarmupExecutor
 {
-    private readonly IApplicationWarmUpper applicationWarmUpper;
-
-    public WarmupExecutor(IApplicationWarmUpper applicationWarmUpper)
-    {
-        this.applicationWarmUpper = applicationWarmUpper;
-    }
-
     public static bool Initialized { get; private set; }
 
-    public void Warmup()
+    public static void Warmup(IApplicationWarmUpper applicationWarmUpper)
     {
-        Initialized = this.applicationWarmUpper.Warmup();
+        Initialized = applicationWarmUpper.Warmup();
     }
 }
 

@@ -948,7 +948,8 @@ Alternatively you can rebuild the app on the server anytime you change them.
 
 > Note: You must create custom environment variables beginning with `REACT_APP_`. Any other variables except `NODE_ENV`
 > will be ignored to avoid
-> accidentally [exposing a private key on the machine that could have the same name](https://github.com/facebookincubator/create-react-app/issues/865#issuecomment-252199527)
+>
+accidentally [exposing a private key on the machine that could have the same name](https://github.com/facebookincubator/create-react-app/issues/865#issuecomment-252199527)
 > . Changing any environment variables will require you to restart the development server if it is running.
 
 These environment variables will be defined for you on `process.env`. For example, having an environment variable
@@ -1736,8 +1737,10 @@ CI=true npm run build
 The test command will force Jest to run tests once instead of launching the watcher.
 
 > If you find yourself doing this often in development,
-> please [file an issue](https://github.com/facebookincubator/create-react-app/issues/new) to tell us about your use case
-> because we want to make watcher the best experience and are open to changing how it works to accommodate more workflows.
+> please [file an issue](https://github.com/facebookincubator/create-react-app/issues/new) to tell us about your use
+> case
+> because we want to make watcher the best experience and are open to changing how it works to accommodate more
+> workflows.
 
 The build command will check for linter warnings and fail if any are found.
 
