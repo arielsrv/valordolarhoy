@@ -82,7 +82,7 @@ public abstract class Application
 
         app.UseMiddleware<ErrorHandlerMiddleware>();
 
-        app.UseWarmUp(new ApplicationWarmupper(TimeSpan.FromMilliseconds(1000), 3));
+        app.UseWarmUp();
 
         app.UseEndpoints(endpoints =>
         {

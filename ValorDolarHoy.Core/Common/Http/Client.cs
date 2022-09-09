@@ -13,7 +13,7 @@ namespace ValorDolarHoy.Core.Common.Http;
 
 public class Client : HttpClient
 {
-    private readonly HttpClient httpClient;
+    protected readonly HttpClient httpClient;
     private readonly ILogger<Client> logger;
 
     protected Client(HttpClient httpClient, ILogger<Client> logger)
@@ -22,12 +22,52 @@ public class Client : HttpClient
         this.logger = logger;
     }
 
+    protected IObservable<string> Get(string requestUri)
+    {
+        return Observable.Create(async (IObserver<string> observer) =>
+        {
+            HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
+            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+
+            try
+            {
+                using HttpResponseMessage httpResponseMessage =
+                    await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
+                string response = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                if (!httpResponseMessage.IsSuccessStatusCode)
+                {
+                    this.logger.LogError(
+                        $"Request failed with uri {requestUri}. Status code: {(int)httpResponseMessage.StatusCode}. Raw message: {response}. ");
+                    throw httpResponseMessage.StatusCode switch
+                    {
+                        HttpStatusCode.NotFound => new ApiNotFoundException(response),
+                        HttpStatusCode.BadRequest => new ApiBadRequestException(response),
+                        _ => new ApiException(httpResponseMessage.ReasonPhrase ?? "Unknown reason")
+                    };
+                }
+
+                string result = JsonConvert.DeserializeObject<string>(response) ?? string.Empty;
+
+                observer.OnNext(result);
+                observer.OnCompleted();
+            }
+            catch (Exception e)
+            {
+                e.Data.Add("HttpClient", this.GetType().Name);
+                observer.OnError(e);
+                throw;
+            }
+        });
+    }
+
     protected IObservable<T> Get<T>(string requestUri) where T : new()
     {
         return Observable.Create(async (IObserver<T> observer) =>
         {
             HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
-            httpRequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            httpRequestMessage.Headers.Accept.Add(
+                new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
 
             try
             {

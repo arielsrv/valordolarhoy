@@ -37,13 +37,8 @@ public class ApplicationWarmupper : IApplicationWarmUpper
         Timeout = TimeSpan.FromMilliseconds(5000)
     };
 
-    private readonly int retries;
-    private readonly TimeSpan wait;
-
-    public ApplicationWarmupper(TimeSpan wait, int retries)
+    public ApplicationWarmupper()
     {
-        this.wait = wait;
-        this.retries = retries;
         this.baseUrl = Environment
             .GetEnvironmentVariable("ASPNETCORE_URLS")?
             .Split(";")
@@ -52,9 +47,9 @@ public class ApplicationWarmupper : IApplicationWarmUpper
 
     public bool Warmup()
     {
-        Thread.Sleep(this.wait);
+        Thread.Sleep(1000);
 
-        for (int i = 0; i < this.retries; i++)
+        for (int i = 0; i < 3; i++)
         {
             try
             {
@@ -71,7 +66,7 @@ public class ApplicationWarmupper : IApplicationWarmUpper
                 // ignored
             }
 
-            Thread.Sleep(this.wait);
+            Thread.Sleep(1000);
         }
 
         return false;

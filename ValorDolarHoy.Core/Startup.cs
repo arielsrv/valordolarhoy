@@ -23,5 +23,7 @@ public class Startup : Application
 
         services.AddHttpClient<ICurrencyClient, CurrencyClient>()
             .WithAppSettings<CurrencyClient>(this.configuration);
+
+        services.AddSingleton<IApplicationWarmUpper, ApplicationWarmupper>();
     }
 }
