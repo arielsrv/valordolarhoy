@@ -107,7 +107,7 @@ public abstract class Application
 
         app.UseMiddleware<ErrorHandlerMiddleware>();
 
-        app.UseWarmUp();
+        // app.UseWarmUp();
 
         app.UseEndpoints(endpoints =>
         {
