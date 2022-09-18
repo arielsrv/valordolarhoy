@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using ValorDolarHoy.Core.Common.Threading;
 using Xunit;
@@ -14,7 +15,7 @@ public class ExecutorServiceTest
         int value = 0;
         executorService.Run(() =>
         {
-            Thread.Sleep(100);
+            Thread.Sleep(TimeSpan.FromMilliseconds(500));
             value = int.MaxValue;
         });
 
@@ -29,7 +30,7 @@ public class ExecutorServiceTest
         int value = 0;
         executorService.Run(() => { value = int.MaxValue; });
 
-        Thread.Sleep(200);
+        Thread.Sleep(TimeSpan.FromMilliseconds(500));
         Assert.Equal(int.MaxValue, value);
     }
 }
