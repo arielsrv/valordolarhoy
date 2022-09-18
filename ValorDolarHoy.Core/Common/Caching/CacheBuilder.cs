@@ -1,4 +1,5 @@
 using System;
+using Ardalis.GuardClauses;
 using Microsoft.Extensions.Caching.Memory;
 
 #pragma warning disable CS1591
@@ -17,12 +18,14 @@ public class CacheBuilder<TKey, TValue>
 
     public CacheBuilder<TKey, TValue> ExpireAfterWrite(TimeSpan expireAfterWrite)
     {
+        Guard.Against.NegativeOrZero(expireAfterWrite);
         this.timeSpan = expireAfterWrite;
         return this;
     }
 
     public CacheBuilder<TKey, TValue> Size(int length)
     {
+        Guard.Against.NegativeOrZero(length);
         this.size = length;
         return this;
     }
@@ -56,6 +59,9 @@ public class Cache<TKey, TValue> : ICache<TKey, TValue>
 
     public Cache(IMemoryCache memoryCache, MemoryCacheEntryOptions memoryCacheEntryOptions)
     {
+        Guard.Against.Null(memoryCache);
+        Guard.Against.Null(memoryCacheEntryOptions);
+
         this.memoryCache = memoryCache;
         this.memoryCacheEntryOptions = memoryCacheEntryOptions;
     }

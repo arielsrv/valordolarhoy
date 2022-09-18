@@ -1,4 +1,5 @@
 using System;
+using Ardalis.GuardClauses;
 using Newtonsoft.Json.Serialization;
 
 #pragma warning disable CS1591
@@ -11,7 +12,7 @@ public static class StringExtensions
 
     public static string ToSnakeCase(this string? value)
     {
-        ArgumentNullException.ThrowIfNull(value);
+        Guard.Against.NullOrEmpty(value);
 
         return snakeCaseNamingStrategy.GetPropertyName(value, false);
     }
