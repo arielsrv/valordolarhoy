@@ -68,7 +68,7 @@ public class CacheInMemoryTest
         appCache.Put("key1", "value1");
         appCache.Put("key2", "value2");
 
-        Thread.Sleep(200);
+        Thread.Sleep(1000);
 
         string? actual = appCache.GetIfPresent("key1");
 
