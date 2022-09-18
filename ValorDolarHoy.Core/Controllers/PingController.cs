@@ -12,7 +12,7 @@ namespace ValorDolarHoy.Core.Controllers;
 public class PingController : ControllerBase
 {
     /// <summary>
-    ///     Check if app is online
+    ///     Check if app is online (currently disabled)
     /// </summary>
     /// <returns>Http Status Code and string message</returns>
     /// <response code="200">ping is available</response>
@@ -22,8 +22,9 @@ public class PingController : ControllerBase
     [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
     public ActionResult<string> Pong()
     {
-        return WarmupExecutor.Initialized
-            ? this.StatusCode(StatusCodes.Status200OK, "pong")
-            : this.StatusCode(StatusCodes.Status503ServiceUnavailable, "offline");
+        // return WarmupExecutor.Initialized
+        //     ? this.StatusCode(StatusCodes.Status200OK, "pong")
+        //     : this.StatusCode(StatusCodes.Status503ServiceUnavailable, "offline");
+        return this.StatusCode(StatusCodes.Status200OK, "pong");
     }
 }
