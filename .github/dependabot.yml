@@ -1,7 +1,11 @@
 version: 2
 updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
   - package-ecosystem: "nuget"
-    directory: "/ValorDolarHoy.Test"
+    directory: "/ValorDolarHoy"
     schedule:
       interval: "daily"
   - package-ecosystem: "nuget"
@@ -9,11 +13,10 @@ updates:
     schedule:
       interval: "daily"
   - package-ecosystem: "nuget"
-    directory: "/ValorDolarHoy"
+    directory: "/ValorDolarHoy.Test"
     schedule:
       interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/ValorDolarHoy/ClientApp"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "daily"
-      
+      interval: daily
