@@ -16,20 +16,29 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-      - name: Test
-        run: dotnet test -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --verbosity normal ValorDolarHoy.Test/
-      - name: Create Test Coverage Badge
+      - name: Test Report
+        run: dotnet test $SolutionFile --no-build $CollectCoverage $CoverletOutput $CoverletOutputFormat
+      - name: Test Coverage Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
         id: create_coverage_badge
         with:
-          label: Unit Test Coverage
+          label: coverage
           color: brightgreen
-          path: ValorDolarHoy.Test/TestResults/coverage.opencover.xml
+          path: CodeCoverage/coverage.opencover.xml
           gist-filename: code-coverage.json
-          gist-id: 85040afe50e9da55b30ca5e32a437743
-          gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}       
+          gist-id: 294599cbadb71f3ed834d6904a7c87fd
+          gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }}
+      - name: Print code coverage
+        run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
+      - name: Print badge data
+        run: echo "Badge data ${{steps.test_step.outputs.badge}}"   
+    env:
+      CollectCoverage: true
+      CoverletOutput: ../CodeCoverage/
+      CoverletOutputFormat: opencover
+      SolutionFile: ValorDolayHoy.sln     
