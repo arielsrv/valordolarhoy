@@ -70,8 +70,12 @@ public class CacheInMemoryTest
 
         Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-        string? actual = appCache.GetIfPresent("key1");
+        string? value1 = appCache.GetIfPresent("key1");
+        string? value2 = appCache.GetIfPresent("key2");
 
-        Assert.Null(actual);
+        bool actual = string.IsNullOrEmpty(value1) && !string.IsNullOrEmpty(value2) ||
+                      !string.IsNullOrEmpty(value1) && string.IsNullOrEmpty(value2);
+
+        Assert.True(actual);
     }
 }
