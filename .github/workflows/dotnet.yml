@@ -36,9 +36,9 @@ jobs:
       - name: Print code coverage
         run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
       - name: Print badge data
-        run: echo "Badge data ${{steps.test_step.outputs.badge}}"   
+        run: echo "Badge data ${{steps.test_step.outputs.badge}}"
     env:
       CollectCoverage: true
       CoverletOutput: ../CodeCoverage/
       CoverletOutputFormat: opencover
-      SolutionFile: ValorDolayHoy.sln     
+      SolutionFile: ValorDolarHoy.sln     

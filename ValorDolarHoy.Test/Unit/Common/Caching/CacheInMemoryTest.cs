@@ -73,8 +73,8 @@ public class CacheInMemoryTest
         string? value1 = appCache.GetIfPresent("key1");
         string? value2 = appCache.GetIfPresent("key2");
 
-        bool actual = string.IsNullOrEmpty(value1) && !string.IsNullOrEmpty(value2) ||
-                      !string.IsNullOrEmpty(value1) && string.IsNullOrEmpty(value2);
+        bool actual = (string.IsNullOrEmpty(value1) && !string.IsNullOrEmpty(value2)) ||
+                      (!string.IsNullOrEmpty(value1) && string.IsNullOrEmpty(value2));
 
         Assert.True(actual);
     }

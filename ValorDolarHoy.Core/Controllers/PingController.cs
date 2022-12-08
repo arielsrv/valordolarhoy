@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ValorDolarHoy.Core.Common.Extensions;
 
 namespace ValorDolarHoy.Core.Controllers;
 
