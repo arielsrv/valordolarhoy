@@ -66,13 +66,13 @@ public class Cache<TKey, TValue> : ICache<TKey, TValue>
         this.memoryCacheEntryOptions = memoryCacheEntryOptions;
     }
 
-    public TValue GetIfPresent(TKey key)
+    public TValue? GetIfPresent(TKey key)
     {
-        return this.memoryCache.Get<TValue>(key);
+        return this.memoryCache.Get<TValue>(key ?? throw new ArgumentNullException(nameof(key)));
     }
 
     public void Put(TKey key, TValue value)
     {
-        this.memoryCache.Set(key, value, this.memoryCacheEntryOptions);
+        this.memoryCache.Set(key ?? throw new ArgumentNullException(nameof(key)), value, this.memoryCacheEntryOptions);
     }
 }
