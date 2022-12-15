@@ -25,7 +25,7 @@ public class StartupTest
         startup.ConfigureServices(serviceCollection);
         serviceCollection.AddTransient<CurrencyController>();
 
-        ServiceProvider? serviceProvider = serviceCollection.BuildServiceProvider();
+        ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         CurrencyController? controller = serviceProvider.GetService<CurrencyController>();
         Assert.NotNull(controller);
     }
@@ -40,7 +40,7 @@ public class StartupTest
         startup.ConfigureServices(serviceCollection);
         serviceCollection.AddTransient<FallbackController>();
 
-        ServiceProvider? serviceProvider = serviceCollection.BuildServiceProvider();
+        ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         FallbackController? controller = serviceProvider.GetService<FallbackController>();
         Assert.NotNull(controller);
     }

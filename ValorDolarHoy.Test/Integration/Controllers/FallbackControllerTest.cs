@@ -32,7 +32,7 @@ public class FallbackControllerTest
                 webHost.ConfigureTestServices(services => { services.AddSingleton(_ => this.currencyService.Object); });
             });
 
-        IHost? host = hostBuilder.Start();
+        IHost host = hostBuilder.Start();
 
         this.httpClient = host.GetTestClient();
     }

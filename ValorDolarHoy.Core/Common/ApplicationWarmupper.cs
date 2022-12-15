@@ -18,7 +18,7 @@ public class WarmupExecutor
     /// <summary>
     ///     Check flag
     /// </summary>
-    public static bool Initialized { get; private set; } = true;
+    private static bool Initialized { get; set; } = true;
 
     public static void Warmup(IApplicationWarmUpper applicationWarmUpper)
     {

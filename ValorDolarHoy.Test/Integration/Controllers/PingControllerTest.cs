@@ -20,7 +20,7 @@ public class PingControllerTest
                 webHost.UseStartup<Startup>();
             });
 
-        IHost? host = hostBuilder.Start();
+        IHost host = hostBuilder.Start();
 
         this.httpClient = host.GetTestClient();
     }
