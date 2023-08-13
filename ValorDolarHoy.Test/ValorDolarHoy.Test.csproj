@@ -16,15 +16,15 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.10" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.6.40" />
-        <PackageReference Include="Moq" Version="4.20.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.7.30" />
+        <PackageReference Include="Moq" Version="4.20.69" />
         <PackageReference Include="coverlet.collector" Version="6.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="ReportGenerator" Version="5.1.23" />
+        <PackageReference Include="ReportGenerator" Version="5.1.24" />
         <PackageReference Include="System.Linq.Async" Version="6.0.1" />
         <PackageReference Include="System.Reactive" Version="6.0.0" />
         <PackageReference Include="System.Reactive.Core" Version="6.0.0" />
