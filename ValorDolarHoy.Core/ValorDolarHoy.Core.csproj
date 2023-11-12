@@ -10,11 +10,11 @@
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <DocumentationFile>bin\Debug\net6.0\ValorDolarHoy.Core.xml</DocumentationFile>
+        <DocumentationFile>bin\Debug\net7.0\ValorDolarHoy.Core.xml</DocumentationFile>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <DocumentationFile>bin\Release\net6.0\ValorDolarHoy.Core.xml</DocumentationFile>
+        <DocumentationFile>bin\Release\net7.0\ValorDolarHoy.Core.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
