@@ -30,8 +30,8 @@ public class RedisStoreTest
         this.redisClient.Setup(client => client.GetAsync<string>("key", CancellationToken.None))
             .ReturnsAsync("value");
 
-        IKeyValueStore keyValueStore = new RedisStore(this.redisClientManagerAsync.Object);
-        string? actual = keyValueStore.Get<string>("key").ToBlocking();
+        RedisStore keyValueStore = new(this.redisClientManagerAsync.Object);
+        string actual = keyValueStore.Get<string>("key").ToBlocking();
 
         this.redisClient.Verify(mock => mock.GetAsync<string>("key", CancellationToken.None), Times.Once);
         Assert.Equal("value", actual);
@@ -47,7 +47,7 @@ public class RedisStoreTest
         this.redisClient.Setup(client => client.SetAsync("key", "value", CancellationToken.None))
             .ReturnsAsync(true);
 
-        IKeyValueStore keyValueStore = new RedisStore(this.redisClientManagerAsync.Object);
+        RedisStore keyValueStore = new(this.redisClientManagerAsync.Object);
         keyValueStore.Put("key", "value").ToBlocking();
 
         this.redisClient.Verify(mock => mock.SetAsync("key", "value", TimeSpan.Zero, CancellationToken.None),

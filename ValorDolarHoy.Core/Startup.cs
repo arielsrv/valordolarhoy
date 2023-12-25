@@ -12,6 +12,7 @@ namespace ValorDolarHoy;
 
 public class Startup : Application
 {
+    /// <inheritdoc />
     public Startup(IConfiguration configuration) : base(configuration)
     {
     }

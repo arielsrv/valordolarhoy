@@ -8,14 +8,9 @@ using Polly.Bulkhead;
 
 namespace ValorDolarHoy.Core.Common.Threading;
 
-public class ExecutorService
+public class ExecutorService(int size)
 {
-    private readonly BulkheadPolicy bulkheadPolicy;
-
-    public ExecutorService(int size)
-    {
-        this.bulkheadPolicy = Policy.Bulkhead(size);
-    }
+    private readonly BulkheadPolicy bulkheadPolicy = Policy.Bulkhead(size);
 
     public void Run(Action action)
     {

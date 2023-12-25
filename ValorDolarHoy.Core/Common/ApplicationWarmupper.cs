@@ -28,20 +28,15 @@ public class WarmupExecutor
 
 public class ApplicationWarmupper : IApplicationWarmUpper
 {
-    private readonly string? baseUrl;
+    private readonly string? baseUrl = Environment
+        .GetEnvironmentVariable("ASPNETCORE_URLS")?
+        .Split(";")
+        .FirstOrDefault();
 
     private readonly HttpClient httpClient = new()
     {
         Timeout = TimeSpan.FromMilliseconds(5000)
     };
-
-    public ApplicationWarmupper()
-    {
-        this.baseUrl = Environment
-            .GetEnvironmentVariable("ASPNETCORE_URLS")?
-            .Split(";")
-            .FirstOrDefault();
-    }
 
     public bool Warmup()
     {

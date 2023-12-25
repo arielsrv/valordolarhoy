@@ -40,10 +40,7 @@ public class Scratch
      */
     private static IObservable<RecommmendationsDto> GetRecommmendations()
     {
-        RecommmendationsDto recommmendationsDto = new(new List<string>
-        {
-            "MLA1", "MLA2"
-        });
+        RecommmendationsDto recommmendationsDto = new(["MLA1", "MLA2"]);
 
         return Observable.Return(recommmendationsDto);
     }
@@ -68,44 +65,23 @@ public class Scratch
     }
 }
 
-internal class RecommmendationsDto
+internal class RecommmendationsDto(IEnumerable<string> values)
 {
-    public RecommmendationsDto(List<string> values)
-    {
-        this.Values = values;
-    }
-
-    public List<string> Values { get; }
+    public IEnumerable<string> Values { get; } = values;
 }
 
-internal class ItemDto
+internal class ItemDto(string id, string title)
 {
-    public ItemDto(string id, string title)
-    {
-        this.Id = id;
-        this.Title = title;
-    }
-
-    public string Id { get; }
-    public string Title { get; }
+    public string Id { get; } = id;
+    public string Title { get; } = title;
 }
 
-internal class RecommendedItemsDto
+internal class RecommendedItemsDto(IEnumerable<RecommendedItemDto> items)
 {
-    public RecommendedItemsDto(IEnumerable<RecommendedItemDto> items)
-    {
-        this.Items = items;
-    }
-
-    public IEnumerable<RecommendedItemDto> Items { get; }
+    public IEnumerable<RecommendedItemDto> Items { get; } = items;
 }
 
-internal class RecommendedItemDto
+internal class RecommendedItemDto(ItemDto itemDto)
 {
-    public RecommendedItemDto(ItemDto itemDto)
-    {
-        this.ItemDto = itemDto;
-    }
-
-    public ItemDto ItemDto { get; }
+    public ItemDto ItemDto { get; } = itemDto;
 }
