@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
 
-        <LangVersion>11</LangVersion>
+        <LangVersion>12</LangVersion>
 
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -18,7 +18,7 @@
         </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.13" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-        <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.7.30" />
+        <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.8.14" />
         <PackageReference Include="Moq" Version="4.20.70" />
         <PackageReference Include="coverlet.collector" Version="6.0.0">
             <PrivateAssets>all</PrivateAssets>
