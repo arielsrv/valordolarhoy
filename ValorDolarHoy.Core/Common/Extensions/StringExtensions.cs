@@ -7,12 +7,12 @@ namespace ValorDolarHoy.Core.Common.Extensions;
 
 public static class StringExtensions
 {
-    private static readonly SnakeCaseNamingStrategy snakeCaseNamingStrategy = new();
+    private static readonly SnakeCaseNamingStrategy SnakeCaseNamingStrategy = new();
 
     public static string ToSnakeCase(this string? value)
     {
         Guard.Against.NullOrEmpty(value);
 
-        return snakeCaseNamingStrategy.GetPropertyName(value, false);
+        return SnakeCaseNamingStrategy.GetPropertyName(value, false);
     }
 }
