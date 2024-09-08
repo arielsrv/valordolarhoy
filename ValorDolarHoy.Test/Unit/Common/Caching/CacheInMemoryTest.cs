@@ -18,7 +18,7 @@ public class CacheInMemoryTest
 
         appCache.Put("key", "value");
 
-        string? actual = appCache.GetIfPresent("key");
+        var actual = appCache.GetIfPresent("key");
 
         Assert.NotNull(actual);
         Assert.Equal("value", actual);
@@ -33,7 +33,7 @@ public class CacheInMemoryTest
             .ExpireAfterWrite(TimeSpan.FromMinutes(int.MaxValue))
             .Build();
 
-        string? actual = appCache.GetIfPresent("key");
+        var actual = appCache.GetIfPresent("key");
 
         Assert.Null(actual);
     }
@@ -51,7 +51,7 @@ public class CacheInMemoryTest
 
         Thread.Sleep(200);
 
-        string? actual = appCache.GetIfPresent("key");
+        var actual = appCache.GetIfPresent("key");
 
         Assert.Null(actual);
     }
@@ -70,11 +70,11 @@ public class CacheInMemoryTest
 
         Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-        string? value1 = appCache.GetIfPresent("key1");
-        string? value2 = appCache.GetIfPresent("key2");
+        var value1 = appCache.GetIfPresent("key1");
+        var value2 = appCache.GetIfPresent("key2");
 
-        bool actual = (string.IsNullOrEmpty(value1) && !string.IsNullOrEmpty(value2)) ||
-                      (!string.IsNullOrEmpty(value1) && string.IsNullOrEmpty(value2));
+        var actual = (string.IsNullOrEmpty(value1) && !string.IsNullOrEmpty(value2)) ||
+                     (!string.IsNullOrEmpty(value1) && string.IsNullOrEmpty(value2));
 
         Assert.True(actual);
     }

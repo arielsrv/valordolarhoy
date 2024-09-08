@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using ValorDolarHoy.Core.Common.Tasks;
 using ValorDolarHoy.Core.Services.Currency;
 
 namespace ValorDolarHoy.Core.Controllers;

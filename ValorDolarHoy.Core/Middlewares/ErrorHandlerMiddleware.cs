@@ -43,7 +43,7 @@ public class ErrorHandlerMiddleware
                 GetErrorMessage(error),
                 error.StackTrace);
 
-            string result = JsonConvert.SerializeObject(errorModel);
+            var result = JsonConvert.SerializeObject(errorModel);
 
             await httpResponse.WriteAsync(result);
         }

@@ -18,23 +18,13 @@ public interface ICurrencyService
     IObservable<string> GetAll();
 }
 
-public class CurrencyService : ICurrencyService
+public class CurrencyService(
+    ICurrencyClient currencyClient,
+    IKeyValueStore keyValueStore,
+    IMapper mapper)
+    : ICurrencyService
 {
-    private readonly ICurrencyClient currencyClient;
-    private readonly ExecutorService executorService = Executors.NewFixedThreadPool(10);
-    private readonly IKeyValueStore keyValueStore;
-    private readonly IMapper mapper;
-
-    public CurrencyService(
-        ICurrencyClient currencyClient,
-        IKeyValueStore keyValueStore,
-        IMapper mapper
-    )
-    {
-        this.currencyClient = currencyClient;
-        this.keyValueStore = keyValueStore;
-        this.mapper = mapper;
-    }
+    private readonly ExecutorService _executorService = Executors.NewFixedThreadPool(10);
 
     public ICache<string, CurrencyDto> AppCache { get; init; } = CacheBuilder<string, CurrencyDto>
         .NewBuilder()
@@ -44,7 +34,7 @@ public class CurrencyService : ICurrencyService
 
     public IObservable<CurrencyDto> GetLatest()
     {
-        string cacheKey = GetCacheKey();
+        var cacheKey = GetCacheKey();
 
         CurrencyDto? currencyDto = this.AppCache.GetIfPresent(cacheKey);
 
@@ -52,23 +42,23 @@ public class CurrencyService : ICurrencyService
             ? Observable.Return(currencyDto)
             : this.GetFromApi().Map(response =>
             {
-                this.executorService.Run(() => this.AppCache.Put(cacheKey, response));
+                this._executorService.Run(() => this.AppCache.Put(cacheKey, response));
                 return response;
             });
     }
 
     public IObservable<CurrencyDto> GetFallback()
     {
-        string cacheKey = GetCacheKey();
+        var cacheKey = GetCacheKey();
 
-        return this.keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
+        return keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
         {
             return currencyDto != null
                 ? Observable.Return(currencyDto)
                 : this.GetFromApi().Map(response =>
                 {
-                    this.executorService.Run(() =>
-                        this.keyValueStore.Put(cacheKey, response, 60 * 10).ToBlocking()); // mm * ss
+                    this._executorService.Run(() =>
+                        keyValueStore.Put(cacheKey, response, 60 * 10).ToBlocking()); // mm * ss
                     return response;
                 });
         });
@@ -76,12 +66,12 @@ public class CurrencyService : ICurrencyService
 
     public IObservable<string> GetAll()
     {
-        IObservable<CurrencyResponse> client1Observable = this.currencyClient.Get();
-        IObservable<CurrencyResponse> client2Observable = this.currencyClient.Get();
+        IObservable<CurrencyResponse> client1Observable = currencyClient.Get();
+        IObservable<CurrencyResponse> client2Observable = currencyClient.Get();
 
         return client1Observable.Zip(client2Observable, (currencyResponse1, currencyResponse2) =>
         {
-            string message =
+            var message =
                 $"Oficial: {currencyResponse1.Oficial!.ValueSell}, Blue: {currencyResponse2.Blue!.ValueSell}";
 
             return message;
@@ -90,8 +80,8 @@ public class CurrencyService : ICurrencyService
 
     private IObservable<CurrencyDto> GetFromApi()
     {
-        return this.currencyClient.Get()
-            .Map(currencyResponse => this.mapper.Map<CurrencyDto>(currencyResponse));
+        return currencyClient.Get()
+            .Map(mapper.Map<CurrencyDto>);
     }
 
     private static string GetCacheKey()

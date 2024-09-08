@@ -14,11 +14,11 @@ public static class IHttpClientBuilderExtensions
     public static void WithAppSettings<TImplementation>(this IHttpClientBuilder httpClientBuilder,
         IConfiguration configuration)
     {
-        string key = $"{typeof(TImplementation).Name.ToLowerInvariant()}:";
+        var key = $"{typeof(TImplementation).Name.ToLowerInvariant()}:";
 
-        int timeout = GetIntValue(configuration, key, "timeout");
-        int maxConnectionsPerServer = GetIntValue(configuration, key, "max_connections");
-        int maxParallelization = GetIntValue(configuration, key, "max_parallelization");
+        var timeout = GetIntValue(configuration, key, "timeout");
+        var maxConnectionsPerServer = GetIntValue(configuration, key, "max_connections");
+        var maxParallelization = GetIntValue(configuration, key, "max_parallelization");
 
         httpClientBuilder
             .SetTimeout(timeout > 0 ? TimeSpan.FromMilliseconds(timeout) : TimeSpan.FromMilliseconds(5000))

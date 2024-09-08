@@ -51,7 +51,7 @@ public abstract class Application
         services.AddSwaggerGen(swaggerGenOptions =>
         {
             swaggerGenOptions.SwaggerDoc("v1", new OpenApiInfo { Title = "ValorDolarHoy", Version = "v1" });
-            string xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             swaggerGenOptions.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
         });
 

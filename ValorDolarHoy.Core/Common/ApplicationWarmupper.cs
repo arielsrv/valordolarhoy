@@ -42,13 +42,13 @@ public class ApplicationWarmupper : IApplicationWarmUpper
     {
         Thread.Sleep(1000);
 
-        for (int i = 0; i < 3; i++)
+        for (var i = 0; i < 3; i++)
         {
             try
             {
                 if (string.IsNullOrEmpty(this.baseUrl)) return true;
 
-                string requestUri = $"{this.baseUrl}/Currency";
+                var requestUri = $"{this.baseUrl}/Currency";
                 HttpRequestMessage httpRequestMessage = new(HttpMethod.Get, requestUri);
                 HttpResponseMessage httpResponseMessage = this.httpClient.Send(httpRequestMessage);
 

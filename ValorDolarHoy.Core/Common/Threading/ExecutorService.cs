@@ -10,11 +10,11 @@ namespace ValorDolarHoy.Core.Common.Threading;
 
 public class ExecutorService(int size)
 {
-    private readonly BulkheadPolicy bulkheadPolicy = Policy.Bulkhead(size);
+    private readonly BulkheadPolicy _bulkheadPolicy = Policy.Bulkhead(size);
 
     public void Run(Action action)
     {
-        Task.Run(() => { this.bulkheadPolicy.Execute(action); }).Forget();
+        Task.Run(() => { this._bulkheadPolicy.Execute(action); }).Forget();
     }
 }
 

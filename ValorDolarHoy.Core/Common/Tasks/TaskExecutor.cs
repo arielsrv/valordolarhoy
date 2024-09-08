@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 #pragma warning disable CS1591
 
-namespace ValorDolarHoy.Core.Controllers;
+namespace ValorDolarHoy.Core.Common.Tasks;
 
 public static class TaskExecutor
 {

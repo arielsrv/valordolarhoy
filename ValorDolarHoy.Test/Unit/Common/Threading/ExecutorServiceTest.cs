@@ -12,7 +12,7 @@ public class ExecutorServiceTest
     {
         ExecutorService executorService = Executors.NewFixedThreadPool(Environment.ProcessorCount - 1);
 
-        int value = 0;
+        var value = 0;
         executorService.Run(() =>
         {
             Thread.Sleep(TimeSpan.FromMilliseconds(1000));
@@ -27,7 +27,7 @@ public class ExecutorServiceTest
     {
         ExecutorService executorService = Executors.NewFixedThreadPool(Environment.ProcessorCount - 1);
 
-        int value = 0;
+        var value = 0;
         executorService.Run(() => { value = int.MaxValue; });
 
         Thread.Sleep(TimeSpan.FromMilliseconds(1000));

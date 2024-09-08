@@ -9,7 +9,7 @@ public class StringExtensionsTest
     [Fact]
     public void Convert_To_Snake_Case()
     {
-        string actual = "HelloWorld".ToSnakeCase();
+        var actual = "HelloWorld".ToSnakeCase();
 
         Assert.Equal("hello_world", actual);
     }

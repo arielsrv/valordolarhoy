@@ -29,7 +29,7 @@ public class PingControllerTest
     public async Task PingAsync()
     {
         HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/ping");
-        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        var responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.Equal("pong", responseString);
     }
 }

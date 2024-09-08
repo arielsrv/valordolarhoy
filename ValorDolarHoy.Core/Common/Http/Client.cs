@@ -36,12 +36,13 @@ public class Client : HttpClient
             {
                 using HttpResponseMessage httpResponseMessage =
                     await this.httpClient.SendAsync(httpRequestMessage, CancellationToken.None);
-                string response = await httpResponseMessage.Content.ReadAsStringAsync();
+                var response = await httpResponseMessage.Content.ReadAsStringAsync();
 
                 if (!httpResponseMessage.IsSuccessStatusCode)
                 {
                     this.logger.LogError(
-                        $"Request failed with uri {requestUri}. Status code: {(int)httpResponseMessage.StatusCode}. Raw message: {response}. ");
+                        "Request failed with uri {RequestUri}. Status code: {StatusCode}. Raw message: {Response}. ",
+                        requestUri, (int)httpResponseMessage.StatusCode, response);
                     throw httpResponseMessage.StatusCode switch
                     {
                         HttpStatusCode.NotFound => new ApiNotFoundException(response),

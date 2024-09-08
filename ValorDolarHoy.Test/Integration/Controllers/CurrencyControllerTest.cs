@@ -46,7 +46,7 @@ public class CurrencyControllerTest
             .Returns(GetLatest());
 
         HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
-        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        var responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
         CurrencyDto? currencyDto = JsonConvert.DeserializeObject<CurrencyDto>(responseString);
@@ -66,7 +66,7 @@ public class CurrencyControllerTest
             .Returns(Observable.Throw<CurrencyDto>(new ApiException()));
 
         HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
-        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        var responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
         ErrorHandlerMiddleware.ErrorModel? errorModel =
@@ -85,7 +85,7 @@ public class CurrencyControllerTest
             .Returns(Observable.Throw<CurrencyDto>(new ApiNotFoundException("not found")));
 
         HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
-        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        var responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
         ErrorHandlerMiddleware.ErrorModel? errorModel =
@@ -105,7 +105,7 @@ public class CurrencyControllerTest
             .Returns(Observable.Throw<CurrencyDto>(new ApiBadRequestException("bad request")));
 
         HttpResponseMessage httpResponseMessage = await this.httpClient.GetAsync("/Currency");
-        string responseString = await httpResponseMessage.Content.ReadAsStringAsync();
+        var responseString = await httpResponseMessage.Content.ReadAsStringAsync();
         Assert.NotNull(responseString);
 
         ErrorHandlerMiddleware.ErrorModel? errorModel =

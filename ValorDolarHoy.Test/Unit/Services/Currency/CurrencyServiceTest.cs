@@ -52,7 +52,7 @@ public class CurrencyServiceTest
 
         CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
 
-        string actual = currencyService.GetAll().ToBlocking();
+        var actual = currencyService.GetAll().ToBlocking();
 
         Assert.NotNull(actual);
         Assert.Equal("Oficial: 11, Blue: 13", actual);

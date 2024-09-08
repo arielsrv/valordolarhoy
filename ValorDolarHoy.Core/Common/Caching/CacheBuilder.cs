@@ -8,8 +8,8 @@ namespace ValorDolarHoy.Core.Common.Caching;
 
 public class CacheBuilder<TKey, TValue>
 {
-    private int size;
-    private TimeSpan timeSpan;
+    private int _size;
+    private TimeSpan _timeSpan;
 
     public static CacheBuilder<TKey, TValue> NewBuilder()
     {
@@ -19,14 +19,14 @@ public class CacheBuilder<TKey, TValue>
     public CacheBuilder<TKey, TValue> ExpireAfterWrite(TimeSpan expireAfterWrite)
     {
         Guard.Against.NegativeOrZero(expireAfterWrite);
-        this.timeSpan = expireAfterWrite;
+        this._timeSpan = expireAfterWrite;
         return this;
     }
 
     public CacheBuilder<TKey, TValue> Size(int length)
     {
         Guard.Against.NegativeOrZero(length);
-        this.size = length;
+        this._size = length;
         return this;
     }
 
@@ -34,13 +34,13 @@ public class CacheBuilder<TKey, TValue>
     {
         MemoryCache memoryCache = new(new MemoryCacheOptions
         {
-            SizeLimit = this.size
+            SizeLimit = this._size
         });
 
         MemoryCacheEntryOptions memoryCacheEntryOptions = new();
         memoryCacheEntryOptions
             .SetSize(1)
-            .SetAbsoluteExpiration(this.timeSpan);
+            .SetAbsoluteExpiration(this._timeSpan);
 
         return new Cache<TKey, TValue>(memoryCache, memoryCacheEntryOptions);
     }
@@ -54,25 +54,25 @@ public interface ICache<in TKey, TValue>
 
 public class Cache<TKey, TValue> : ICache<TKey, TValue>
 {
-    private readonly IMemoryCache memoryCache;
-    private readonly MemoryCacheEntryOptions memoryCacheEntryOptions;
+    private readonly IMemoryCache _memoryCache;
+    private readonly MemoryCacheEntryOptions _memoryCacheEntryOptions;
 
     public Cache(IMemoryCache memoryCache, MemoryCacheEntryOptions memoryCacheEntryOptions)
     {
         Guard.Against.Null(memoryCache);
         Guard.Against.Null(memoryCacheEntryOptions);
 
-        this.memoryCache = memoryCache;
-        this.memoryCacheEntryOptions = memoryCacheEntryOptions;
+        this._memoryCache = memoryCache;
+        this._memoryCacheEntryOptions = memoryCacheEntryOptions;
     }
 
     public TValue? GetIfPresent(TKey key)
     {
-        return this.memoryCache.Get<TValue>(key ?? throw new ArgumentNullException(nameof(key)));
+        return this._memoryCache.Get<TValue>(key ?? throw new ArgumentNullException(nameof(key)));
     }
 
     public void Put(TKey key, TValue value)
     {
-        this.memoryCache.Set(key ?? throw new ArgumentNullException(nameof(key)), value, this.memoryCacheEntryOptions);
+        this._memoryCache.Set(key ?? throw new ArgumentNullException(nameof(key)), value, this._memoryCacheEntryOptions);
     }
 }

@@ -10,7 +10,7 @@ public class SnakeCaseNamingPolicyTest
     {
         SnakeCaseNamingPolicy snakeCaseNamingPolicy = new();
 
-        string actual = snakeCaseNamingPolicy.ConvertName("HelloWorld");
+        var actual = snakeCaseNamingPolicy.ConvertName("HelloWorld");
 
         Assert.Equal("hello_world", actual);
     }
