@@ -7,7 +7,7 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <LangVersion>12</LangVersion>
+    <LangVersion>13</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
