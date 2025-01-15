@@ -10,7 +10,7 @@ export CoverletOutputFormat=opencover
 dotnet test $SolutionFile --no-build $CollectCoverage
 echo ">>> Build coverage report..."
 echo
-dotnet /Users/"$USER"/.nuget/packages/reportgenerator/5.2.0/tools/net8.0/ReportGenerator.dll "-reports:CodeCoverage/coverage.opencover.xml" "-targetdir:CodeCoverage/Web" "-assemblyfilters:-Web;-Web.Views;" "-classfilters:-*Exception"
+dotnet /Users/"$USER"/.nuget/packages/reportgenerator/5.4.3/tools/net9.0/ReportGenerator.dll "-reports:CodeCoverage/coverage.opencover.xml" "-targetdir:CodeCoverage/Web" "-assemblyfilters:-Web;-Web.Views;" "-classfilters:-*Exception"
 
 echo
 open CodeCoverage/Web/index.html
