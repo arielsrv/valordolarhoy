@@ -25,12 +25,12 @@ public class CurrencyServiceTest
         this._appCache = new Mock<ICache<string, CurrencyDto>>();
         this._keyValueStore = new Mock<IKeyValueStore>();
         LoggerFactory loggerFactory = new();
-        MapperConfigurationExpression config = new MapperConfigurationExpression
+        MapperConfigurationExpression config = new()
         {
             LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
         };
         config.AddProfile(new MappingProfile());
-        MapperConfiguration mapperConfiguration = new MapperConfiguration(config, loggerFactory);
+        MapperConfiguration mapperConfiguration = new(config, loggerFactory);
         this._mapper = mapperConfiguration.CreateMapper();
     }
 

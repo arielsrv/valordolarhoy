@@ -73,6 +73,7 @@ public class Cache<TKey, TValue> : ICache<TKey, TValue>
 
     public void Put(TKey key, TValue value)
     {
-        this._memoryCache.Set(key ?? throw new ArgumentNullException(nameof(key)), value, this._memoryCacheEntryOptions);
+        this._memoryCache.Set(key ?? throw new ArgumentNullException(nameof(key)), value,
+            this._memoryCacheEntryOptions);
     }
 }

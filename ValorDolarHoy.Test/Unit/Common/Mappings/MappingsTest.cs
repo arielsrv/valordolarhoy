@@ -10,13 +10,13 @@ public class MappingsTest
     [Fact]
     public void MappingProfile_Verify_Mappings()
     {
-        LoggerFactory loggerFactory = new LoggerFactory();
+        LoggerFactory loggerFactory = new();
         MapperConfigurationExpression config = new()
         {
             LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
         };
         config.AddProfile(new MappingProfile());
-        MapperConfiguration mapperConfiguration = new MapperConfiguration(config, loggerFactory);
+        MapperConfiguration mapperConfiguration = new(config, loggerFactory);
         mapperConfiguration.AssertConfigurationIsValid();
     }
 }

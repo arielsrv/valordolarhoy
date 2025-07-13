@@ -1,87 +1,87 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-  <meta content="#000000" name="theme-color">
-  <base href="%PUBLIC_URL%/"/>
-  <!--
-    manifest.json provides metadata used when your web app is added to the
-    homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-  -->
-  <link href="%PUBLIC_URL%/manifest.json" rel="manifest">
-  <link href="%PUBLIC_URL%/favicon.ico" rel="shortcut icon">
-  <!--
-    Notice the use of %PUBLIC_URL% in the tags above.
-    It will be replaced with the URL of the `public` folder during the build.
-    Only files inside the `public` folder can be referenced from the HTML.
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="#000000" name="theme-color">
+    <base href="%PUBLIC_URL%/"/>
+    <!--
+      manifest.json provides metadata used when your web app is added to the
+      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
+    -->
+    <link href="%PUBLIC_URL%/manifest.json" rel="manifest">
+    <link href="%PUBLIC_URL%/favicon.ico" rel="shortcut icon">
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+  
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    -->
 
-    Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-    work correctly both with client-side routing and a non-root public URL.
-    Learn how to configure a non-root public URL by running `npm run build`.
-  -->
+    <!-- Primary Meta Tags -->
+    <title>ValorDolarHoy</title>
+    <meta content="Valor Dolar Hoy" name="title">
+    <meta content="Cotizaciones en tiempo real" name="description">
 
-  <!-- Primary Meta Tags -->
-  <title>ValorDolarHoy</title>
-  <meta content="Valor Dolar Hoy" name="title">
-  <meta content="Cotizaciones en tiempo real" name="description">
+    <!-- Open Graph / Facebook -->
+    <meta content="website" property="og:type">
+    <meta content="%PUBLIC_URL%" property="og:url">
+    <meta content="Valor Dolar Hoy" property="og:title">
+    <meta content="Cotización en tiempo real del dólar blue" property="og:description">
+    <meta content="%PUBLIC_URL%/assets/dollar.png" property="og:image">
 
-  <!-- Open Graph / Facebook -->
-  <meta content="website" property="og:type">
-  <meta content="%PUBLIC_URL%" property="og:url">
-  <meta content="Valor Dolar Hoy" property="og:title">
-  <meta content="Cotización en tiempo real del dólar blue" property="og:description">
-  <meta content="%PUBLIC_URL%/assets/dollar.png" property="og:image">
+    <!-- Twitter -->
+    <meta content="summary_large_image" property="twitter:card">
+    <meta content="%PUBLIC_URL%" property="twitter:url">
+    <meta content="Valor Dolar Hoy" property="twitter:title">
+    <meta content="Cotización en tiempo real del dólar blue" property="twitter:description">
+    <meta content="%PUBLIC_URL%/assets/dollar.png" property="twitter:image">
 
-  <!-- Twitter -->
-  <meta content="summary_large_image" property="twitter:card">
-  <meta content="%PUBLIC_URL%" property="twitter:url">
-  <meta content="Valor Dolar Hoy" property="twitter:title">
-  <meta content="Cotización en tiempo real del dólar blue" property="twitter:description">
-  <meta content="%PUBLIC_URL%/assets/dollar.png" property="twitter:image">
+    <script async crossorigin="anonymous"
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5089293308725166"></script>
 
-  <script async crossorigin="anonymous"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5089293308725166"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C1DNLKZNS3"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C1DNLKZNS3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+        gtag('js', new Date());
 
-    gtag('js', new Date());
-
-    gtag('config', 'G-C1DNLKZNS3');
-  </script>
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-    w[l] = w[l] || [];
-    w[l].push({
-      'gtm.start':
-        new Date().getTime(), event: 'gtm.js'
-    });
-    var f = d.getElementsByTagName(s)[0],
-      j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
-    j.async = true;
-    j.src =
-      'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-    f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', 'GTM-MHCDVL4');</script>
-  <!-- End Google Tag Manager -->
+        gtag('config', 'G-C1DNLKZNS3');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-MHCDVL4');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
 <!-- Google Tag Manager (noscript) -->
 <noscript>
-  <iframe height="0"
-          src="https://www.googletagmanager.com/ns.html?id=GTM-MHCDVL4" style="display:none;visibility:hidden"
-          width="0"></iframe>
+    <iframe height="0"
+            src="https://www.googletagmanager.com/ns.html?id=GTM-MHCDVL4" style="display:none;visibility:hidden"
+            width="0"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 <noscript>
-  You need to enable JavaScript to run this app.
+    You need to enable JavaScript to run this app.
 </noscript>
 <div id="root"></div>
 <!--

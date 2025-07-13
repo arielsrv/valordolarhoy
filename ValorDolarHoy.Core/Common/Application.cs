@@ -25,7 +25,7 @@ public abstract class Application
     /// <summary>
     ///     Config
     /// </summary>
-    protected readonly IConfiguration configuration;
+    protected readonly IConfiguration Configuration;
 
     /// <summary>
     ///     Application
@@ -33,7 +33,7 @@ public abstract class Application
     /// <param name="configuration"></param>
     protected Application(IConfiguration configuration)
     {
-        this.configuration = configuration;
+        this.Configuration = configuration;
     }
 
     /// <summary>
@@ -75,12 +75,12 @@ public abstract class Application
     {
         ServiceProvider serviceProvider = services.BuildServiceProvider();
         ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-        MapperConfigurationExpression config = new MapperConfigurationExpression
+        MapperConfigurationExpression config = new()
         {
             LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
         };
         config.AddProfile(new MappingProfile());
-        MapperConfiguration mapperConfiguration = new MapperConfiguration(config, loggerFactory);
+        MapperConfiguration mapperConfiguration = new(config, loggerFactory);
         IMapper mapper = mapperConfiguration.CreateMapper();
         services.AddSingleton(mapper);
     }

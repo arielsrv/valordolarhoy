@@ -6,7 +6,7 @@ import Home from './components/home/Home';
 import './custom.css'
 
 export default () => (
-  <Layout>
-    <Route exact path='/' component={Home}/>
-  </Layout>
+    <Layout>
+        <Route exact path='/' component={Home}/>
+    </Layout>
 );

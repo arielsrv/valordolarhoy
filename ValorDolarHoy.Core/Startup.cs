@@ -22,10 +22,10 @@ public class Startup : Application
         services.AddSingleton<ICurrencyService, CurrencyService>();
         services.AddSingleton<IKeyValueStore, RedisStore>();
         services.AddSingleton<IRedisClientsManagerAsync, PooledRedisClientManager>(_ =>
-            new PooledRedisClientManager(this.configuration["Storage:Redis"]));
+            new PooledRedisClientManager(this.Configuration["Storage:Redis"]));
 
         services.AddHttpClient<ICurrencyClient, CurrencyClient>()
-            .WithAppSettings<CurrencyClient>(this.configuration);
+            .WithAppSettings<CurrencyClient>(this.Configuration);
 
         services.AddSingleton<IApplicationWarmUpper, ApplicationWarmupper>();
     }
