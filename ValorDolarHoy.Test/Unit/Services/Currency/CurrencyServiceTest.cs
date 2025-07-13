@@ -1,6 +1,7 @@
 using System;
 using System.Reactive.Linq;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Moq;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Caching;
@@ -13,26 +14,32 @@ namespace ValorDolarHoy.Test.Unit.Services.Currency;
 
 public class CurrencyServiceTest
 {
-    private readonly Mock<ICache<string, CurrencyDto>> appCache;
-    private readonly Mock<ICurrencyClient> currencyClient;
-    private readonly Mock<IKeyValueStore> keyValueStore;
-    private readonly IMapper mapper;
+    private readonly Mock<ICache<string, CurrencyDto>> _appCache;
+    private readonly Mock<ICurrencyClient> _currencyClient;
+    private readonly Mock<IKeyValueStore> _keyValueStore;
+    private readonly IMapper _mapper;
 
     public CurrencyServiceTest()
     {
-        this.currencyClient = new Mock<ICurrencyClient>();
-        this.appCache = new Mock<ICache<string, CurrencyDto>>();
-        this.keyValueStore = new Mock<IKeyValueStore>();
-        MapperConfiguration mapperConfiguration = new(configure => { configure.AddProfile(new MappingProfile()); });
-        this.mapper = mapperConfiguration.CreateMapper();
+        this._currencyClient = new Mock<ICurrencyClient>();
+        this._appCache = new Mock<ICache<string, CurrencyDto>>();
+        this._keyValueStore = new Mock<IKeyValueStore>();
+        LoggerFactory loggerFactory = new();
+        MapperConfigurationExpression config = new MapperConfigurationExpression
+        {
+            LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
+        };
+        config.AddProfile(new MappingProfile());
+        MapperConfiguration mapperConfiguration = new MapperConfiguration(config, loggerFactory);
+        this._mapper = mapperConfiguration.CreateMapper();
     }
 
     [Fact]
     public void Get_Latest_Ok()
     {
-        this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
+        this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
+        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
 
         CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
 
@@ -48,9 +55,9 @@ public class CurrencyServiceTest
     [Fact]
     public void Get_All()
     {
-        this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
+        this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
+        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
 
         var actual = currencyService.GetAll().ToBlocking();
 
@@ -61,11 +68,11 @@ public class CurrencyServiceTest
     [Fact]
     public void Get_Latest_Ok_From_Cache()
     {
-        this.appCache.Setup(client => client.GetIfPresent("bluelytics:v1")).Returns(GetFromCache());
+        this._appCache.Setup(client => client.GetIfPresent("bluelytics:v1")).Returns(GetFromCache());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper)
+        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper)
         {
-            AppCache = this.appCache.Object
+            AppCache = this._appCache.Object
         };
 
         CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
@@ -80,10 +87,10 @@ public class CurrencyServiceTest
     [Fact]
     public void Get_Latest_Fallback()
     {
-        this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
+        this._keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
             .Returns(Observable.Return(GetFromCache()));
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
+        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
 
         CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
 
@@ -97,12 +104,12 @@ public class CurrencyServiceTest
     [Fact]
     public void Get_Latest_Ok_Fallback_FromApi()
     {
-        this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
+        this._keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
             .Returns(Observable.Return(default(CurrencyDto)));
 
-        this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
+        this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object, this.mapper);
+        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
 
         CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
 

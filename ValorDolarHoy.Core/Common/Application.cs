@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using ValorDolarHoy.Core.Common.Serialization;
 using ValorDolarHoy.Core.Middlewares;
@@ -72,7 +73,14 @@ public abstract class Application
 
     private static void BuildMapper(IServiceCollection services)
     {
-        MapperConfiguration mapperConfiguration = new(configure => { configure.AddProfile(new MappingProfile()); });
+        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+        MapperConfigurationExpression config = new MapperConfigurationExpression
+        {
+            LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
+        };
+        config.AddProfile(new MappingProfile());
+        MapperConfiguration mapperConfiguration = new MapperConfiguration(config, loggerFactory);
         IMapper mapper = mapperConfiguration.CreateMapper();
         services.AddSingleton(mapper);
     }

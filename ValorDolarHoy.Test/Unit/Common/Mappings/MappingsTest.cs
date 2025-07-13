@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using ValorDolarHoy.Mappings;
 using Xunit;
 
@@ -9,7 +10,13 @@ public class MappingsTest
     [Fact]
     public void MappingProfile_Verify_Mappings()
     {
-        MapperConfiguration mapperConfiguration = new(configure => { configure.AddProfile(new MappingProfile()); });
+        LoggerFactory loggerFactory = new LoggerFactory();
+        MapperConfigurationExpression config = new()
+        {
+            LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
+        };
+        config.AddProfile(new MappingProfile());
+        MapperConfiguration mapperConfiguration = new MapperConfiguration(config, loggerFactory);
         mapperConfiguration.AssertConfigurationIsValid();
     }
 }
