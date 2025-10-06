@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Moq;
 using Newtonsoft.Json;
+using ValorDolarHoy.Core;
 using ValorDolarHoy.Core.Common.Exceptions;
 using ValorDolarHoy.Core.Middlewares;
 using ValorDolarHoy.Core.Services.Currency;

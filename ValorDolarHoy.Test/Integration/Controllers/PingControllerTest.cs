@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
+using ValorDolarHoy.Core;
 using Xunit;
 
 namespace ValorDolarHoy.Test.Integration.Controllers;

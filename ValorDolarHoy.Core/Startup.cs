@@ -8,7 +8,7 @@ using ValorDolarHoy.Core.Services.Currency;
 
 #pragma warning disable CS1591
 
-namespace ValorDolarHoy;
+namespace ValorDolarHoy.Core;
 
 public class Startup : Application
 {

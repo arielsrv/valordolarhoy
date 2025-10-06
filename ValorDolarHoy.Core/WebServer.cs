@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using ValorDolarHoy.Core;
 
 #pragma warning disable CS1591
 
