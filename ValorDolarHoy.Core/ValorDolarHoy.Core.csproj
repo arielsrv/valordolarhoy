@@ -28,7 +28,7 @@
         <PackageReference Include="Polly" Version="8.6.4" />
         <PackageReference Include="ServiceStack.Redis" Version="8.9.0" />
         <PackageReference Include="StackExchange.Redis.Extensions.Core" Version="11.0.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.0" />
         <PackageReference Include="System.Linq.Async" Version="6.0.3"/>
         <PackageReference Include="System.Reactive" Version="6.1.0" />
         <PackageReference Include="System.Reactive.Core" Version="6.1.0" />
