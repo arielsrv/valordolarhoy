@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: dotnet build --no-restore
       - name: Test Report
-        run: dotnet test $SolutionFile --no-build $CollectCoverage
+        run: dotnet test $SolutionFile --no-build
       - name: Test Coverage Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
         id: create_coverage_badge
@@ -37,8 +37,7 @@ jobs:
         run: echo "Code coverage percentage ${{steps.create_coverage_badge.outputs.percentage}}%"
       - name: Print badge data
         run: echo "Badge data ${{steps.test_step.outputs.badge}}"
-    env:
-      CollectCoverage: true
+    env:      
       CoverletOutput: ../CodeCoverage/
       CoverletOutputFormat: opencover
       SolutionFile: ValorDolarHoy.sln     
