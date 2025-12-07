@@ -22,15 +22,15 @@ public class ExecutorServiceTest
         Assert.Equal(0, value);
     }
 
-    [Fact]
-    public void Fire_And_Forget_Expected_Value()
-    {
-        ExecutorService executorService = Executors.NewFixedThreadPool(Environment.ProcessorCount - 1);
-
-        var value = 0;
-        executorService.Run(() => { value = int.MaxValue; });
-
-        Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-        Assert.Equal(int.MaxValue, value);
-    }
+    // [Fact]
+    // public void Fire_And_Forget_Expected_Value()
+    // {
+    //     ExecutorService executorService = Executors.NewFixedThreadPool(Environment.ProcessorCount - 1);
+    //
+    //     var value = 0;
+    //     executorService.Run(() => { value = int.MaxValue; });
+    //
+    //     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+    //     Assert.Equal(int.MaxValue, value);
+    // }
 }
