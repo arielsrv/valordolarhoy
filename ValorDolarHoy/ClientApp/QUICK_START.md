@@ -11,48 +11,48 @@ The React application has been successfully updated with:
 - ✅ Bootstrap 5.3.3
 - ✅ Node 22 compatible
 
-## 🏃 Inicio Rápido
+## 🏃 Quick Start
 
-### 1. Instalar dependencias (si aún no lo hiciste)
+### 1. Install dependencies (if you haven't already)
 ```bash
 cd ValorDolarHoy/ClientApp
 npm install
 ```
 
-### 2. Iniciar el servidor de desarrollo
+### 2. Start the development server
 ```bash
 npm start
 ```
 
-La aplicación se abrirá en: **http://localhost:3000**
+The application will open at: **http://localhost:3000**
 
-### 3. Build para producción
+### 3. Build for production
 ```bash
 npm run build
 ```
 
-Los archivos compilados estarán en la carpeta `build/`
+Compiled files will be in the `build/` folder
 
-## 🔧 Comandos Disponibles
+## 🔧 Available Commands
 
-| Comando | Descripción |
+| Command | Description |
 |---------|-------------|
-| `npm start` | Inicia el servidor de desarrollo (Vite) |
-| `npm run dev` | Alias de `npm start` |
-| `npm run build` | Compila para producción |
-| `npm run preview` | Previsualiza el build de producción |
-| `npm run lint` | Ejecuta ESLint |
+| `npm start` | Starts the development server (Vite) |
+| `npm run dev` | Alias for `npm start` |
+| `npm run build` | Compiles for production |
+| `npm run preview` | Previews the production build |
+| `npm run lint` | Runs ESLint |
 
-## 📋 Verificación
+## 📋 Verification
 
-### Build exitoso ✅
-La aplicación se compiló correctamente y generó:
-- `build/index.html` - Página principal
-- `build/assets/` - JS y CSS compilados
-- `build/manifest.json` - Manifest PWA
+### Successful build ✅
+The application compiled successfully and generated:
+- `build/index.html` - Main page
+- `build/assets/` - Compiled JS and CSS
+- `build/manifest.json` - PWA Manifest
 - `build/favicon.ico` - Favicon
 
-### Estructura actualizada ✅
+### Updated structure ✅
 ```
 ClientApp/
 ├── 📄 index.html (raíz - requerido por Vite)
