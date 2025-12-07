@@ -1,189 +1,189 @@
 # ValorDolarHoy - ClientApp
 
-Esta aplicación React ha sido actualizada para usar las últimas versiones compatibles con Node 22.
+This React application has been updated to use the latest versions compatible with Node 22.
 
-## Cambios Realizados
+## Changes Made
 
-### Actualizaciones Principales
+### Main Updates
 
 1. **React 16 → React 18.3.1**
-   - Migrado a la nueva API `createRoot`
-   - Convertidos todos los componentes de clase a componentes funcionales con hooks
-   - Eliminado `React.PureComponent` en favor de componentes funcionales
+   - Migrated to the new `createRoot` API
+   - Converted all class components to functional components with hooks
+   - Removed `React.PureComponent` in favor of functional components
 
 2. **React Router 5 → React Router 6.28.0**
-   - Eliminado `connected-react-router` (incompatible con React Router v6)
-   - Actualizado a `BrowserRouter` directo
-   - Cambiado de `<Route component={...}>` a `<Route element={<.../>}>`
-   - Eliminado prop `exact` (ya no es necesario en v6)
+   - Removed `connected-react-router` (incompatible with React Router v6)
+   - Updated to direct `BrowserRouter`
+   - Changed from `<Route component={...}>` to `<Route element={<.../>}>`
+   - Removed `exact` prop (no longer needed in v6)
 
 3. **Redux 4 → Redux 5.0.1**
-   - Actualizado `redux-thunk` a v3.1.0
-   - Actualizado `react-redux` a v9.1.2
-   - Simplificado el store sin router middleware
+   - Updated `redux-thunk` to v3.1.0
+   - Updated `react-redux` to v9.1.2
+   - Simplified store without router middleware
 
 4. **react-scripts → Vite 6.0.1**
-   - Migrado de Create React App a Vite para mejor rendimiento
-   - Build mucho más rápido
-   - Hot Module Replacement (HMR) mejorado
-   - Ya no se necesita `--openssl-legacy-provider`
+   - Migrated from Create React App to Vite for better performance
+   - Much faster builds
+   - Improved Hot Module Replacement (HMR)
+   - No longer needs `--openssl-legacy-provider`
 
 5. **Bootstrap 4 → Bootstrap 5.3.3**
-   - Actualizado Reactstrap a v9.2.3
-   - Migrado de `popper.js` a `@popperjs/core`
+   - Updated Reactstrap to v9.2.3
+   - Migrated from `popper.js` to `@popperjs/core`
 
 6. **TypeScript 3.9 → TypeScript 5.7.2**
-   - Configuración moderna de TypeScript
-   - Mejor soporte para módulos ESM
+   - Modern TypeScript configuration
+   - Better support for ESM modules
 
-## Estructura de Archivos Actualizada
+## Updated File Structure
 
 ```
 ClientApp/
-├── index.html              # Nuevo: HTML principal (movido de public/)
-├── vite.config.ts          # Nuevo: Configuración de Vite
-├── tsconfig.json           # Actualizado: TypeScript config moderna
-├── tsconfig.node.json      # Nuevo: Config para Vite
-├── package.json            # Actualizado: Todas las dependencias
-├── .env                    # Nuevo: Variables de entorno
+├── index.html              # New: Main HTML (moved from public/)
+├── vite.config.ts          # New: Vite configuration
+├── tsconfig.json           # Updated: Modern TypeScript config
+├── tsconfig.node.json      # New: Config for Vite
+├── package.json            # Updated: All dependencies
+├── .env                    # New: Environment variables
 ├── public/
 │   ├── favicon.ico
 │   └── manifest.json
 └── src/
-    ├── index.tsx           # Actualizado: usa createRoot
-    ├── App.tsx             # Actualizado: React Router v6
+    ├── index.tsx           # Updated: uses createRoot
+    ├── App.tsx             # Updated: React Router v6
     ├── components/
-    │   ├── Layout.tsx      # Convertido a functional component
+    │   ├── Layout.tsx      # Converted to functional component
     │   ├── nav-menu/
-    │   │   └── NavMenu.tsx # Convertido a functional component
+    │   │   └── NavMenu.tsx # Converted to functional component
     │   └── home/
-    │       └── Home.tsx    # Convertido a functional component con hooks
+    │       └── Home.tsx    # Converted to functional component with hooks
     └── store/
-        ├── configureStore.ts # Actualizado: sin router middleware
+        ├── configureStore.ts # Updated: without router middleware
         └── index.ts
 ```
 
-## Requisitos
+## Requirements
 
-- **Node.js**: v22.x o superior
-- **npm**: v10.x o superior
+- **Node.js**: v22.x or higher
+- **npm**: v10.x or higher
 
-## Instalación
+## Installation
 
 ```bash
 cd ValorDolarHoy/ClientApp
 npm install
 ```
 
-## Scripts Disponibles
+## Available Scripts
 
-### Desarrollo
+### Development
 ```bash
 npm start
-# o
+# or
 npm run dev
 ```
-Inicia el servidor de desarrollo en http://localhost:3000
+Starts the development server at http://localhost:3000
 
-### Producción
+### Production
 ```bash
 npm run build
 ```
-Compila la aplicación para producción en la carpeta `build/`
+Compiles the application for production in the `build/` folder
 
 ### Preview
 ```bash
 npm run preview
 ```
-Previsualiza la build de producción localmente
+Previews the production build locally
 
 ### Linting
 ```bash
 npm run lint
 ```
-Ejecuta ESLint en todos los archivos TypeScript/TSX
+Runs ESLint on all TypeScript/TSX files
 
-## Configuración de Vite
+## Vite Configuration
 
-El archivo `vite.config.ts` está configurado para:
-- Usar el puerto 3000
-- Proxy de `/api` hacia `http://localhost:5000` (backend ASP.NET Core)
-- Build output en carpeta `build/` (compatible con configuración existente)
-- Sourcemaps habilitados
+The `vite.config.ts` file is configured to:
+- Use port 3000
+- Proxy `/api` to `http://localhost:5000` (ASP.NET Core backend)
+- Build output in `build/` folder (compatible with existing configuration)
+- Sourcemaps enabled
 
-## Proxy de API
+## API Proxy
 
-Las llamadas a `/api/*` son automáticamente redirigidas al backend en `http://localhost:5000`. 
+Calls to `/api/*` are automatically redirected to the backend at `http://localhost:5000`. 
 
-Por ejemplo:
+For example:
 ```typescript
-// En Home.tsx
+// In Home.tsx
 const response = await httpClient.get<CurrencyDto>(`/api/Currency`);
-// Se redirige a: http://localhost:5000/api/Currency
+// Redirects to: http://localhost:5000/api/Currency
 ```
 
-## Variables de Entorno
+## Environment Variables
 
-Archivo `.env`:
+`.env` file:
 ```
 VITE_API_URL=http://localhost:5000
 ```
 
-Para usar en el código:
+To use in code:
 ```typescript
 const apiUrl = import.meta.env.VITE_API_URL;
 ```
 
-## Componentes Actualizados
+## Updated Components
 
 ### index.tsx
-- Usa `createRoot` de React 18
-- Envuelve con `<React.StrictMode>`
-- Usa `<BrowserRouter>` directamente
+- Uses React 18's `createRoot`
+- Wraps with `<React.StrictMode>`
+- Uses `<BrowserRouter>` directly
 
 ### App.tsx
-- Usa `<Routes>` y `<Route>` de React Router v6
-- Sintaxis moderna con `element` prop
+- Uses `<Routes>` and `<Route>` from React Router v6
+- Modern syntax with `element` prop
 
 ### Layout.tsx
-- Convertido a componente funcional
-- Usa Fragment corto `<>...</>`
+- Converted to functional component
+- Uses short Fragment `<>...</>`
 
 ### NavMenu.tsx
-- Convertido a componente funcional con `useState`
-- Sintaxis moderna de React
+- Converted to functional component with `useState`
+- Modern React syntax
 
 ### Home.tsx
-- Convertido a componente funcional con `useEffect` y `useState`
-- Eliminada dependencia de Redux (no era necesaria aquí)
-- Mejor manejo de errores
+- Converted to functional component with `useEffect` and `useState`
+- Removed Redux dependency (not needed here)
+- Better error handling
 
-## Solución de Problemas
+## Troubleshooting
 
 ### Error: "Cannot find module 'react-dom/client'"
-Ejecutar: `npm install`
+Run: `npm install`
 
-### Error con tipos de TypeScript
-Ejecutar: `npm install --save-dev @types/react @types/react-dom`
+### TypeScript type errors
+Run: `npm install --save-dev @types/react @types/react-dom`
 
-### Puerto 3000 ocupado
-Cambiar el puerto en `vite.config.ts`:
+### Port 3000 is busy
+Change the port in `vite.config.ts`:
 ```typescript
 server: {
-  port: 3001, // Cambiar aquí
+  port: 3001, // Change here
   strictPort: true,
   // ...
 }
 ```
 
-### El backend no responde
-Asegúrate de que el backend ASP.NET Core esté corriendo en el puerto 5000.
+### Backend not responding
+Make sure the ASP.NET Core backend is running on port 5000.
 
-## Migración del Backend
+## Backend Migration
 
-Si necesitas actualizar la configuración del backend para servir esta nueva build:
+If you need to update the backend configuration to serve this new build:
 
-En `Program.cs` o `Startup.cs`, asegúrate de que la configuración de SPA apunte a la carpeta `build/`:
+In `Program.cs` or `Startup.cs`, make sure the SPA configuration points to the `build/` folder:
 
 ```csharp
 app.UseSpa(spa =>
@@ -197,9 +197,9 @@ app.UseSpa(spa =>
 });
 ```
 
-## Diferencias Clave con la Versión Anterior
+## Key Differences from Previous Version
 
-| Aspecto | Antes | Ahora |
+| Aspect | Before | Now |
 |---------|-------|-------|
 | Bundler | react-scripts (Webpack) | Vite |
 | React | 16.11.0 | 18.3.1 |
@@ -210,41 +210,41 @@ app.UseSpa(spa =>
 | Build time | ~30-60s | ~1-3s |
 | Dev server start | ~10-20s | ~1-2s |
 
-## Beneficios de Vite
+## Vite Benefits
 
-1. **Inicio instantáneo**: El dev server inicia en segundos
-2. **HMR ultrarrápido**: Los cambios se reflejan instantáneamente
-3. **Build optimizado**: Usa Rollup para builds de producción más pequeñas
-4. **ESM nativo**: Aprovecha los módulos ES nativos del navegador
-5. **Sin configuración compleja**: Funciona out-of-the-box
+1. **Instant startup**: Dev server starts in seconds
+2. **Lightning-fast HMR**: Changes reflect instantly
+3. **Optimized builds**: Uses Rollup for smaller production builds
+4. **Native ESM**: Leverages browser's native ES modules
+5. **No complex configuration**: Works out-of-the-box
 
-## Siguientes Pasos Recomendados
+## Recommended Next Steps
 
-1. **Testing**: Configurar Vitest para pruebas unitarias
+1. **Testing**: Configure Vitest for unit tests
    ```bash
    npm install -D vitest @testing-library/react @testing-library/jest-dom
    ```
 
-2. **PWA**: Agregar soporte para Progressive Web App
+2. **PWA**: Add Progressive Web App support
    ```bash
    npm install -D vite-plugin-pwa
    ```
 
-3. **TypeScript estricto**: Habilitar más opciones en tsconfig.json
+3. **Strict TypeScript**: Enable more options in tsconfig.json
    ```json
    "noUncheckedIndexedAccess": true,
    "noImplicitReturns": true
    ```
 
-## Soporte
+## Support
 
-Si encuentras problemas, verifica:
-1. Versión de Node.js: `node --version` (debe ser v22+)
-2. Logs de la consola del navegador
-3. Logs del terminal donde corre `npm start`
-4. Estado del backend en http://localhost:5000
+If you encounter issues, check:
+1. Node.js version: `node --version` (must be v22+)
+2. Browser console logs
+3. Terminal logs where `npm start` is running
+4. Backend status at http://localhost:5000
 
 ---
 
-**Actualizado**: Diciembre 2024 para Node 22 y últimas versiones de todas las dependencias.
+**Updated**: December 2024 for Node 22 and latest versions of all dependencies.
 

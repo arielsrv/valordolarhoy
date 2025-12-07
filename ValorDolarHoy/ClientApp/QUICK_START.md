@@ -1,8 +1,8 @@
 # 🚀 Quick Start Guide - ValorDolarHoy ClientApp
 
-## ✅ Actualización Completada
+## ✅ Update Completed
 
-La aplicación React ha sido actualizada exitosamente con:
+The React application has been successfully updated with:
 - ✅ React 18.3.1
 - ✅ React Router 6.28.0
 - ✅ Redux 5.0.1
