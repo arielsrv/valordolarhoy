@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "npm"
-    directory: "/ValorDolayHoy/ClientApp"
+    directory: "/ValorDolarHoy/ClientApp"
     schedule:
       interval: "daily"
   - package-ecosystem: "nuget"
