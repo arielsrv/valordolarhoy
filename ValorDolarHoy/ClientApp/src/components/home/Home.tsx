@@ -1,49 +1,44 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import httpClient from 'axios';
-import {connect} from 'react-redux';
-import {CurrencyDto} from "./CurrencyDto";
+import { CurrencyDto } from "./CurrencyDto";
 
-function isLoading() {
+function Home() {
+    const [busy, setBusy] = useState(true);
+    const [currencyDto, setCurrencyDto] = useState<CurrencyDto>(new CurrencyDto());
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await httpClient.get<CurrencyDto>(`/api/Currency`);
+                setCurrencyDto(response.data);
+                setBusy(false);
+            } catch (error) {
+                console.error('Error fetching currency data:', error);
+                setBusy(false);
+            }
+        };
+        
+        fetchData();
+    }, []);
+
+    if (busy) {
+        return <p>Cargando ...</p>;
+    }
+
     return (
-        <p>Cargando ...</p>
-    )
+        <div>
+            <p>Cotización oficial y blue</p>
+            <ul>
+                <li>Oficial: Compra: ARS {currencyDto.official.buy}$ |
+                    Venta: ARS {currencyDto.official.sell}$
+                </li>
+                <li>Blue: Compra: ARS {currencyDto.blue.buy}$ |
+                    Venta: ARS {currencyDto.blue.sell}$
+                </li>
+            </ul>
+        </div>
+    );
 }
 
-class Home extends React.PureComponent {
+export default Home;
 
-    state = {
-        busy: true,
-        currencyDto: new CurrencyDto()
-    }
-
-    async componentDidMount() {
-        const response = await httpClient.get<CurrencyDto>(`Currency`);
-        this.setState({busy: false, currencyDto: response.data});
-    }
-
-    isBusy(): boolean {
-        return this.state.busy
-    }
-
-    render() {
-        if (this.isBusy()) {
-            return isLoading();
-        }
-        const currencyDto = this.state.currencyDto;
-        return (
-            <div>
-                <p>Cotización oficial y blue</p>
-                <ul>
-                    <li>Oficial: Compra: ARS {currencyDto.official.buy}$ |
-                        Venta: ARS {currencyDto.official.sell}$
-                    </li>
-                    <li>Blue: Compra: ARS {currencyDto.blue.buy}$ |
-                        Venta: ARS {currencyDto.blue.sell}$
-                    </li>
-                </ul>
-            </div>
-        )
-    }
-}
-
-export default connect()(Home);

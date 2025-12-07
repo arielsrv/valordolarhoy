@@ -1,12 +1,17 @@
-import * as React from 'react';
-import {Route} from 'react-router';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './components/home/Home';
 
 import './custom.css'
 
-export default () => (
-    <Layout>
-        <Route exact path='/' component={Home}/>
-    </Layout>
-);
+export default function App() {
+    return (
+        <Layout>
+            <Routes>
+                <Route path='/' element={<Home />} />
+            </Routes>
+        </Layout>
+    );
+}
+
