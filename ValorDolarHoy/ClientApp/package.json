@@ -40,6 +40,9 @@
     "test": "echo \"No tests configured yet\"",
     "lint": "eslint ./src/**/*.ts ./src/**/*.tsx"
   },
+  "engines": {
+    "node": "^25.0.0"
+  },
   "browserslist": [
     ">0.2%",
     "not dead",
