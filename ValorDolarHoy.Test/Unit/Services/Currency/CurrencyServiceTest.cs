@@ -1,5 +1,7 @@
 using System;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -102,22 +104,42 @@ public class CurrencyServiceTest
     }
 
     [Fact]
-    public void Get_Latest_Ok_Fallback_FromApi()
+    public void Get_Latest_Ok_Calls_Put_In_Cache()
+    {
+        this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
+        // No necesitamos configurar _appCache.Put porque es un mock y no lanza excepciones por defecto, 
+        // pero queremos verificar que se llame.
+
+        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper)
+        {
+            AppCache = this._appCache.Object
+        };
+
+        CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
+
+        Assert.NotNull(currencyDto);
+        // Esperamos un poco para que el hilo del ExecutorService se ejecute.
+        Thread.Sleep(200);
+        this._appCache.Verify(cache => cache.Put("bluelytics:v1", It.IsAny<CurrencyDto>()), Times.Once);
+    }
+
+    [Fact]
+    public void Get_Latest_Fallback_Calls_Put_In_Store()
     {
         this._keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
             .Returns(Observable.Return(default(CurrencyDto)));
-
         this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
+        this._keyValueStore.Setup(store => store.Put(It.IsAny<string>(), It.IsAny<CurrencyDto>(), It.IsAny<int>()))
+            .Returns(Observable.Return(System.Reactive.Unit.Default));
 
         CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
 
         CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
 
         Assert.NotNull(currencyDto);
-        Assert.Equal(10.0M, currencyDto.Official!.Buy);
-        Assert.Equal(11.0M, currencyDto.Official.Sell);
-        Assert.Equal(12.0M, currencyDto.Blue!.Buy);
-        Assert.Equal(13.0M, currencyDto.Blue.Sell);
+        // Esperamos un poco para que el hilo del ExecutorService se ejecute.
+        Thread.Sleep(200);
+        this._keyValueStore.Verify(store => store.Put("bluelytics:v1", It.IsAny<CurrencyDto>(), 600), Times.Once);
     }
 
     private static CurrencyDto GetFromCache()

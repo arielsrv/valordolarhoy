@@ -69,18 +69,32 @@ public class CurrencyClientTest
     }
 
     [Fact]
-    public void Get_Latest_Generic_Error()
+    public void Get_Latest_Generic_Error_With_Reason()
     {
         this.httpClient
             .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new HttpResponseMessage
             {
-                StatusCode = HttpStatusCode.InternalServerError
+                StatusCode = HttpStatusCode.InternalServerError,
+                ReasonPhrase = "Internal Error"
             });
 
         CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
 
-        Assert.Throws<ApiException>(() => currencyClient.Get().ToBlocking());
+        var exception = Assert.Throws<ApiException>(() => currencyClient.Get().ToBlocking());
+        Assert.Equal("Internal Error", exception.Message);
+    }
+
+    [Fact]
+    public void Get_Latest_Network_Error()
+    {
+        this.httpClient
+            .Setup(client => client.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new HttpRequestException("Network failure"));
+
+        CurrencyClient currencyClient = new(this.httpClient.Object, this.logger.Object);
+
+        Assert.Throws<HttpRequestException>(() => currencyClient.Get().ToBlocking());
     }
 
     private static HttpResponseMessage GetResponse()
