@@ -127,7 +127,11 @@ public abstract class Application
         {
             spa.Options.SourcePath = "ClientApp";
 
-            if (env.IsDevelopment()) spa.UseReactDevelopmentServer("start");
+            if (env.IsDevelopment())
+            {
+                spa.Options.DevServerPort = 3000;
+                spa.UseReactDevelopmentServer("start");
+            }
         });
     }
 }
