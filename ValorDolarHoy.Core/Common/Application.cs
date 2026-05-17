@@ -67,17 +67,17 @@ public abstract class Application
             })
             .AddJsonOptions(Serializer.BuildSettings);
 
-        BuildMapper(services);
+        BuildMapper(services, this.Configuration);
         this.Init(services);
     }
 
-    private static void BuildMapper(IServiceCollection services)
+    private static void BuildMapper(IServiceCollection services, IConfiguration configuration)
     {
         ServiceProvider serviceProvider = services.BuildServiceProvider();
         ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
         MapperConfigurationExpression config = new()
         {
-            LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
+            LicenseKey = configuration["AutoMapper:LicenseKey"]
         };
         config.AddProfile(new MappingProfile());
         MapperConfiguration mapperConfiguration = new(config, loggerFactory);

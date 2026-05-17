@@ -14,8 +14,6 @@ public class StartupTest
     [Fact]
     public void Currency()
     {
-        this.configuration.SetupGet(config => config["Storage:Redis"]).Returns("redis.io");
-
         IServiceCollection serviceCollection = new ServiceCollection();
         Startup startup = new(this.configuration.Object);
         startup.ConfigureServices(serviceCollection);
@@ -23,21 +21,6 @@ public class StartupTest
 
         ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
         CurrencyController? controller = serviceProvider.GetService<CurrencyController>();
-        Assert.NotNull(controller);
-    }
-
-    [Fact]
-    public void Fallback()
-    {
-        this.configuration.SetupGet(config => config["Storage:Redis"]).Returns("redis.io");
-
-        IServiceCollection serviceCollection = new ServiceCollection();
-        Startup startup = new(this.configuration.Object);
-        startup.ConfigureServices(serviceCollection);
-        serviceCollection.AddTransient<FallbackController>();
-
-        ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-        FallbackController? controller = serviceProvider.GetService<FallbackController>();
         Assert.NotNull(controller);
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using AutoMapper;
@@ -7,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Caching;
-using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Services.Currency;
 using ValorDolarHoy.Mappings;
 using Xunit;
@@ -18,18 +16,17 @@ public class CurrencyServiceTest
 {
     private readonly Mock<ICache<string, CurrencyDto>> _appCache;
     private readonly Mock<ICurrencyClient> _currencyClient;
-    private readonly Mock<IKeyValueStore> _keyValueStore;
     private readonly IMapper _mapper;
 
     public CurrencyServiceTest()
     {
         this._currencyClient = new Mock<ICurrencyClient>();
         this._appCache = new Mock<ICache<string, CurrencyDto>>();
-        this._keyValueStore = new Mock<IKeyValueStore>();
         LoggerFactory loggerFactory = new();
         MapperConfigurationExpression config = new()
         {
-            LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
+            LicenseKey =
+                "eyJhbGciOiJSUzI1NiIsImtpZCI6Ikx1Y2t5UGVubnlTb2Z0d2FyZUxpY2Vuc2VLZXkvYmJiMTNhY2I1OTkwNGQ4OWI0Y2IxYzg1ZjA4OGNjZjkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2x1Y2t5cGVubnlzb2Z0d2FyZS5jb20iLCJhdWQiOiJMdWNreVBlbm55U29mdHdhcmUiLCJleHAiOiIxODA2MzY0ODAwIiwiaWF0IjoiMTc3NDg2ODk0NiIsImFjY291bnRfaWQiOiIwMTk4MDJlYzI3Yzc3MTZlYjNmYWEwNDNlZWYyNmUzOSIsImN1c3RvbWVyX2lkIjoiY3RtXzAxa216NnhxYXJ5ZWhnY3AwNXkybmpoZ3d2Iiwic3ViX2lkIjoiLSIsImVkaXRpb24iOiIwIiwidHlwZSI6IjIifQ.2J42Nv91U_8RGu9ngau-hdEQhvfzNzuNugQrccDdrpbU-lzDjinvIzaw3lJZBm5ySK8g1u59s7dhcB8YWvbg-0f-rrv7HW7djcRBYxYkefEVy2wQV2xmADL_vhwQJPJniHnon_tk4twDfL97sB-BEZoG87NXukHTTll_JMR4lRXmay2olf7kJwYG6KmZzIT5x5vasZ9qEOu0EgNjQYponLyXZQ3Dox2fc-7OY8NqKvvbUFC-K8P5p0Weq_mqjxbu-GDL7IjMUDIEUDa13-riofJcGjgFFruLt5OIzsK9_LJWY-qB195WuzMX7fu2B1Y32eziqP0i4vLLC8jsjtr-SQ"
         };
         config.AddProfile(new MappingProfile());
         MapperConfiguration mapperConfiguration = new(config, loggerFactory);
@@ -41,7 +38,7 @@ public class CurrencyServiceTest
     {
         this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
+        CurrencyService currencyService = new(this._currencyClient.Object, this._mapper);
 
         CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
 
@@ -59,7 +56,7 @@ public class CurrencyServiceTest
     {
         this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
 
-        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
+        CurrencyService currencyService = new(this._currencyClient.Object, this._mapper);
 
         var actual = currencyService.GetAll().ToBlocking();
 
@@ -72,29 +69,12 @@ public class CurrencyServiceTest
     {
         this._appCache.Setup(client => client.GetIfPresent("bluelytics:v1")).Returns(GetFromCache());
 
-        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper)
+        CurrencyService currencyService = new(this._currencyClient.Object, this._mapper)
         {
             AppCache = this._appCache.Object
         };
 
         CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
-
-        Assert.NotNull(currencyDto);
-        Assert.Equal(10.0M, currencyDto.Official!.Buy);
-        Assert.Equal(11.0M, currencyDto.Official.Sell);
-        Assert.Equal(12.0M, currencyDto.Blue!.Buy);
-        Assert.Equal(13.0M, currencyDto.Blue.Sell);
-    }
-
-    [Fact]
-    public void Get_Latest_Fallback()
-    {
-        this._keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
-            .Returns(Observable.Return(GetFromCache()));
-
-        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
-
-        CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
 
         Assert.NotNull(currencyDto);
         Assert.Equal(10.0M, currencyDto.Official!.Buy);
@@ -107,10 +87,8 @@ public class CurrencyServiceTest
     public void Get_Latest_Ok_Calls_Put_In_Cache()
     {
         this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
-        // No necesitamos configurar _appCache.Put porque es un mock y no lanza excepciones por defecto, 
-        // pero queremos verificar que se llame.
 
-        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper)
+        CurrencyService currencyService = new(this._currencyClient.Object, this._mapper)
         {
             AppCache = this._appCache.Object
         };
@@ -118,29 +96,10 @@ public class CurrencyServiceTest
         CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
 
         Assert.NotNull(currencyDto);
-        // Esperamos un poco para que el hilo del ExecutorService se ejecute.
         Thread.Sleep(200);
         this._appCache.Verify(cache => cache.Put("bluelytics:v1", It.IsAny<CurrencyDto>()), Times.Once);
     }
 
-    [Fact]
-    public void Get_Latest_Fallback_Calls_Put_In_Store()
-    {
-        this._keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
-            .Returns(Observable.Return(default(CurrencyDto)));
-        this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
-        this._keyValueStore.Setup(store => store.Put(It.IsAny<string>(), It.IsAny<CurrencyDto>(), It.IsAny<int>()))
-            .Returns(Observable.Return(System.Reactive.Unit.Default));
-
-        CurrencyService currencyService = new(this._currencyClient.Object, this._keyValueStore.Object, this._mapper);
-
-        CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
-
-        Assert.NotNull(currencyDto);
-        // Esperamos un poco para que el hilo del ExecutorService se ejecute.
-        Thread.Sleep(200);
-        this._keyValueStore.Verify(store => store.Put("bluelytics:v1", It.IsAny<CurrencyDto>(), 600), Times.Once);
-    }
 
     private static CurrencyDto GetFromCache()
     {

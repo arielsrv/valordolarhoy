@@ -3,7 +3,6 @@ using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
-using ServiceStack;
 
 #pragma warning disable CS1591
 
@@ -28,7 +27,7 @@ public static class IHttpClientBuilderExtensions
 
     private static int GetIntValue(IConfiguration configuration, string key, string value)
     {
-        return configuration[key + value].ToInt();
+        return int.TryParse(configuration[key + value], out var result) ? result : 0;
     }
 
     private static IHttpClientBuilder SetTimeout(this IHttpClientBuilder httpClientBuilder, TimeSpan timeSpan)

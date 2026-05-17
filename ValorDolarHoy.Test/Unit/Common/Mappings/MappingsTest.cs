@@ -13,7 +13,8 @@ public class MappingsTest
         LoggerFactory loggerFactory = new();
         MapperConfigurationExpression config = new()
         {
-            LicenseKey = "DEMO-LICENSE-KEY-FOR-TESTING"
+            LicenseKey =
+                "eyJhbGciOiJSUzI1NiIsImtpZCI6Ikx1Y2t5UGVubnlTb2Z0d2FyZUxpY2Vuc2VLZXkvYmJiMTNhY2I1OTkwNGQ4OWI0Y2IxYzg1ZjA4OGNjZjkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2x1Y2t5cGVubnlzb2Z0d2FyZS5jb20iLCJhdWQiOiJMdWNreVBlbm55U29mdHdhcmUiLCJleHAiOiIxODA2MzY0ODAwIiwiaWF0IjoiMTc3NDg2ODk0NiIsImFjY291bnRfaWQiOiIwMTk4MDJlYzI3Yzc3MTZlYjNmYWEwNDNlZWYyNmUzOSIsImN1c3RvbWVyX2lkIjoiY3RtXzAxa216NnhxYXJ5ZWhnY3AwNXkybmpoZ3d2Iiwic3ViX2lkIjoiLSIsImVkaXRpb24iOiIwIiwidHlwZSI6IjIifQ.2J42Nv91U_8RGu9ngau-hdEQhvfzNzuNugQrccDdrpbU-lzDjinvIzaw3lJZBm5ySK8g1u59s7dhcB8YWvbg-0f-rrv7HW7djcRBYxYkefEVy2wQV2xmADL_vhwQJPJniHnon_tk4twDfL97sB-BEZoG87NXukHTTll_JMR4lRXmay2olf7kJwYG6KmZzIT5x5vasZ9qEOu0EgNjQYponLyXZQ3Dox2fc-7OY8NqKvvbUFC-K8P5p0Weq_mqjxbu-GDL7IjMUDIEUDa13-riofJcGjgFFruLt5OIzsK9_LJWY-qB195WuzMX7fu2B1Y32eziqP0i4vLLC8jsjtr-SQ"
         };
         config.AddProfile(new MappingProfile());
         MapperConfiguration mapperConfiguration = new(config, loggerFactory);

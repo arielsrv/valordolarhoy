@@ -4,7 +4,6 @@ using System.Reactive.Observable.Aliases;
 using AutoMapper;
 using ValorDolarHoy.Core.Clients.Currency;
 using ValorDolarHoy.Core.Common.Caching;
-using ValorDolarHoy.Core.Common.Storage;
 using ValorDolarHoy.Core.Common.Threading;
 
 #pragma warning disable CS1591
@@ -14,13 +13,11 @@ namespace ValorDolarHoy.Core.Services.Currency;
 public interface ICurrencyService
 {
     IObservable<CurrencyDto> GetLatest();
-    IObservable<CurrencyDto> GetFallback();
     IObservable<string> GetAll();
 }
 
 public class CurrencyService(
     ICurrencyClient currencyClient,
-    IKeyValueStore keyValueStore,
     IMapper mapper)
     : ICurrencyService
 {
@@ -45,23 +42,6 @@ public class CurrencyService(
                 this._executorService.Run(() => this.AppCache.Put(cacheKey, response));
                 return response;
             });
-    }
-
-    public IObservable<CurrencyDto> GetFallback()
-    {
-        var cacheKey = GetCacheKey();
-
-        return keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
-        {
-            return currencyDto != null
-                ? Observable.Return(currencyDto)
-                : this.GetFromApi().Map(response =>
-                {
-                    this._executorService.Run(() =>
-                        keyValueStore.Put(cacheKey, response, 60 * 10).ToBlocking()); // mm * ss
-                    return response;
-                });
-        });
     }
 
     public IObservable<string> GetAll()

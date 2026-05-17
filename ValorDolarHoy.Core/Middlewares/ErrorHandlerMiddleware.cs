@@ -10,20 +10,13 @@ using ValorDolarHoy.Core.Common.Exceptions;
 
 namespace ValorDolarHoy.Core.Middlewares;
 
-public class ErrorHandlerMiddleware
+public class ErrorHandlerMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate next;
-
-    public ErrorHandlerMiddleware(RequestDelegate next)
-    {
-        this.next = next;
-    }
-
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await this.next(context);
+            await next(context);
         }
         catch (Exception error)
         {
@@ -58,19 +51,11 @@ public class ErrorHandlerMiddleware
             : error.Message;
     }
 
-    public class ErrorModel
+    public class ErrorModel(int code, string type, string message, string? detail)
     {
-        public ErrorModel(int code, string type, string message, string? detail)
-        {
-            this.Code = code;
-            this.Type = type;
-            this.Message = message;
-            this.Detail = detail;
-        }
-
-        public int Code { get; }
-        public string Type { get; }
-        public string Message { get; }
-        public string? Detail { get; }
+        public int Code { get; } = code;
+        public string Type { get; } = type;
+        public string Message { get; } = message;
+        public string? Detail { get; } = detail;
     }
 }

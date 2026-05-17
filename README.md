@@ -14,7 +14,7 @@
 ## 📋 Features
 
 - **🔄 Reactive Architecture**: Uses Rx.NET for asynchronous and reactive handling
-- **💾 Smart Caching**: In-memory and Redis caching system for performance optimization
+- **💾 Smart Caching**: In-memory caching system for performance optimization
 - **🛡️ Resilience**: Implements Polly for retry policies and circuit breakers
 - **📊 Monitoring**: Health checks and automatic warmup
 - **🧪 Complete Testing**: Unit tests, integration tests and code coverage
@@ -28,7 +28,7 @@
 - **Backend**: ASP.NET Core 9.0, C# 13
 - **Frontend**: React 18, TypeScript
 - **Reactive Programming**: Rx.NET
-- **Caching**: Redis + Memory Cache
+- **Caching**: Memory Cache
 - **Testing**: xUnit, Moq
 - **Deployment**: Docker, Heroku
 
@@ -46,7 +46,6 @@
 
 - .NET 9.0 SDK
 - Node.js 18+ (for frontend)
-- Redis (optional, for production)
 
 ### Local Development
 
@@ -65,7 +64,6 @@ dotnet restore
 ```bash
 # Create appsettings.Development.json or use environment variables
 export ASPNETCORE_ENVIRONMENT=Development
-export Storage__Redis=localhost:6379
 ```
 
 4. **Run the application**
@@ -96,10 +94,6 @@ docker run -p 5000:5000 valordolarhoy
 curl https://valordolarhoy.herokuapp.com/Currency
 ```
 
-#### Get Exchange Rate with Fallback
-```bash
-curl https://valordolarhoy.herokuapp.com/Fallback
-```
 
 #### Health Check
 ```bash
@@ -172,23 +166,21 @@ public async Task<IActionResult> GetLatestAsync()
 }
 ```
 
-#### Service with Cache and Fallback
+#### Service with In-Memory Cache
 ```csharp
-public IObservable<CurrencyDto> GetFallback()
+public IObservable<CurrencyDto> GetLatest()
 {
-    string cacheKey = GetCacheKey();
-    
-    return this.keyValueStore.Get<CurrencyDto>(cacheKey).FlatMap(currencyDto =>
-    {
-        return currencyDto != null
-            ? Observable.Return(currencyDto)
-            : this.GetFromApi().Map(response =>
-            {
-                this.executorService.Run(() =>
-                    this.keyValueStore.Put(cacheKey, response, 60 * 10).ToBlocking());
-                return response;
-            });
-    });
+    var cacheKey = GetCacheKey();
+
+    CurrencyDto? currencyDto = this.AppCache.GetIfPresent(cacheKey);
+
+    return currencyDto != null
+        ? Observable.Return(currencyDto)
+        : this.GetFromApi().Map(response =>
+        {
+            this._executorService.Run(() => this.AppCache.Put(cacheKey, response));
+            return response;
+        });
 }
 ```
 
@@ -222,16 +214,17 @@ dotnet test ValorDolarHoy.Test/Integration
 ### Unit Test Example
 ```csharp
 [Fact]
-public void Get_Latest_Ok_Fallback_FromApi()
+public void Get_Latest_Ok_From_Cache()
 {
-    this.keyValueStore.Setup(store => store.Get<CurrencyDto>("bluelytics:v1"))
-        .Returns(Observable.Return(default(CurrencyDto)));
-    this.currencyClient.Setup(client => client.Get()).Returns(GetLatest());
-    
-    CurrencyService currencyService = new(this.currencyClient.Object, this.keyValueStore.Object);
-    
-    CurrencyDto currencyDto = currencyService.GetFallback().ToBlocking();
-    
+    this._appCache.Setup(client => client.GetIfPresent("bluelytics:v1")).Returns(GetFromCache());
+
+    CurrencyService currencyService = new(this._currencyClient.Object, this._mapper)
+    {
+        AppCache = this._appCache.Object
+    };
+
+    CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
+
     Assert.NotNull(currencyDto);
     Assert.Equal(10.0M, currencyDto.Official!.Buy);
     Assert.Equal(11.0M, currencyDto.Official.Sell);
@@ -293,7 +286,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Rx.NET](https://github.com/dotnet/reactive) - Reactive Extensions for .NET
 - [AutoMapper](https://automapper.org/) - Object mapping
 - [Polly](https://github.com/App-vNext/Polly) - Resilience and transient-fault-handling
-- [ServiceStack.Redis](https://servicestack.net/redis) - Redis client
 
 ## 📞 Contact
 
