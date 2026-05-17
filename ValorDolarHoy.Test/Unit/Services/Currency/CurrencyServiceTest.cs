@@ -86,7 +86,12 @@ public class CurrencyServiceTest
     [Fact]
     public void Get_Latest_Ok_Calls_Put_In_Cache()
     {
+        using ManualResetEventSlim mre = new(false);
+
         this._currencyClient.Setup(client => client.Get()).Returns(GetLatest());
+        this._appCache
+            .Setup(cache => cache.Put("bluelytics:v1", It.IsAny<CurrencyDto>()))
+            .Callback(() => mre.Set());
 
         CurrencyService currencyService = new(this._currencyClient.Object, this._mapper)
         {
@@ -96,7 +101,8 @@ public class CurrencyServiceTest
         CurrencyDto currencyDto = currencyService.GetLatest().ToBlocking();
 
         Assert.NotNull(currencyDto);
-        Thread.Sleep(200);
+        var completed = mre.Wait(TimeSpan.FromSeconds(5));
+        Assert.True(completed, "Cache.Put was not called within the timeout.");
         this._appCache.Verify(cache => cache.Put("bluelytics:v1", It.IsAny<CurrencyDto>()), Times.Once);
     }
 

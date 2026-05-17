@@ -25,12 +25,18 @@ public class ExecutorServiceTest
     [Fact]
     public void Fire_And_Forget_Expected_Value()
     {
-        ExecutorService executorService = Executors.NewFixedThreadPool(Environment.ProcessorCount - 1);
+        ExecutorService executorService = Executors.NewFixedThreadPool(Math.Max(1, Environment.ProcessorCount - 1));
 
         var value = 0;
-        executorService.Run(() => { value = int.MaxValue; });
+        using ManualResetEventSlim mre = new(false);
+        executorService.Run(() =>
+        {
+            value = int.MaxValue;
+            mre.Set();
+        });
 
-        Thread.Sleep(TimeSpan.FromMilliseconds(500));
+        bool completed = mre.Wait(TimeSpan.FromSeconds(5));
+        Assert.True(completed, "The background task did not complete within the timeout.");
         Assert.Equal(int.MaxValue, value);
     }
 }
