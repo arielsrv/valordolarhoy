@@ -13,7 +13,7 @@ public class Scratch
     public void Observable_Ok()
     {
         RecommendedItemsDto recommendedItemsDto = GetRecommmendations()
-            .FlatMap(recommmendationsDto => recommmendationsDto.Values)
+            .FlatMap(recommendationsDto => recommendationsDto.Values)
             .FlatMap(itemId => GetItemById(itemId)
                 .Map(itemDto =>
                 {

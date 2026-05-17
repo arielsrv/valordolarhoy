@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi;
 using ValorDolarHoy.Core.Common.Serialization;
+using ValorDolarHoy.Core.Common.Spa;
 using ValorDolarHoy.Core.Middlewares;
 using ValorDolarHoy.Mappings;
 
@@ -129,8 +130,9 @@ public abstract class Application
 
             if (env.IsDevelopment())
             {
-                spa.Options.DevServerPort = 3000;
-                spa.UseReactDevelopmentServer("start");
+                spa.UseViteDevelopmentServer(
+                    Path.Combine(env.ContentRootPath, "ClientApp"),
+                    port: 3000);
             }
         });
     }
