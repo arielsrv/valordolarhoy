@@ -3,20 +3,30 @@ updates:
   - package-ecosystem: "npm"
     directory: "/ValorDolarHoy/ClientApp"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
   - package-ecosystem: "nuget"
     directory: "/ValorDolarHoy"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
   - package-ecosystem: "nuget"
     directory: "/ValorDolarHoy.Core"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
   - package-ecosystem: "nuget"
     directory: "/ValorDolarHoy.Test"
     schedule:
-      interval: "daily"
-  - package-ecosystem: github-actions
-    directory: /
+      interval: "weekly"
+      day: "monday"
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: daily
+      interval: "weekly"
+      day: "monday"
